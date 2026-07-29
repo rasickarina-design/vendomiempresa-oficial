@@ -61,6 +61,11 @@ export function LoginScreen({
 
   return (
     <AuthCard>
+      <img
+        src={logoAsset.url}
+        alt="Logo Empresas en Venta"
+        className="mb-4 h-16 w-16 rounded-xl object-contain"
+      />
       <Eyebrow>Portal de empresas en venta</Eyebrow>
       <h1 className="mb-2 text-[26px] font-bold text-primary">Empresas en Venta</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
