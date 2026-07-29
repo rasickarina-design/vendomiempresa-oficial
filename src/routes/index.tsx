@@ -24,10 +24,65 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: TITLE },
       { name: "description", content: DESCRIPTION },
+      {
+        name: "keywords",
+        content:
+          "empresas en venta, comprar empresa, vender empresa, traspaso de negocios, marketplace de empresas, compraventa de pymes",
+      },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Empresas en Venta",
+          description: DESCRIPTION,
+          inLanguage: "es",
+          url: "/",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "¿Cómo publico mi empresa en venta?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Creá tu cuenta con un código de un solo uso enviado a tu email, elegí el rol de vendedor y completá los datos de la empresa: sector, ubicación, facturación y precio.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "¿Cómo encuentro empresas que se ajusten a lo que busco?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Definí tu perfil de comprador con sectores, presupuesto y ubicación preferida, y la plataforma te muestra automáticamente los matches disponibles.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "¿En qué monedas se publican los precios?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Los precios y presupuestos se expresan en dólares (USD) o en euros (EUR).",
+              },
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: Index,
