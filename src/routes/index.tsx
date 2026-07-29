@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { LoginScreen, ProfileScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
 import { Dashboard } from "@/components/dashboard";
+import { recordBuyer, recordCompany, recordContact } from "@/lib/admin-db";
 import {
   KEY_BUYERS,
   KEY_COMPANIES,
@@ -108,6 +109,7 @@ function Index() {
       const next = idx >= 0 ? buyers.map((b, i) => (i === idx ? entry : b)) : [entry, ...buyers];
       setBuyers(next);
       saveList(KEY_BUYERS, next);
+      void recordBuyer(entry);
     }
     setScreen("dashboard");
     showToast("¡Perfil listo!");
@@ -165,6 +167,7 @@ function Index() {
             const next = [c, ...companies];
             setCompanies(next);
             saveList(KEY_COMPANIES, next);
+            void recordCompany(c);
             showToast("¡Empresa publicada con éxito!");
           }}
           onDelete={(id) => {
@@ -180,6 +183,7 @@ function Index() {
             const next = idx >= 0 ? buyers.map((x, i) => (i === idx ? b : x)) : [b, ...buyers];
             setBuyers(next);
             saveList(KEY_BUYERS, next);
+            void recordBuyer(b);
             showToast("¡Tu búsqueda quedó guardada! Ya podés ver tus matches.");
           }}
           onContact={(key) => {
@@ -187,6 +191,13 @@ function Index() {
             const next = [...contacts, { key, at: Date.now() }];
             setContacts(next);
             saveList(KEY_CONTACTS, next);
+            const [buyerEmail, companyId] = key.split("::");
+            void recordContact({
+              buyerEmail,
+              companyName: companies.find((c) => c.id === companyId)?.name ?? "",
+              companyRef: companyId,
+              direction: buyerEmail === email ? "buyer_to_seller" : "seller_to_buyer",
+            });
           }}
           onLogout={() => {
             setEmail("");
