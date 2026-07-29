@@ -270,6 +270,9 @@ function Index() {
           {toast}
         </div>
       )}
+
+      <SiteFooter />
     </div>
+
   );
 }
