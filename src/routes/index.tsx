@@ -1,24 +1,208 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCallback, useEffect, useState } from "react";
+import { LoginScreen, ProfileScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
+import { Dashboard } from "@/components/dashboard";
+import {
+  KEY_BUYERS,
+  KEY_COMPANIES,
+  KEY_CONTACTS,
+  loadList,
+  saveList,
+  type Buyer,
+  type Company,
+  type ContactLog,
+  type Role,
+} from "@/lib/marketplace";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "Empresas en Venta — Marketplace de compra y venta de empresas";
+const DESCRIPTION =
+  "Publicá tu empresa en venta o definí qué querés comprar. Login sin contraseña y matches automáticos entre vendedores y compradores.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const emptyProfile: Profile = {
+  name: "",
+  sectors: "",
+  budgetMin: "",
+  budgetMax: "",
+  currency: "USD",
+  locationPref: "",
+  thesis: "",
+};
+
+type Screen = "login" | "verify" | "role" | "profile" | "dashboard";
+
 function Index() {
+  const [screen, setScreen] = useState<Screen>("login");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [pendingCode, setPendingCode] = useState("");
+  const [codeExpires, setCodeExpires] = useState(0);
+  const [role, setRole] = useState<Role>("buyer");
+  const [profile, setProfile] = useState<Profile>(emptyProfile);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [buyers, setBuyers] = useState<Buyer[]>([]);
+  const [contacts, setContacts] = useState<ContactLog[]>([]);
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCompanies(loadList<Company>(KEY_COMPANIES));
+    setBuyers(loadList<Buyer>(KEY_BUYERS));
+    setContacts(loadList<ContactLog>(KEY_CONTACTS));
+  }, []);
+
+  const showToast = useCallback((msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast((t) => (t === msg ? null : t)), 3400);
+  }, []);
+
+  const handleVerified = () => {
+    const existing = buyers.find((b) => b.email === email);
+    if (existing) {
+      setRole(existing.role || "buyer");
+      setProfile({
+        name: existing.name,
+        sectors: existing.sectors,
+        budgetMin: existing.budgetMin,
+        budgetMax: existing.budgetMax,
+        currency: existing.currency,
+        locationPref: existing.locationPref,
+        thesis: existing.thesis,
+      });
+      setScreen("dashboard");
+      showToast("¡Bienvenido/a de nuevo!");
+      return;
+    }
+    setScreen("role");
+  };
+
+  const handleSaveProfile = (p: Profile) => {
+    setProfile(p);
+    if (role === "buyer" || role === "both") {
+      const entry: Buyer = {
+        email,
+        phone,
+        name: p.name,
+        sectors: p.sectors,
+        budgetMin: p.budgetMin,
+        budgetMax: p.budgetMax,
+        currency: p.currency,
+        locationPref: p.locationPref,
+        thesis: p.thesis,
+        role,
+        updatedAt: Date.now(),
+      };
+      const idx = buyers.findIndex((b) => b.email === email);
+      const next = idx >= 0 ? buyers.map((b, i) => (i === idx ? entry : b)) : [entry, ...buyers];
+      setBuyers(next);
+      saveList(KEY_BUYERS, next);
+    }
+    setScreen("dashboard");
+    showToast("¡Perfil listo!");
+  };
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="flex min-h-screen flex-col">
+      {screen === "login" && (
+        <LoginScreen
+          onCode={({ email: e, phone: p, code, expires }) => {
+            setEmail(e);
+            setPhone(p);
+            setPendingCode(code);
+            setCodeExpires(expires);
+            setScreen("verify");
+          }}
+        />
+      )}
+
+      {screen === "verify" && (
+        <VerifyScreen
+          email={email}
+          pendingCode={pendingCode}
+          codeExpires={codeExpires}
+          onVerified={handleVerified}
+          onBack={() => setScreen("login")}
+          onTooManyAttempts={() => {
+            setScreen("login");
+            showToast("Demasiados intentos fallidos. Pedí un nuevo código.");
+          }}
+        />
+      )}
+
+      {screen === "role" && (
+        <RoleScreen
+          onPick={(r) => {
+            setRole(r);
+            setScreen("profile");
+          }}
+        />
+      )}
+
+      {screen === "profile" && <ProfileScreen role={role} onSave={handleSaveProfile} />}
+
+      {screen === "dashboard" && (
+        <Dashboard
+          email={email}
+          phone={phone}
+          role={role}
+          profile={profile}
+          companies={companies}
+          buyers={buyers}
+          contacts={contacts}
+          onPublish={(c) => {
+            const next = [c, ...companies];
+            setCompanies(next);
+            saveList(KEY_COMPANIES, next);
+            showToast("¡Empresa publicada con éxito!");
+          }}
+          onDelete={(id) => {
+            const next = companies.filter((c) => c.id !== id);
+            setCompanies(next);
+            saveList(KEY_COMPANIES, next);
+            showToast("Empresa eliminada.");
+          }}
+          onSaveBuyer={(b, p) => {
+            setProfile({ ...profile, ...p });
+            setRole(b.role);
+            const idx = buyers.findIndex((x) => x.email === email);
+            const next = idx >= 0 ? buyers.map((x, i) => (i === idx ? b : x)) : [b, ...buyers];
+            setBuyers(next);
+            saveList(KEY_BUYERS, next);
+            showToast("¡Tu búsqueda quedó guardada! Ya podés ver tus matches.");
+          }}
+          onContact={(key) => {
+            if (contacts.some((c) => c.key === key)) return;
+            const next = [...contacts, { key, at: Date.now() }];
+            setContacts(next);
+            saveList(KEY_CONTACTS, next);
+          }}
+          onLogout={() => {
+            setEmail("");
+            setPhone("");
+            setProfile(emptyProfile);
+            setRole("buyer");
+            setScreen("login");
+          }}
+        />
+      )}
+
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 z-[100] max-w-[90vw] -translate-x-1/2 rounded-full border border-primary-dim bg-card px-5 py-3 text-center text-[13px] font-semibold text-primary shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
+          {toast}
+        </div>
+      )}
     </div>
   );
 }
