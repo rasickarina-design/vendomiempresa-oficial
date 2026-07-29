@@ -350,7 +350,7 @@ export function ProfileScreen({
               onChange={(e) => set("currency", e.target.value)}
             >
               <option>USD</option>
-              <option>ARS</option>
+              <option>EUR</option>
             </select>
           </div>
           <div className="mb-4">
