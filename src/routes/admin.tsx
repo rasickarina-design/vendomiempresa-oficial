@@ -78,31 +78,74 @@ function AdminPage() {
     void refresh();
   }, [refresh]);
 
+  const translate = (msg: string) => {
+    const m = msg.toLowerCase();
+    if (m.includes("anonymous")) return "Escribí tu email y contraseña antes de continuar.";
+    if (m.includes("already registered") || m.includes("already been registered"))
+      return "Esa cuenta ya existe. Iniciá sesión o usá «Olvidé mi contraseña».";
+    if (m.includes("invalid login")) return "Email o contraseña incorrectos.";
+    if (m.includes("email not confirmed")) return "Falta confirmar el email de esa cuenta.";
+    if (m.includes("password")) return "La contraseña debe tener al menos 6 caracteres.";
+    if (m.includes("rate limit") || m.includes("after"))
+      return "Demasiados intentos seguidos. Esperá un minuto y probá de nuevo.";
+    return msg;
+  };
+
+  const validate = () => {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("Ingresá un email válido.");
+      return false;
+    }
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      return false;
+    }
+    return true;
+  };
+
   const signIn = async () => {
-    setBusy(true);
     setError("");
+    if (!validate()) return;
+    setBusy(true);
     const { error: err } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
     });
     setBusy(false);
-    if (err) return setError(err.message);
+    if (err) return setError(translate(err.message));
     setPassword("");
     await refresh();
   };
 
   const signUp = async () => {
-    setBusy(true);
     setError("");
+    if (!validate()) return;
+    setBusy(true);
     const { error: err } = await supabase.auth.signUp({
       email: email.trim(),
       password,
       options: { emailRedirectTo: window.location.origin + "/admin" },
     });
     setBusy(false);
-    if (err) return setError(err.message);
+    if (err) return setError(translate(err.message));
     setError("Cuenta creada. Revisá tu email para confirmarla y después iniciá sesión.");
   };
+
+  const resetPassword = async () => {
+    setError("");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("Escribí tu email para enviarte el enlace de recuperación.");
+      return;
+    }
+    setBusy(true);
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: window.location.origin + "/reset-password",
+    });
+    setBusy(false);
+    if (err) return setError(translate(err.message));
+    setError("Te enviamos un email para elegir una contraseña nueva.");
+  };
+
 
   const signOut = async () => {
     await supabase.auth.signOut();
