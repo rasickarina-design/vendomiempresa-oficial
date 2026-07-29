@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { LoginScreen, ProfileScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
 import { Dashboard } from "@/components/dashboard";
+import { SiteFooter } from "@/components/site-footer";
+
 import { recordBuyer, recordCompany, recordContact } from "@/lib/admin-db";
 import {
   KEY_BUYERS,
@@ -172,6 +174,7 @@ function Index() {
 
   return (
     <div className="flex min-h-screen flex-col">
+
       {screen === "login" && (
         <LoginScreen
           onCode={({ email: e, phone: p, code, expires }) => {
@@ -269,6 +272,9 @@ function Index() {
           {toast}
         </div>
       )}
+
+      <SiteFooter />
     </div>
+
   );
 }
