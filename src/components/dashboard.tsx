@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { Buyer, Company, ContactLog, Role } from "@/lib/marketplace";
 import { contactKey, fmtMoney, isMatch, mailtoLink, maskEmail } from "@/lib/marketplace";
 import type { Profile } from "./auth-screens";
+import logoAsset from "@/assets/logo.jpg.asset.json";
 
 interface Props {
   email: string;
@@ -55,7 +56,11 @@ export function Dashboard(props: Props) {
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-2.5 border-b border-border-soft bg-background/90 px-7 py-4 backdrop-blur">
         <div className="flex items-center gap-2.5 font-display text-[19px] font-bold text-primary">
-          <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]" />
+          <img
+            src={logoAsset.url}
+            alt="Logo Empresas en Venta"
+            className="h-9 w-9 rounded-lg object-contain"
+          />
           Empresas en Venta
         </div>
         <div className="flex flex-wrap items-center gap-3">
