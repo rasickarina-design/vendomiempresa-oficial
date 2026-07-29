@@ -172,6 +172,7 @@ function Index() {
 
   return (
     <div className="flex min-h-screen flex-col">
+
       {screen === "login" && (
         <LoginScreen
           onCode={({ email: e, phone: p, code, expires }) => {
