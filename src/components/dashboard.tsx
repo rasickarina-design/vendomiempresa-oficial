@@ -365,7 +365,7 @@ function PublishForm({
           <label className="field-label">Moneda del precio</label>
           <select className="field-input" value={f.currency} onChange={(e) => set("currency", e.target.value)}>
             <option>USD</option>
-            <option>ARS</option>
+            <option>EUR</option>
           </select>
         </div>
         <div className="sm:col-span-2">
@@ -469,7 +469,7 @@ function BuyerForm({
         <label className="field-label">Moneda</label>
         <select className="field-input" value={p.currency} onChange={(e) => set("currency", e.target.value)}>
           <option>USD</option>
-          <option>ARS</option>
+          <option>EUR</option>
         </select>
       </div>
       <div className="mb-4">
