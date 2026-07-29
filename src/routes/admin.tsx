@@ -173,6 +173,9 @@ function AdminPage() {
             <label className="field-label">Email</label>
             <input
               className="field-input"
+              type="email"
+              autoComplete="email"
+              placeholder="tu@email.com"
               value={email}
               maxLength={255}
               onChange={(e) => setEmail(e.target.value)}
@@ -183,6 +186,8 @@ function AdminPage() {
             <input
               className="field-input"
               type="password"
+              autoComplete="current-password"
+              placeholder="Mínimo 6 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && signIn()}
@@ -192,7 +197,7 @@ function AdminPage() {
           <button className="btn-primary w-full" onClick={signIn} disabled={busy}>
             Entrar
           </button>
-          <div className="mt-4 text-center">
+          <div className="mt-4 flex flex-col items-center gap-2 text-center">
             <button
               className="text-[13px] text-primary underline underline-offset-[3px]"
               onClick={signUp}
@@ -200,6 +205,14 @@ function AdminPage() {
             >
               Crear la cuenta de administrador
             </button>
+            <button
+              className="text-[13px] text-muted-foreground underline underline-offset-[3px]"
+              onClick={resetPassword}
+              disabled={busy}
+            >
+              Olvidé mi contraseña
+            </button>
+
           </div>
         </div>
       </Shell>
