@@ -310,9 +310,10 @@ export function ProfileScreen({
 
   const submit = () => {
     const e: typeof errors = {};
-    if (!p.name.trim()) e.name = "Ingresá tu nombre.";
+    if (!p.name.trim()) e.name = "Introduce tu nombre.";
     if (needsBuyer && !p.sectors.trim())
-      e.sectors = "Contanos al menos un rubro de interés para poder buscarte matches.";
+      e.sectors = "Indícanos al menos un sector de interés para poder buscarte matches.";
+
     setErrors(e);
     if (Object.keys(e).length) return;
     onSave({ ...p, name: p.name.trim() });
