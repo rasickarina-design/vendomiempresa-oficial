@@ -53,8 +53,8 @@ export function LoginScreen({
 
   const submit = () => {
     const e: typeof errors = {};
-    if (!validEmail(email.trim())) e.email = "Ingresá un email válido.";
-    if (!validPhone(phone.trim())) e.phone = "Ingresá un teléfono válido (mínimo 8 dígitos).";
+    if (!validEmail(email.trim())) e.email = "Introduce un correo válido.";
+    if (!validPhone(phone.trim())) e.phone = "Introduce un teléfono válido (mínimo 8 dígitos).";
     setErrors(e);
     if (Object.keys(e).length) return;
     onCode({
@@ -77,20 +77,24 @@ export function LoginScreen({
       )}
       <img
         src={logoAsset.url}
-        alt="Logo Vendomiempresa"
-
+        alt="Logo Vendo Mi Empresa"
         className="mb-4 h-16 w-16 rounded-xl object-contain"
       />
       <Eyebrow>Portal de empresas en venta</Eyebrow>
-      <h1 className="mb-2 text-[40px] font-bold leading-[1.05] text-primary max-[560px]:text-[32px]">Vendomiempresa</h1>
+      <h1 className="mb-3 text-[34px] font-bold uppercase leading-[1.05] tracking-[0.02em] text-primary max-[560px]:text-[28px]">
+        Vendo Mi Empresa
+      </h1>
+      <p className="mb-3 text-[17px] font-semibold leading-snug text-foreground">
+        El lugar donde vendedores y compradores de empresas se encuentran.
+      </p>
       <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
-        Conectamos vendedores y compradores de empresas. Login sin contraseña: solo tu email y un código de un
-        solo uso.
+        Publica tu empresa o define qué estás buscando comprar. Nosotros te avisamos cuando hay match y te ponemos
+        en contacto directo con la otra parte. Acceso sin contraseña: solo tu correo y un código de un solo uso.
       </p>
 
       <div className="mb-4">
         <label className="field-label" htmlFor="in-email">
-          Email
+          Correo electrónico
         </label>
         <input
           id="in-email"
@@ -113,7 +117,7 @@ export function LoginScreen({
           id="in-phone"
           className="field-input"
           aria-invalid={!!errors.phone}
-          placeholder="+54 11 5555 5555"
+          placeholder="+34 600 000 000"
           value={phone}
           maxLength={18}
           onChange={(ev) => setPhone(ev.target.value)}
@@ -129,10 +133,11 @@ export function LoginScreen({
       <div className="mt-6 flex items-start gap-2.5 rounded-[10px] border border-border-soft bg-input px-3 py-3">
         <span className="text-primary">🔒</span>
         <p className="text-[11.5px] leading-relaxed text-muted-foreground">
-          No usamos contraseñas. Te enviamos un código de 6 dígitos a tu email, válido por 5 minutos, para
-          confirmar que sos vos.
+          No usamos contraseñas. Te enviamos un código de 6 dígitos a tu correo, válido durante 5 minutos, para
+          confirmar que eres tú.
         </p>
       </div>
+
     </AuthCard>
   );
 }
