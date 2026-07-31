@@ -39,7 +39,7 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-14 top-8 z-[2] rotate-[38deg] select-none border-y-2 border-primary-foreground/20 bg-primary px-16 py-2 text-center text-[15px] font-extrabold uppercase tracking-[0.32em] text-primary-foreground shadow-[0_8px_24px_rgba(0,0,0,0.45)] max-[560px]:-right-12 max-[560px]:px-12 max-[560px]:text-[12px]"
+          className="pointer-events-none absolute -right-[52px] top-[26px] z-[2] w-[190px] rotate-45 select-none border-y-2 border-primary-foreground/20 bg-primary py-1.5 text-center text-[14px] font-extrabold uppercase tracking-[0.28em] text-primary-foreground shadow-[0_8px_24px_rgba(0,0,0,0.45)] max-[560px]:-right-[46px] max-[560px]:top-[22px] max-[560px]:w-[160px] max-[560px]:text-[12px]"
         >
           Vende
         </div>
