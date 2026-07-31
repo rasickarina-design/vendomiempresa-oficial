@@ -28,7 +28,7 @@ export async function recordCompany(c: Company) {
     owner_name: c.ownerName,
     owner_email: c.owner,
     owner_phone: c.ownerPhone,
-  });
+  } as never);
   if (error) console.error("recordCompany", error.message);
 }
 
