@@ -106,7 +106,10 @@ export function Dashboard(props: Props) {
 
       <main className="mx-auto w-full max-w-[1180px] flex-1 px-7 pb-16 pt-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-primary">Hola, {profile.name.split(" ")[0] || ""}</h1>
+          <h1 className="text-2xl font-bold text-primary">
+            {profile.name ? `Hola, ${profile.name.split(" ")[0]}` : "Hola"}
+          </h1>
+
           <p className="mt-1 text-[13px] text-muted-foreground">
             {companies.length} empresa{companies.length === 1 ? "" : "s"} publicada
             {companies.length === 1 ? "" : "s"} · {buyers.length} comprador
