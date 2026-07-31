@@ -55,11 +55,11 @@ export function Dashboard(props: Props) {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-2.5 border-b border-border-soft bg-background/90 px-7 py-4 backdrop-blur">
-        <div className="flex items-center gap-2.5 font-display text-[19px] font-bold text-primary">
+        <div className="flex items-center gap-2.5 font-display text-[26px] font-bold leading-tight text-primary max-[560px]:text-[22px]">
           <img
             src={logoAsset.url}
             alt="Logo Vendomiempresa"
-            className="h-9 w-9 rounded-lg object-contain"
+            className="h-11 w-11 rounded-lg object-contain"
           />
           Vendomiempresa
         </div>
