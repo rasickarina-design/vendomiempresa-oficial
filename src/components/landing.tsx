@@ -140,6 +140,22 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
         </p>
       </Section>
 
+      <section className="mx-auto w-full max-w-[880px] px-6 pb-4 pt-4">
+        <h2 className="mb-4 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Preguntas frecuentes</h2>
+        <div className="flex flex-col gap-3">
+          {FAQS.map((faq) => (
+            <details key={faq.q} className="surface-card group rounded-[16px] px-6 py-4">
+              <summary className="cursor-pointer list-none text-[16px] font-semibold text-foreground max-[560px]:text-[15px]">
+                {faq.q}
+              </summary>
+              <p className="mt-3 text-[15px] leading-[1.7] text-muted-foreground">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+
+
       <section className="mx-auto w-full max-w-[880px] px-6 pb-16 pt-4">
         <div className="surface-card rounded-[20px] px-7 py-8">
           <h2 className="mb-3 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Empezá ahora</h2>
