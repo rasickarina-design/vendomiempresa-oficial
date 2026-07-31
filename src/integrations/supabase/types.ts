@@ -71,9 +71,11 @@ export type Database = {
           country: string | null
           created_at: string
           description: string
+          google_profile: string | null
           id: string
           linkedin: string | null
           location: string | null
+          maps_url: string | null
           name: string
           owner_email: string
           owner_name: string | null
@@ -88,9 +90,11 @@ export type Database = {
           country?: string | null
           created_at?: string
           description: string
+          google_profile?: string | null
           id?: string
           linkedin?: string | null
           location?: string | null
+          maps_url?: string | null
           name: string
           owner_email: string
           owner_name?: string | null
@@ -105,9 +109,11 @@ export type Database = {
           country?: string | null
           created_at?: string
           description?: string
+          google_profile?: string | null
           id?: string
           linkedin?: string | null
           location?: string | null
+          maps_url?: string | null
           name?: string
           owner_email?: string
           owner_name?: string | null
