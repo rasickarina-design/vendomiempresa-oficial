@@ -22,9 +22,9 @@ export const Route = createFileRoute("/admin")({
 type TableName = "companies" | "buyers" | "contacts";
 
 const TABLES: Array<{ name: TableName; label: string; file: string }> = [
-  { name: "companies", label: "Empresas publicadas", file: "empresas.csv" },
-  { name: "buyers", label: "Compradores registrados", file: "compradores.csv" },
-  { name: "contacts", label: "Contactos realizados", file: "contactos.csv" },
+  { name: "companies", label: "Empresas publicadas", file: "empresas" },
+  { name: "buyers", label: "Compradores registrados", file: "compradores" },
+  { name: "contacts", label: "Contactos realizados", file: "contactos" },
 ];
 
 function AdminPage() {
