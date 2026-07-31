@@ -8,42 +8,43 @@ import {
 
 const FAQS: { q: string; a: string }[] = [
   {
-    q: "¿Cómo funciona el login con código?",
-    a: "No usás contraseña. Ingresás tu email en la pantalla de acceso y te enviamos un código numérico de un solo uso. Lo copiás en la app y entrás. El código vence a los 5 minutos y solo sirve una vez, así que nadie puede reutilizarlo. Si expira, pedís uno nuevo desde la misma pantalla.",
+    q: "¿Cómo funciona el acceso con código?",
+    a: "No usas contraseña. Introduces tu correo en la pantalla de acceso y te enviamos un código numérico de un solo uso. Lo copias en la aplicación y entras. El código caduca a los 5 minutos y solo sirve una vez, así que nadie puede reutilizarlo. Si caduca, pides uno nuevo desde la misma pantalla.",
   },
   {
     q: "¿Necesito crear una contraseña?",
-    a: "No. El acceso es siempre con el código que llega a tu email, así no hay contraseñas que recordar, ni que reciclar, ni que se puedan filtrar. Cada vez que quieras entrar desde un dispositivo nuevo, repetís el mismo paso de 30 segundos.",
+    a: "No. El acceso es siempre con el código que llega a tu correo, así no hay contraseñas que recordar, ni que reciclar, ni que se puedan filtrar. Cada vez que quieras entrar desde un dispositivo nuevo, repites el mismo paso de 30 segundos.",
   },
   {
     q: "¿Qué pasa si no me llega el código?",
-    a: "Primero revisá las carpetas de spam y promociones, y verificá que el email esté bien escrito (sin espacios ni letras de más). Si tu correo es corporativo, puede haber un filtro interno demorándolo un minuto. Podés volver a solicitar el código desde la pantalla de acceso todas las veces que necesites: siempre vale el último que recibiste.",
+    a: "Primero revisa las carpetas de spam y promociones, y comprueba que el correo esté bien escrito (sin espacios ni letras de más). Si tu correo es corporativo, puede haber un filtro interno retrasándolo un minuto. Puedes volver a solicitar el código desde la pantalla de acceso todas las veces que necesites: siempre vale el último que hayas recibido.",
   },
   {
     q: "¿Qué es exactamente un match?",
-    a: "Un match es una coincidencia entre las dos puntas. Cuando una empresa publicada encaja con el criterio de búsqueda que definió un comprador —rubro, rango de precio y ubicación— el sistema lo detecta y avisa a ambas partes. No es una recomendación aproximada: es una coincidencia concreta entre lo que se ofrece y lo que se busca.",
+    a: "Un match es una coincidencia entre las dos partes. Cuando una empresa publicada encaja con el criterio de búsqueda que definió un comprador —sector, rango de precio y ubicación— el sistema lo detecta y avisa a ambos. No es una recomendación aproximada: es una coincidencia concreta entre lo que se ofrece y lo que se busca.",
   },
   {
     q: "¿Por qué solo puedo contactar cuando hay match?",
-    a: "Para que nadie pierda tiempo. Si cualquiera pudiera escribir a cualquiera, los vendedores recibirían decenas de consultas de curiosos y los compradores mensajes de empresas que no tienen nada que ver con lo que buscan. Habilitando el contacto solo entre partes compatibles, toda conversación arranca con interés real de los dos lados.",
+    a: "Para que nadie pierda el tiempo. Si cualquiera pudiera escribir a cualquiera, los vendedores recibirían decenas de consultas de curiosos y los compradores mensajes de empresas que no tienen nada que ver con lo que buscan. Habilitando el contacto solo entre partes compatibles, toda conversación empieza con interés real por ambos lados.",
   },
   {
     q: "¿Se muestran mis datos de contacto a cualquiera?",
-    a: "No. Mientras no haya match, tus datos de contacto no se muestran a ningún otro usuario. Cuando la coincidencia se produce, se comparten con esa contraparte específica para que puedan hablar directamente, sin intermediarios ni comisiones de corretaje.",
+    a: "No. Mientras no haya match, tus datos de contacto no se muestran a ningún otro usuario. Cuando la coincidencia se produce, se comparten con esa contraparte concreta para que podáis hablar directamente, sin intermediarios ni comisiones de intermediación.",
   },
   {
     q: "¿Publicar mi empresa es público?",
-    a: "Publicás los datos del negocio —rubro, facturación, ubicación, precio pretendido— para que el sistema pueda cruzarlos con las búsquedas activas. Tu identidad y tus datos de contacto quedan reservados hasta que exista un match, así podés explorar el mercado sin exponer que estás vendiendo.",
+    a: "Publicas los datos del negocio —sector, facturación, ubicación, precio solicitado— para que el sistema pueda cruzarlos con las búsquedas activas. Tu identidad y tus datos de contacto quedan reservados hasta que exista un match, así puedes explorar el mercado sin exponer que estás vendiendo.",
   },
   {
     q: "¿Puedo comprar y vender al mismo tiempo?",
-    a: "Sí. Al crear tu cuenta podés elegir el rol de vendedor, comprador o ambos. Si elegís ambos, publicás tu empresa y definís tu criterio de búsqueda en el mismo perfil, y recibís los matches de las dos puntas por separado.",
+    a: "Sí. Al crear tu cuenta puedes elegir el rol de vendedor, comprador o ambos. Si eliges ambos, publicas tu empresa y defines tu criterio de búsqueda en el mismo perfil, y recibes los matches de las dos partes por separado.",
   },
   {
-    q: "¿Tiene costo usar la plataforma?",
-    a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene costo, y el contacto entre las partes es directo: no cobramos comisión sobre la operación.",
+    q: "¿Tiene coste usar la plataforma?",
+    a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene coste, y el contacto entre las partes es directo: no cobramos comisión sobre la operación.",
   },
 ];
+
 
 
 
