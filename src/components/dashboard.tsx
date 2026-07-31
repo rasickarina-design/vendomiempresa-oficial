@@ -277,6 +277,17 @@ function Explore({
                 <p className="text-[11px] text-subtle-foreground">
                   Publicado por {c.ownerName} · {maskEmail(c.owner)}
                 </p>
+                {c.mapsUrl && (
+                  <a
+                    className="mt-2 inline-block text-[11.5px] text-primary underline"
+                    href={c.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ver localización en Google Maps →
+                  </a>
+                )}
+
               </article>
             );
           })}
