@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { LoginScreen, ProfileScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
+import { LoginScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
 import { Dashboard } from "@/components/dashboard";
 import { LandingScreen } from "@/components/landing";
 import { SiteFooter } from "@/components/site-footer";
@@ -105,7 +105,7 @@ const emptyProfile: Profile = {
   thesis: "",
 };
 
-type Screen = "landing" | "login" | "verify" | "role" | "profile" | "dashboard";
+type Screen = "landing" | "login" | "verify" | "role" | "dashboard";
 
 function Index() {
   const [screen, setScreen] = useState<Screen>("landing");
@@ -153,33 +153,6 @@ function Index() {
     setScreen("role");
   };
 
-  const handleSaveProfile = (p: Profile) => {
-    setProfile(p);
-    if (role === "buyer" || role === "both") {
-      const entry: Buyer = {
-        email,
-        phone,
-        name: p.name,
-        sectors: p.sectors,
-        budgetMin: p.budgetMin,
-        budgetMax: p.budgetMax,
-        currency: p.currency,
-        locationPref: p.locationPref,
-        country: p.country,
-        linkedin: p.linkedin,
-        thesis: p.thesis,
-        role,
-        updatedAt: Date.now(),
-      };
-      const idx = buyers.findIndex((b) => b.email === email);
-      const next = idx >= 0 ? buyers.map((b, i) => (i === idx ? entry : b)) : [entry, ...buyers];
-      setBuyers(next);
-      saveList(KEY_BUYERS, next);
-      void recordBuyer(entry);
-    }
-    setScreen("dashboard");
-    showToast("¡Perfil listo!");
-  };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -218,12 +191,11 @@ function Index() {
         <RoleScreen
           onPick={(r) => {
             setRole(r);
-            setScreen("profile");
+            setScreen("dashboard");
           }}
         />
       )}
 
-      {screen === "profile" && <ProfileScreen role={role} onSave={handleSaveProfile} />}
 
       {screen === "dashboard" && (
         <Dashboard
@@ -270,6 +242,7 @@ function Index() {
               direction: buyerEmail === email ? "buyer_to_seller" : "seller_to_buyer",
             });
           }}
+          onProfileName={(n) => setProfile((prev) => ({ ...prev, name: n }))}
           onLogout={() => {
             setEmail("");
             setPhone("");

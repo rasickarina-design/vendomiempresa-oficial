@@ -43,13 +43,15 @@ interface Props {
   onSaveBuyer: (b: Buyer, profile: Profile) => void;
   onContact: (key: string) => void;
   onLogout: () => void;
+  onProfileName?: (name: string) => void;
 }
 
 type Tab = "explore" | "publish" | "buyerprofile" | "matches";
 
 export function Dashboard(props: Props) {
   const { email, phone, role, profile, companies, buyers, contacts } = props;
-  const [tab, setTab] = useState<Tab>(role === "buyer" ? "explore" : "publish");
+  const [tab, setTab] = useState<Tab>(role === "buyer" ? "buyerprofile" : "publish");
+
   const [search, setSearch] = useState("");
   const [sectorFilter, setSectorFilter] = useState("");
 
@@ -92,8 +94,10 @@ export function Dashboard(props: Props) {
         <div className="flex flex-wrap items-center gap-3">
           <span className="pill border border-success/25 bg-success/10 text-success">🔒 Sesión verificada</span>
           <span className="pill border border-border bg-card text-[13px] text-muted-foreground">
-            {profile.name} · {maskEmail(email)}
+            {profile.name ? `${profile.name} · ` : ""}
+            {maskEmail(email)}
           </span>
+
           <button className="btn-ghost" onClick={props.onLogout}>
             Salir
           </button>
@@ -102,7 +106,10 @@ export function Dashboard(props: Props) {
 
       <main className="mx-auto w-full max-w-[1180px] flex-1 px-7 pb-16 pt-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-primary">Hola, {profile.name.split(" ")[0] || ""}</h1>
+          <h1 className="text-2xl font-bold text-primary">
+            {profile.name ? `Hola, ${profile.name.split(" ")[0]}` : "Hola"}
+          </h1>
+
           <p className="mt-1 text-[13px] text-muted-foreground">
             {companies.length} empresa{companies.length === 1 ? "" : "s"} publicada
             {companies.length === 1 ? "" : "s"} · {buyers.length} comprador
@@ -155,8 +162,10 @@ export function Dashboard(props: Props) {
             email={email}
             phone={phone}
             ownerName={profile.name}
+            onOwnerName={(n) => props.onProfileName?.(n)}
           />
         )}
+
         {tab === "buyerprofile" && (
           <BuyerForm
             profile={profile}
@@ -378,16 +387,20 @@ function PublishForm({
   email,
   phone,
   ownerName,
+  onOwnerName,
 }: {
   onPublish: (c: Company) => void;
   email: string;
   phone: string;
   ownerName: string;
+  onOwnerName: (name: string) => void;
 }) {
   const [f, setF] = useState({
+    ownerName,
     name: "",
     sector: "",
     ownerPosition: "Dueño",
+
 
     location: "",
     city: "",
@@ -408,10 +421,15 @@ function PublishForm({
   const set = (k: keyof typeof f, v: string) => setF((p) => ({ ...p, [k]: v }));
 
   const submit = () => {
+    if (!f.ownerName.trim()) {
+      setError("Introduce tu nombre completo.");
+      return;
+    }
     if (!f.name.trim() || !f.sector.trim() || !f.desc.trim()) {
       setError("Completa al menos nombre, sector y descripción.");
       return;
     }
+
     if (!f.mapsUrl.trim()) {
       setError("Las indicaciones de localización de Google Maps son obligatorias.");
       return;
@@ -425,6 +443,8 @@ function PublishForm({
       return;
     }
     setError("");
+    onOwnerName(f.ownerName.trim());
+
     onPublish({
       id: "c_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
       name: f.name.trim(),
@@ -445,7 +465,8 @@ function PublishForm({
       priceCurrency: f.currency,
       desc: f.desc.trim(),
       owner: email,
-      ownerName,
+      ownerName: f.ownerName.trim(),
+
       ownerPosition: f.ownerPosition,
 
       ownerPhone: phone,
@@ -459,7 +480,17 @@ function PublishForm({
       <p className="mb-5 mt-1 text-[11.5px] text-subtle-foreground">
         Esta información será visible para los compradores de la plataforma, junto con tu nombre y tu correo.
       </p>
+      <div className="mb-3.5">
+        <label className="field-label">Tu nombre completo</label>
+        <input
+          className="field-input"
+          maxLength={100}
+          value={f.ownerName}
+          onChange={(e) => set("ownerName", e.target.value)}
+        />
+      </div>
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+
         <div>
           <label className="field-label">Nombre de la empresa</label>
           <input className="field-input" maxLength={100} value={f.name} onChange={(e) => set("name", e.target.value)} />
@@ -660,8 +691,12 @@ function BuyerForm({
   const set = (k: keyof Profile, v: string) => setP((prev) => ({ ...prev, [k]: v }));
 
   const submit = () => {
+    if (!p.name.trim()) {
+      setError("Introduce tu nombre completo.");
+      return;
+    }
     if (!p.sectors.trim()) {
-      setError("Contanos al menos un rubro de interés.");
+      setError("Indícanos al menos un sector de interés.");
       return;
     }
     setError("");
@@ -670,7 +705,7 @@ function BuyerForm({
       {
         email,
         phone,
-        name: profile.name,
+        name: p.name.trim(),
         sectors: p.sectors.trim(),
         budgetMin: p.budgetMin,
         budgetMax: p.budgetMax,
@@ -682,7 +717,7 @@ function BuyerForm({
         role: nextRole,
         updatedAt: Date.now(),
       },
-      p,
+      { ...p, name: p.name.trim() },
     );
   };
 
@@ -694,9 +729,19 @@ function BuyerForm({
         directamente.
       </p>
       <div className="mb-4">
+        <label className="field-label">Tu nombre completo</label>
+        <input
+          className="field-input"
+          maxLength={100}
+          value={p.name}
+          onChange={(e) => set("name", e.target.value)}
+        />
+      </div>
+      <div className="mb-4">
         <label className="field-label">Sectores que te interesan</label>
         <SectorPicker value={p.sectors} onChange={(v) => set("sectors", v)} />
       </div>
+
       <div className="mb-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div>
           <label className="field-label">Presupuesto mínimo</label>
