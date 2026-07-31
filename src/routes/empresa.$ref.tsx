@@ -47,7 +47,7 @@ function EmpresaPage() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <nav className="flex items-center justify-between border-b border-border bg-card/95 px-5 py-4">
         <Link to="/" className="flex items-center gap-2.5">
-          <img src={logoAsset.src} alt="Vendomiempresa" className="h-9 w-9 rounded-md object-cover" />
+          <img src={logoAsset.url} alt="Vendomiempresa" className="h-9 w-9 rounded-md object-cover" />
           <span className="text-[17px] font-extrabold tracking-tight">VENDO MI EMPRESA</span>
         </Link>
         <Link to="/" className="text-[13px] text-primary underline">
