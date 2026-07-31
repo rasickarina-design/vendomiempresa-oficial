@@ -322,10 +322,11 @@ export function ProfileScreen({
   return (
     <AuthCard>
       <Eyebrow>Tu perfil</Eyebrow>
-      <h1 className="mb-2 text-[26px] font-bold text-primary">Contanos un poco más</h1>
+      <h1 className="mb-2 text-[26px] font-bold text-primary">Cuéntanos un poco más</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
-        Estos datos se usan para armar los matches y para que la otra parte sepa con quién está hablando.
+        Estos datos se usan para generar los matches y para que la otra parte sepa con quién está hablando.
       </p>
+
 
       <div className="mb-4">
         <label className="field-label">Nombre completo</label>
