@@ -1,5 +1,31 @@
 export type Role = "seller" | "buyer" | "both";
 
+export const RUBROS = [
+  "Gastronomía y restauración",
+  "Farmacias y salud",
+  "E-commerce y negocios digitales",
+  "Hostelería y turismo",
+  "Retail y comercio minorista",
+  "Construcción y reformas",
+  "Industria y manufactura",
+  "Logística y transporte",
+  "Educación y formación",
+  "Belleza y bienestar",
+  "Tecnología y software",
+  "Marketing y agencias digitales",
+  "Automoción",
+  "Inmobiliario",
+  "Servicios profesionales",
+  "Limpieza e higiene",
+  "Agroindustria y alimentación",
+  "Energía y sostenibilidad",
+  "Entretenimiento y ocio",
+  "Franquicias",
+  "Otro",
+] as const;
+
+export type Rubro = (typeof RUBROS)[number];
+
 export interface Company {
   id: string;
   name: string;
