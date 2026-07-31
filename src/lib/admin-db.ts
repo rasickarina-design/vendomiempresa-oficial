@@ -5,6 +5,7 @@ import type { Buyer, Company } from "./marketplace";
 
 export async function recordCompany(c: Company) {
   const { error } = await supabase.from("companies").insert({
+    share_ref: c.id,
     name: c.name,
     sector: c.sector,
     location: c.location,
