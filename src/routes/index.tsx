@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { LoginScreen, ProfileScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
+import { LoginScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
 import { Dashboard } from "@/components/dashboard";
 import { LandingScreen } from "@/components/landing";
 import { SiteFooter } from "@/components/site-footer";
@@ -105,7 +105,7 @@ const emptyProfile: Profile = {
   thesis: "",
 };
 
-type Screen = "landing" | "login" | "verify" | "role" | "profile" | "dashboard";
+type Screen = "landing" | "login" | "verify" | "role" | "dashboard";
 
 function Index() {
   const [screen, setScreen] = useState<Screen>("landing");
@@ -242,6 +242,7 @@ function Index() {
               direction: buyerEmail === email ? "buyer_to_seller" : "seller_to_buyer",
             });
           }}
+          onProfileName={(n) => setProfile((prev) => ({ ...prev, name: n }))}
           onLogout={() => {
             setEmail("");
             setPhone("");
