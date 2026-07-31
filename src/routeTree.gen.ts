@@ -14,6 +14,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EmpresaRefRouteImport } from './routes/empresa.$ref'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -40,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmpresaRefRoute = EmpresaRefRouteImport.update({
+  id: '/empresa/$ref',
+  path: '/empresa/$ref',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/empresa/$ref': typeof EmpresaRefRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/empresa/$ref': typeof EmpresaRefRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +70,25 @@ export interface FileRoutesById {
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/empresa/$ref': typeof EmpresaRefRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/privacidad' | '/reset-password' | '/sitemap.xml'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/privacidad'
+    | '/reset-password'
+    | '/sitemap.xml'
+    | '/empresa/$ref'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/privacidad' | '/reset-password' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/admin'
+    | '/privacidad'
+    | '/reset-password'
+    | '/sitemap.xml'
+    | '/empresa/$ref'
   id:
     | '__root__'
     | '/'
@@ -75,6 +96,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/empresa/$ref'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,6 +105,7 @@ export interface RootRouteChildren {
   PrivacidadRoute: typeof PrivacidadRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  EmpresaRefRoute: typeof EmpresaRefRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -122,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/empresa/$ref': {
+      id: '/empresa/$ref'
+      path: '/empresa/$ref'
+      fullPath: '/empresa/$ref'
+      preLoaderRoute: typeof EmpresaRefRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -131,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadRoute: PrivacidadRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  EmpresaRefRoute: EmpresaRefRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
