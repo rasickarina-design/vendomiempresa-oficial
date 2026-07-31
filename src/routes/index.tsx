@@ -255,7 +255,7 @@ function Index() {
             setBuyers(next);
             saveList(KEY_BUYERS, next);
             void recordBuyer(b);
-            showToast("¡Tu búsqueda quedó guardada! Ya podés ver tus matches.");
+            showToast("¡Tu búsqueda se ha guardado! Ya puedes ver tus matches.");
           }}
           onContact={(key) => {
             if (contacts.some((c) => c.key === key)) return;
