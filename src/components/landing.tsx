@@ -1,35 +1,51 @@
 import logoAsset from "@/assets/logo.jpg.asset.json";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const FAQS: { q: string; a: string }[] = [
   {
     q: "¿Cómo funciona el login con código?",
-    a: "No usás contraseña. Ingresás tu email, te enviamos un código de un solo uso válido por 5 minutos y con eso entrás. Si el código expira, pedís uno nuevo.",
+    a: "No usás contraseña. Ingresás tu email en la pantalla de acceso y te enviamos un código numérico de un solo uso. Lo copiás en la app y entrás. El código vence a los 5 minutos y solo sirve una vez, así que nadie puede reutilizarlo. Si expira, pedís uno nuevo desde la misma pantalla.",
   },
   {
     q: "¿Necesito crear una contraseña?",
-    a: "No. El acceso es siempre con el código que llega a tu email, así no hay contraseñas que recordar ni que se filtren.",
+    a: "No. El acceso es siempre con el código que llega a tu email, así no hay contraseñas que recordar, ni que reciclar, ni que se puedan filtrar. Cada vez que quieras entrar desde un dispositivo nuevo, repetís el mismo paso de 30 segundos.",
   },
   {
     q: "¿Qué pasa si no me llega el código?",
-    a: "Revisá spam o promociones y verificá que el email esté bien escrito. Podés solicitar el código otra vez desde la misma pantalla de acceso.",
+    a: "Primero revisá las carpetas de spam y promociones, y verificá que el email esté bien escrito (sin espacios ni letras de más). Si tu correo es corporativo, puede haber un filtro interno demorándolo un minuto. Podés volver a solicitar el código desde la pantalla de acceso todas las veces que necesites: siempre vale el último que recibiste.",
   },
   {
-    q: "¿Qué es un match?",
-    a: "Un match ocurre cuando lo que una empresa publicada ofrece (rubro, precio, ubicación) coincide con el criterio de búsqueda que definió un comprador.",
+    q: "¿Qué es exactamente un match?",
+    a: "Un match es una coincidencia entre las dos puntas. Cuando una empresa publicada encaja con el criterio de búsqueda que definió un comprador —rubro, rango de precio y ubicación— el sistema lo detecta y avisa a ambas partes. No es una recomendación aproximada: es una coincidencia concreta entre lo que se ofrece y lo que se busca.",
   },
   {
     q: "¿Por qué solo puedo contactar cuando hay match?",
-    a: "Para evitar mensajes masivos y consultas sin sentido. El contacto se habilita únicamente entre partes compatibles, así ambas conversaciones arrancan con interés real.",
+    a: "Para que nadie pierda tiempo. Si cualquiera pudiera escribir a cualquiera, los vendedores recibirían decenas de consultas de curiosos y los compradores mensajes de empresas que no tienen nada que ver con lo que buscan. Habilitando el contacto solo entre partes compatibles, toda conversación arranca con interés real de los dos lados.",
   },
   {
     q: "¿Se muestran mis datos de contacto a cualquiera?",
-    a: "No. Tus datos de contacto solo se comparten con la otra parte cuando existe un match, y el contacto es directo, sin intermediarios ocultos.",
+    a: "No. Mientras no haya match, tus datos de contacto no se muestran a ningún otro usuario. Cuando la coincidencia se produce, se comparten con esa contraparte específica para que puedan hablar directamente, sin intermediarios ni comisiones de corretaje.",
   },
   {
     q: "¿Publicar mi empresa es público?",
-    a: "Publicás los datos del negocio para que el sistema pueda cruzarlos, pero tu identidad y contacto quedan reservados hasta que haya un match.",
+    a: "Publicás los datos del negocio —rubro, facturación, ubicación, precio pretendido— para que el sistema pueda cruzarlos con las búsquedas activas. Tu identidad y tus datos de contacto quedan reservados hasta que exista un match, así podés explorar el mercado sin exponer que estás vendiendo.",
+  },
+  {
+    q: "¿Puedo comprar y vender al mismo tiempo?",
+    a: "Sí. Al crear tu cuenta podés elegir el rol de vendedor, comprador o ambos. Si elegís ambos, publicás tu empresa y definís tu criterio de búsqueda en el mismo perfil, y recibís los matches de las dos puntas por separado.",
+  },
+  {
+    q: "¿Tiene costo usar la plataforma?",
+    a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene costo, y el contacto entre las partes es directo: no cobramos comisión sobre la operación.",
   },
 ];
+
+
 
 
 
@@ -174,18 +190,28 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
       </Section>
 
       <section className="mx-auto w-full max-w-[880px] px-6 pb-4 pt-4">
-        <h2 className="mb-4 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Preguntas frecuentes</h2>
-        <div className="flex flex-col gap-3">
-          {FAQS.map((faq) => (
-            <details key={faq.q} className="surface-card group rounded-[16px] px-6 py-4">
-              <summary className="cursor-pointer list-none text-[16px] font-semibold text-foreground max-[560px]:text-[15px]">
+        <h2 className="mb-2 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Preguntas frecuentes</h2>
+        <p className="mb-5 text-[15px] leading-[1.7] text-muted-foreground">
+          Tocá cada pregunta para desplegar la respuesta.
+        </p>
+        <Accordion type="single" collapsible className="flex flex-col gap-3">
+          {FAQS.map((faq, i) => (
+            <AccordionItem
+              key={faq.q}
+              value={`faq-${i}`}
+              className="surface-card rounded-[16px] border-none px-6"
+            >
+              <AccordionTrigger className="py-4 text-left text-[16px] font-semibold text-foreground hover:no-underline max-[560px]:text-[15px]">
                 {faq.q}
-              </summary>
-              <p className="mt-3 text-[15px] leading-[1.7] text-muted-foreground">{faq.a}</p>
-            </details>
+              </AccordionTrigger>
+              <AccordionContent className="pb-5 text-[15px] leading-[1.75] text-muted-foreground">
+                {faq.a}
+              </AccordionContent>
+            </AccordionItem>
           ))}
-        </div>
+        </Accordion>
       </section>
+
 
 
 
