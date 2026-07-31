@@ -436,12 +436,14 @@ function PublishForm({
         </div>
         <div>
           <label className="field-label">Sector</label>
-          <input
-            className="field-input"
-            maxLength={60}
-            value={f.sector}
-            onChange={(e) => set("sector", e.target.value)}
-          />
+          <select className="field-input" value={f.sector} onChange={(e) => set("sector", e.target.value)}>
+            <option value="">Elige un sector…</option>
+            {RUBROS.map((r) => (
+              <option key={r} value={r}>
+                {r}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="field-label">Puesto en la empresa</label>
