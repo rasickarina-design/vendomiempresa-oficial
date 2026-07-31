@@ -161,3 +161,42 @@ export function mailtoLink(to: string, subject: string, body: string) {
     encodeURIComponent(body)
   );
 }
+
+export const PAISES = [
+  "España",
+  "Portugal",
+  "Francia",
+  "Italia",
+  "Alemania",
+  "Reino Unido",
+  "Irlanda",
+  "Países Bajos",
+  "Bélgica",
+  "Suiza",
+  "Andorra",
+  "Estados Unidos",
+  "México",
+  "Argentina",
+  "Chile",
+  "Uruguay",
+  "Paraguay",
+  "Bolivia",
+  "Perú",
+  "Ecuador",
+  "Colombia",
+  "Venezuela",
+  "Brasil",
+  "Panamá",
+  "Costa Rica",
+  "Guatemala",
+  "Honduras",
+  "El Salvador",
+  "Nicaragua",
+  "República Dominicana",
+  "Cuba",
+  "Puerto Rico",
+  "Marruecos",
+  "Otro",
+] as const;
+
+export type Pais = (typeof PAISES)[number];
