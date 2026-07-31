@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Role } from "@/lib/marketplace";
-import { genCode, maskEmail, validEmail, validPhone } from "@/lib/marketplace";
+import { PAISES, genCode, maskEmail, validEmail, validPhone } from "@/lib/marketplace";
+import { digitsOnly, formatAmountInput } from "./dashboard";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { SectorPicker } from "./sector-picker";
 
