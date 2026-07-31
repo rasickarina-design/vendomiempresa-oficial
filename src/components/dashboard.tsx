@@ -636,7 +636,7 @@ function Matches({
             return matched.map((b) => {
               const key = contactKey(b.email, company.id);
               const subject = `Interés en tu búsqueda de empresas — ${company.name}`;
-              const body = `Hola ${b.name},\n\nTe contacto desde Vendomiempresa porque tu búsqueda (${b.sectors}) coincide con mi empresa "${company.name}", ubicada en ${company.location}.\n\nFacturación anual: ${company.revenue}\nPrecio de venta: ${fmtMoney(company.priceAmount, company.priceCurrency)}\n\nMis datos de contacto:\n${company.ownerName}\n${company.ownerPhone}\n${company.owner}\n\nQuedo atento/a si querés que conversemos.\n\nSaludos.`;
+              const body = `Hola ${b.name}:\n\nTe escribo desde Vendomiempresa porque tu búsqueda (${b.sectors}) coincide con mi empresa "${company.name}", ubicada en ${company.location}.\n\nFacturación anual: ${company.revenue}\nPrecio de venta: ${fmtMoney(company.priceAmount, company.priceCurrency)}\n\nMis datos de contacto:\n${company.ownerName}\n${company.ownerPhone}\n${company.owner}\n\nQuedo a tu disposición si quieres que hablemos.\n\nUn saludo.`;
               return (
                 <MatchRow
                   key={key}
