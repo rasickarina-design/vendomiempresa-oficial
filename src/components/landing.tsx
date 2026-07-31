@@ -67,7 +67,7 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
           donde un vendedor pueda mostrar su negocio de forma prolija, ni donde un comprador pueda filtrar
           oportunidades según lo que realmente busca.
         </p>
-        <p className="font-semibold text-primary">Empresas en Venta ordena ese proceso.</p>
+        <p className="font-semibold text-primary">Vendo Mi Empresa ordena ese proceso.</p>
       </Section>
 
       <Section title="Cómo funciona">
