@@ -438,6 +438,14 @@ function PublishForm({
       setError("Introduce un enlace válido de Google Maps (debe empezar por https://).");
       return;
     }
+    if (!digitsOnly(f.revenue)) {
+      setError("La facturación anual es obligatoria.");
+      return;
+    }
+    if (!digitsOnly(f.price)) {
+      setError("El precio de venta es obligatorio.");
+      return;
+    }
     if (f.financialsUrl.trim() && !/^https?:\/\/\S+$/i.test(f.financialsUrl.trim())) {
       setError("El enlace de balances debe ser una URL válida de Google Drive (https://).");
       return;
