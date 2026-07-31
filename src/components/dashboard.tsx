@@ -373,11 +373,15 @@ function PublishForm({
     ownerPosition: "Dueño",
 
     location: "",
+    city: "",
+    postalCode: "",
     country: "",
     linkedin: "",
     googleProfile: "",
     mapsUrl: "",
+    financialsUrl: "",
     age: "",
+
     revenue: "",
     price: "",
     currency: "USD",
