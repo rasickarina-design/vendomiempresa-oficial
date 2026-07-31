@@ -262,10 +262,11 @@ export function RoleScreen({ onPick }: { onPick: (role: Role) => void }) {
   return (
     <AuthCard>
       <Eyebrow>Último paso</Eyebrow>
-      <h1 className="mb-2 text-[26px] font-bold text-primary">¿Qué te trae por acá?</h1>
+      <h1 className="mb-2 text-[26px] font-bold text-primary">¿Qué te trae por aquí?</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
-        Así te mostramos lo que te sirve primero. Podés hacer las dos cosas en cualquier momento.
+        Así te mostramos primero lo que te interesa. Puedes hacer las dos cosas en cualquier momento.
       </p>
+
       <div className="flex flex-col gap-2.5">
         {opts.map((o) => (
           <button
