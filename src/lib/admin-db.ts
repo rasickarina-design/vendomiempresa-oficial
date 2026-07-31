@@ -8,6 +8,8 @@ export async function recordCompany(c: Company) {
     name: c.name,
     sector: c.sector,
     location: c.location,
+    country: c.country,
+    linkedin: c.linkedin,
     age: c.age,
     revenue: c.revenue,
     price_amount: c.priceAmount,
@@ -30,6 +32,8 @@ export async function recordBuyer(b: Buyer) {
     budget_max: b.budgetMax === "" ? null : Number(b.budgetMax),
     currency: b.currency,
     location_pref: b.locationPref,
+    country: b.country,
+    linkedin: b.linkedin,
     thesis: b.thesis,
     role: b.role,
   });
