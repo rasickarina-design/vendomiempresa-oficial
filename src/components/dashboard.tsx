@@ -326,7 +326,7 @@ function PublishForm({
       country: f.country.trim() || "—",
       linkedin: f.linkedin.trim(),
       age: f.age.trim() || "—",
-      revenue: f.revenue.trim() || "No especificada",
+      revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
       priceAmount: f.price ? Number(f.price) : null,
       priceCurrency: f.currency,
       desc: f.desc.trim(),
