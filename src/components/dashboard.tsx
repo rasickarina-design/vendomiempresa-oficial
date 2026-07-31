@@ -379,11 +379,14 @@ function PublishForm({
           <label className="field-label">Facturación anual</label>
           <input
             className="field-input"
+            inputMode="numeric"
             maxLength={40}
-            value={f.revenue}
-            onChange={(e) => set("revenue", e.target.value)}
+            placeholder={f.currency === "EUR" ? "1.500.000" : "1,500,000"}
+            value={formatAmountInput(f.revenue, f.currency)}
+            onChange={(e) => set("revenue", digitsOnly(e.target.value))}
           />
         </div>
+
         <div>
           <label className="field-label">Precio de venta (monto)</label>
           <input
