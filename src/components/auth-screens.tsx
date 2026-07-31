@@ -43,9 +43,11 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 export function LoginScreen({
   onCode,
   onHome,
+  notice,
 }: {
   onCode: (data: { email: string; phone: string; code: string; expires: number }) => void;
   onHome?: () => void;
+  notice?: string;
 }) {
 
   const [email, setEmail] = useState("");
@@ -75,6 +77,11 @@ export function LoginScreen({
         >
           ← Volver al inicio
         </button>
+      )}
+      {notice && (
+        <div className="mb-4 rounded-xl border border-primary-dim bg-primary-soft px-4 py-3 text-[12.5px] font-semibold text-primary">
+          {notice}
+        </div>
       )}
       <img
         src={logoAsset.url}

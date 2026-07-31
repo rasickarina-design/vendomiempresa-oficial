@@ -4,6 +4,7 @@ import { RUBROS, contactKey, fmtMoney, isMatch, mailtoLink, maskEmail } from "@/
 import type { Profile } from "./auth-screens";
 import { SectorPicker } from "./sector-picker";
 import logoAsset from "@/assets/logo.jpg.asset.json";
+import { shareUrl } from "@/lib/public-company";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
 export const OWNER_POSITIONS = [
@@ -248,6 +249,30 @@ function EmptyState({ title, text }: { title: string; text: string }) {
   );
 }
 
+/** Copia al portapapeles el enlace público de una empresa en venta. */
+function ShareLinkButton({ companyId }: { companyId: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    const url = shareUrl(companyId);
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      window.prompt("Copia el enlace:", url);
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 2200);
+  };
+  return (
+    <button
+      type="button"
+      onClick={() => void copy()}
+      className="mt-3 w-full rounded-full border border-primary-dim bg-primary-soft px-3 py-2 text-[11.5px] font-bold text-primary transition hover:bg-primary/15"
+    >
+      {copied ? "¡Enlace copiado!" : "🔗 Copiar enlace de la empresa"}
+    </button>
+  );
+}
+
 function Explore({
   list,
   sectors,
@@ -372,7 +397,7 @@ function Explore({
                   </a>
                 )}
 
-
+                <ShareLinkButton companyId={c.id} />
               </article>
             );
           })}

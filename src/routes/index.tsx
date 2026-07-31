@@ -6,6 +6,7 @@ import { LandingScreen } from "@/components/landing";
 import { SiteFooter } from "@/components/site-footer";
 
 import { recordBuyer, recordCompany, recordContact } from "@/lib/admin-db";
+import { fetchPublicCompany, toCompany } from "@/lib/public-company";
 import {
   KEY_BUYERS,
   KEY_COMPANIES,
@@ -24,6 +25,9 @@ const DESCRIPTION =
 
 
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    empresa: typeof search.empresa === "string" ? search.empresa : undefined,
+  }),
   head: () => ({
     meta: [
       { title: TITLE },
@@ -108,7 +112,8 @@ const emptyProfile: Profile = {
 type Screen = "landing" | "login" | "verify" | "role" | "dashboard";
 
 function Index() {
-  const [screen, setScreen] = useState<Screen>("landing");
+  const { empresa } = Route.useSearch();
+  const [screen, setScreen] = useState<Screen>(empresa ? "login" : "landing");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [pendingCode, setPendingCode] = useState("");
@@ -125,6 +130,15 @@ function Index() {
     setBuyers(loadList<Buyer>(KEY_BUYERS));
     setContacts(loadList<ContactLog>(KEY_CONTACTS));
   }, []);
+
+  /* Empresa compartida por enlace: la incorporamos al listado local. */
+  useEffect(() => {
+    if (!empresa) return;
+    void fetchPublicCompany(empresa).then((p) => {
+      if (!p) return;
+      setCompanies((prev) => (prev.some((c) => c.id === p.share_ref) ? prev : [toCompany(p), ...prev]));
+    });
+  }, [empresa]);
 
   const showToast = useCallback((msg: string) => {
     setToast(msg);
@@ -169,6 +183,11 @@ function Index() {
             setScreen("verify");
           }}
           onHome={() => setScreen("landing")}
+          notice={
+            empresa
+              ? "Has abierto una empresa en venta compartida contigo. Regístrate como comprador para verla completa."
+              : undefined
+          }
         />
 
       )}
