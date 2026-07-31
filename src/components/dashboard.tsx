@@ -403,17 +403,25 @@ function PublishForm({
       setError("Introduce un enlace válido de Google Maps (debe empezar por https://).");
       return;
     }
+    if (f.financialsUrl.trim() && !/^https?:\/\/\S+$/i.test(f.financialsUrl.trim())) {
+      setError("El enlace de balances debe ser una URL válida de Google Drive (https://).");
+      return;
+    }
     setError("");
     onPublish({
       id: "c_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
       name: f.name.trim(),
       sector: f.sector.trim(),
       location: f.location.trim() || "—",
+      city: f.city.trim(),
+      postalCode: f.postalCode.trim(),
       country: f.country.trim() || "—",
       linkedin: f.linkedin.trim(),
       googleProfile: f.googleProfile.trim(),
       mapsUrl: f.mapsUrl.trim(),
+      financialsUrl: f.financialsUrl.trim(),
       age: f.age.trim() || "—",
+
       revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
 
       priceAmount: f.price ? Number(f.price) : null,
