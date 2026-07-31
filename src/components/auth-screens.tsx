@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import type { Role } from "@/lib/marketplace";
-import { PAISES, genCode, maskEmail, validEmail, validPhone } from "@/lib/marketplace";
+import { genCode, maskEmail, validEmail, validPhone } from "@/lib/marketplace";
 import { digitsOnly, formatAmountInput } from "./dashboard";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { SectorPicker } from "./sector-picker";
+import { CountrySelect } from "./country-select";
 
 interface Profile {
   name: string;
@@ -351,14 +352,7 @@ export function ProfileScreen({
 
       <div className="mb-4">
         <label className="field-label">País</label>
-        <select className="field-input" value={p.country} onChange={(e) => set("country", e.target.value)}>
-          <option value="">Selecciona un país</option>
-          {PAISES.map((pais) => (
-            <option key={pais} value={pais}>
-              {pais}
-            </option>
-          ))}
-        </select>
+        <CountrySelect value={p.country} onChange={(v) => set("country", v)} />
       </div>
 
       <div className="mb-4">
