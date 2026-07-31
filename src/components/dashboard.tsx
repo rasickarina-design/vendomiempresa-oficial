@@ -299,7 +299,7 @@ function PublishForm({
 
   const submit = () => {
     if (!f.name.trim() || !f.sector.trim() || !f.desc.trim()) {
-      setError("Completá al menos nombre, rubro y descripción.");
+      setError("Completa al menos nombre, sector y descripción.");
       return;
     }
     setError("");
