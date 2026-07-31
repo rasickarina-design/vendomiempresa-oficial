@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Role } from "@/lib/marketplace";
 import { genCode, maskEmail, validEmail, validPhone } from "@/lib/marketplace";
 import logoAsset from "@/assets/logo.jpg.asset.json";
+import { SectorPicker } from "./sector-picker";
 
 interface Profile {
   name: string;
@@ -365,15 +366,8 @@ export function ProfileScreen({
       {needsBuyer && (
         <>
           <div className="mb-4">
-            <label className="field-label">Sectores que te interesan (separados por comas)</label>
-            <input
-              className="field-input"
-              aria-invalid={!!errors.sectors}
-              placeholder="Gastronomía, Logística, Software"
-              maxLength={200}
-              value={p.sectors}
-              onChange={(e) => set("sectors", e.target.value)}
-            />
+            <label className="field-label">Sectores que te interesan</label>
+            <SectorPicker value={p.sectors} onChange={(v) => set("sectors", v)} />
             {errors.sectors && <p className="field-error">{errors.sectors}</p>}
           </div>
           <div className="mb-4 grid grid-cols-2 gap-3.5">
