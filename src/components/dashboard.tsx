@@ -387,16 +387,20 @@ function PublishForm({
   email,
   phone,
   ownerName,
+  onOwnerName,
 }: {
   onPublish: (c: Company) => void;
   email: string;
   phone: string;
   ownerName: string;
+  onOwnerName: (name: string) => void;
 }) {
   const [f, setF] = useState({
+    ownerName,
     name: "",
     sector: "",
     ownerPosition: "Dueño",
+
 
     location: "",
     city: "",
