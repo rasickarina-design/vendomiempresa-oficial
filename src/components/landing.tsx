@@ -103,9 +103,10 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
             El lugar donde vendedores y compradores de empresas se encuentran.
           </p>
           <p className="mb-7 max-w-[640px] text-[16px] leading-[1.75] text-foreground/90 max-[560px]:text-[15px]">
-            Publicá tu empresa o definí qué estás buscando comprar. Nosotros te avisamos cuando hay match, y te
+            Publica tu empresa o define qué estás buscando comprar. Nosotros te avisamos cuando hay match y te
             ponemos en contacto directo con la otra parte.
           </p>
+
           <LoginButton onLogin={onLogin} />
         </div>
       </section>
