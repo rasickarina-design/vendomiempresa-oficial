@@ -661,12 +661,13 @@ function Matches({
         <section className="mb-9">
           <h3 className="text-[15px] text-primary">Empresas que coinciden con tu búsqueda</h3>
           <p className="mb-4 mt-1 text-[12.5px] text-muted-foreground">
-            Según los rubros y presupuesto que definiste en "Buscar para comprar".
+            Según los sectores y el presupuesto que definiste en "Buscar para comprar".
           </p>
           {buyerMatches.length === 0 ? (
             <EmptyState
               title="Todavía no hay matches"
-              text="Te vamos a mostrar acá las empresas publicadas que coincidan con tu búsqueda."
+              text="Aquí te mostraremos las empresas publicadas que coincidan con tu búsqueda."
+
             />
           ) : (
             buyerMatches.map((c) => {
