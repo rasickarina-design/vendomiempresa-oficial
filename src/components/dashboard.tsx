@@ -547,14 +547,38 @@ function PublishForm({
           <p className="mt-1 text-[11px] text-subtle-foreground">
             Campo obligatorio: pega el enlace de Google Maps con la localización del negocio.
           </p>
-          <MapPreview url={f.mapsUrl} fallbackQuery={[f.name, f.location, f.country].filter(Boolean).join(", ")} />
+          <MapPreview
+            url={f.mapsUrl}
+            fallbackQuery={[f.name, f.location, f.postalCode, f.city, f.country].filter(Boolean).join(", ")}
+          />
         </div>
 
+        <div className="sm:col-span-2">
+          <label className="field-label">Últimos balances y estados de resultados (enlace de Google Drive)</label>
+          <input
+            className="field-input"
+            placeholder="https://drive.google.com/drive/folders/…"
+            maxLength={500}
+            value={f.financialsUrl}
+            onChange={(e) => set("financialsUrl", e.target.value)}
+          />
+          <p className="mt-1 text-[11px] text-subtle-foreground">
+            Sube los documentos a Google Drive y comparte la carpeta o el archivo con acceso público (cualquier persona
+            con el enlace), luego pega aquí el enlace.
+          </p>
+        </div>
 
         <div>
-          <label className="field-label">Antigüedad</label>
-          <input className="field-input" maxLength={40} value={f.age} onChange={(e) => set("age", e.target.value)} />
+          <label className="field-label">Años operativos</label>
+          <input
+            className="field-input"
+            placeholder="12"
+            maxLength={40}
+            value={f.age}
+            onChange={(e) => set("age", e.target.value)}
+          />
         </div>
+
         <div>
           <label className="field-label">Facturación anual</label>
           <input
