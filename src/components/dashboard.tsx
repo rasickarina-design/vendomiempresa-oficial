@@ -58,10 +58,10 @@ export function Dashboard(props: Props) {
         <div className="flex items-center gap-2.5 font-display text-[19px] font-bold text-primary">
           <img
             src={logoAsset.url}
-            alt="Logo Empresas en Venta"
+            alt="Logo Vendomiempresa"
             className="h-9 w-9 rounded-lg object-contain"
           />
-          Empresas en Venta
+          Vendomiempresa
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <span className="pill border border-success/25 bg-success/10 text-success">🔒 Sesión verificada</span>
@@ -240,7 +240,10 @@ function Explore({
                   )}
                 </div>
                 <h3 className="mb-1.5 text-[17px] font-bold">{c.name}</h3>
-                <p className="mb-3 text-xs text-muted-foreground">📍 {c.location}</p>
+                <p className="mb-3 text-xs text-muted-foreground">
+                  📍 {c.location}
+                  {c.country && c.country !== "—" ? ` · ${c.country}` : ""}
+                </p>
                 <p className="mb-4 min-h-10 text-[13px] leading-relaxed text-foreground/80">{c.desc}</p>
                 <div className="mb-3 flex justify-between border-t border-border-soft pt-3">
                   <div>
@@ -283,6 +286,8 @@ function PublishForm({
     name: "",
     sector: "",
     location: "",
+    country: "",
+    linkedin: "",
     age: "",
     revenue: "",
     price: "",
@@ -303,6 +308,8 @@ function PublishForm({
       name: f.name.trim(),
       sector: f.sector.trim(),
       location: f.location.trim() || "—",
+      country: f.country.trim() || "—",
+      linkedin: f.linkedin.trim(),
       age: f.age.trim() || "—",
       revenue: f.revenue.trim() || "No especificada",
       priceAmount: f.price ? Number(f.price) : null,
@@ -342,6 +349,26 @@ function PublishForm({
             maxLength={100}
             value={f.location}
             onChange={(e) => set("location", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">País</label>
+          <input
+            className="field-input"
+            placeholder="Argentina"
+            maxLength={60}
+            value={f.country}
+            onChange={(e) => set("country", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">LinkedIn de la empresa (opcional)</label>
+          <input
+            className="field-input"
+            placeholder="https://www.linkedin.com/company/…"
+            maxLength={200}
+            value={f.linkedin}
+            onChange={(e) => set("linkedin", e.target.value)}
           />
         </div>
         <div>
@@ -425,6 +452,8 @@ function BuyerForm({
         budgetMax: p.budgetMax,
         currency: p.currency,
         locationPref: p.locationPref.trim(),
+        country: p.country.trim(),
+        linkedin: p.linkedin.trim(),
         thesis: p.thesis.trim(),
         role: nextRole,
         updatedAt: Date.now(),
@@ -484,6 +513,26 @@ function BuyerForm({
           maxLength={100}
           value={p.locationPref}
           onChange={(e) => set("locationPref", e.target.value)}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="field-label">País</label>
+        <input
+          className="field-input"
+          placeholder="Argentina"
+          maxLength={60}
+          value={p.country}
+          onChange={(e) => set("country", e.target.value)}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="field-label">LinkedIn (opcional)</label>
+        <input
+          className="field-input"
+          placeholder="https://www.linkedin.com/in/tu-perfil"
+          maxLength={200}
+          value={p.linkedin}
+          onChange={(e) => set("linkedin", e.target.value)}
         />
       </div>
       <div className="mb-4">
@@ -587,7 +636,7 @@ function Matches({
             return matched.map((b) => {
               const key = contactKey(b.email, company.id);
               const subject = `Interés en tu búsqueda de empresas — ${company.name}`;
-              const body = `Hola ${b.name},\n\nTe contacto desde Empresas en Venta porque tu búsqueda (${b.sectors}) coincide con mi empresa "${company.name}", ubicada en ${company.location}.\n\nFacturación anual: ${company.revenue}\nPrecio de venta: ${fmtMoney(company.priceAmount, company.priceCurrency)}\n\nMis datos de contacto:\n${company.ownerName}\n${company.ownerPhone}\n${company.owner}\n\nQuedo atento/a si querés que conversemos.\n\nSaludos.`;
+              const body = `Hola ${b.name},\n\nTe contacto desde Vendomiempresa porque tu búsqueda (${b.sectors}) coincide con mi empresa "${company.name}", ubicada en ${company.location}.\n\nFacturación anual: ${company.revenue}\nPrecio de venta: ${fmtMoney(company.priceAmount, company.priceCurrency)}\n\nMis datos de contacto:\n${company.ownerName}\n${company.ownerPhone}\n${company.owner}\n\nQuedo atento/a si querés que conversemos.\n\nSaludos.`;
               return (
                 <MatchRow
                   key={key}
@@ -623,7 +672,7 @@ function Matches({
             buyerMatches.map((c) => {
               const key = contactKey(myBuyer.email, c.id);
               const subject = `Interesado/a en comprar tu empresa — ${c.name}`;
-              const body = `Hola ${c.ownerName},\n\nVi tu publicación de "${c.name}" en Empresas en Venta y coincide con lo que estoy buscando (${myBuyer.sectors}).\n\n${
+              const body = `Hola ${c.ownerName},\n\nVi tu publicación de "${c.name}" en Vendomiempresa y coincide con lo que estoy buscando (${myBuyer.sectors}).\n\n${
                 myBuyer.thesis ? myBuyer.thesis + "\n\n" : ""
               }Mis datos de contacto:\n${myBuyer.name}\n${myBuyer.phone}\n${myBuyer.email}\n\nQuedo a la espera de tu respuesta.\n\nSaludos.`;
               return (

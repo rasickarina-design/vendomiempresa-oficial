@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadCsv } from "@/lib/admin-db";
 
-const TITLE = "Panel interno — Empresas en Venta";
+const TITLE = "Panel interno — Vendomiempresa";
 const DESCRIPTION = "Acceso restringido al administrador: base de datos interna y exportación a CSV.";
 
 export const Route = createFileRoute("/admin")({
