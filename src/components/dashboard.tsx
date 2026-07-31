@@ -404,6 +404,8 @@ function PublishForm({
       desc: f.desc.trim(),
       owner: email,
       ownerName,
+      ownerPosition: f.ownerPosition,
+
       ownerPhone: phone,
       createdAt: Date.now(),
     });
