@@ -231,7 +231,7 @@ export function VerifyScreen({
           className="cursor-pointer text-[13px] text-primary underline underline-offset-[3px]"
           onClick={onBack}
         >
-          Volver / cambiar email
+          Volver / cambiar correo
         </button>
       </div>
     </AuthCard>
