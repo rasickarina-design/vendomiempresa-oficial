@@ -37,11 +37,18 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
               "radial-gradient(circle, color-mix(in oklch, var(--primary) 10%, transparent) 0%, transparent 65%)",
           }}
         />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-[52px] top-[26px] z-[2] w-[190px] rotate-45 select-none border-y-2 border-primary-foreground/20 bg-primary py-1.5 text-center text-[14px] font-extrabold uppercase tracking-[0.28em] text-primary-foreground shadow-[0_8px_24px_rgba(0,0,0,0.45)] max-[560px]:-right-[46px] max-[560px]:top-[22px] max-[560px]:w-[160px] max-[560px]:text-[12px]"
+        >
+          Vende
+        </div>
         <div className="relative z-[1] mx-auto w-full max-w-[880px]">
-          <img src={logoAsset.url} alt="Logo Vendomiempresa" className="mb-5 h-20 w-20 rounded-xl object-contain" />
-          <h1 className="mb-4 text-[44px] font-bold leading-[1.05] text-primary max-[560px]:text-[32px]">
-            Empresas en Venta
+          <img src={logoAsset.url} alt="Logo Vendo Mi Empresa" className="mb-5 h-20 w-20 rounded-xl object-contain" />
+          <h1 className="mb-4 text-[44px] font-bold uppercase leading-[1.05] tracking-[0.02em] text-primary max-[560px]:text-[32px]">
+            Vendo Mi Empresa
           </h1>
+
           <p className="mb-4 text-[20px] font-semibold leading-snug text-foreground max-[560px]:text-[18px]">
             El lugar donde vendedores y compradores de empresas se encuentran.
           </p>
@@ -60,7 +67,7 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
           donde un vendedor pueda mostrar su negocio de forma prolija, ni donde un comprador pueda filtrar
           oportunidades según lo que realmente busca.
         </p>
-        <p className="font-semibold text-primary">Empresas en Venta ordena ese proceso.</p>
+        <p className="font-semibold text-primary">Vendo Mi Empresa ordena ese proceso.</p>
       </Section>
 
       <Section title="Cómo funciona">
