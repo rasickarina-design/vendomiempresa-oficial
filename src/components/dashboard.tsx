@@ -277,6 +277,17 @@ function Explore({
                 <p className="text-[11px] text-subtle-foreground">
                   Publicado por {c.ownerName} · {maskEmail(c.owner)}
                 </p>
+                {c.mapsUrl && (
+                  <a
+                    className="mt-2 inline-block text-[11.5px] text-primary underline"
+                    href={c.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ver localización en Google Maps →
+                  </a>
+                )}
+
               </article>
             );
           })}
@@ -303,6 +314,8 @@ function PublishForm({
     location: "",
     country: "",
     linkedin: "",
+    googleProfile: "",
+    mapsUrl: "",
     age: "",
     revenue: "",
     price: "",
@@ -317,6 +330,14 @@ function PublishForm({
       setError("Completa al menos nombre, sector y descripción.");
       return;
     }
+    if (!f.mapsUrl.trim()) {
+      setError("Las indicaciones de localización de Google Maps son obligatorias.");
+      return;
+    }
+    if (!/^https?:\/\/\S+$/i.test(f.mapsUrl.trim())) {
+      setError("Introduce un enlace válido de Google Maps (debe empezar por https://).");
+      return;
+    }
     setError("");
     onPublish({
       id: "c_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
@@ -325,8 +346,11 @@ function PublishForm({
       location: f.location.trim() || "—",
       country: f.country.trim() || "—",
       linkedin: f.linkedin.trim(),
+      googleProfile: f.googleProfile.trim(),
+      mapsUrl: f.mapsUrl.trim(),
       age: f.age.trim() || "—",
       revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
+
       priceAmount: f.price ? Number(f.price) : null,
       priceCurrency: f.currency,
       desc: f.desc.trim(),
@@ -386,6 +410,31 @@ function PublishForm({
             onChange={(e) => set("linkedin", e.target.value)}
           />
         </div>
+        <div>
+          <label className="field-label">Perfil del negocio en Google (opcional)</label>
+          <input
+            className="field-input"
+            placeholder="https://www.google.com/maps/place/… o enlace del perfil"
+            maxLength={300}
+            value={f.googleProfile}
+            onChange={(e) => set("googleProfile", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">Indicaciones de localización en Google Maps *</label>
+          <input
+            className="field-input"
+            placeholder="https://maps.app.goo.gl/…"
+            maxLength={500}
+            required
+            value={f.mapsUrl}
+            onChange={(e) => set("mapsUrl", e.target.value)}
+          />
+          <p className="mt-1 text-[11px] text-subtle-foreground">
+            Campo obligatorio: pega el enlace de Google Maps con la localización del negocio.
+          </p>
+        </div>
+
         <div>
           <label className="field-label">Antigüedad</label>
           <input className="field-input" maxLength={40} value={f.age} onChange={(e) => set("age", e.target.value)} />

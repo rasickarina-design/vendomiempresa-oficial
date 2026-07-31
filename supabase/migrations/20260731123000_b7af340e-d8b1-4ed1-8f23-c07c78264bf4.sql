@@ -1,0 +1,1 @@
+ALTER TABLE public.companies ADD COLUMN IF NOT EXISTS google_profile text, ADD COLUMN IF NOT EXISTS maps_url text;
