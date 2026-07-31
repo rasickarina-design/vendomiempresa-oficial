@@ -673,9 +673,10 @@ function Matches({
             buyerMatches.map((c) => {
               const key = contactKey(myBuyer.email, c.id);
               const subject = `Interesado/a en comprar tu empresa — ${c.name}`;
-              const body = `Hola ${c.ownerName},\n\nVi tu publicación de "${c.name}" en Vendomiempresa y coincide con lo que estoy buscando (${myBuyer.sectors}).\n\n${
+              const body = `Hola ${c.ownerName}:\n\nHe visto tu anuncio de "${c.name}" en Vendomiempresa y coincide con lo que estoy buscando (${myBuyer.sectors}).\n\n${
                 myBuyer.thesis ? myBuyer.thesis + "\n\n" : ""
-              }Mis datos de contacto:\n${myBuyer.name}\n${myBuyer.phone}\n${myBuyer.email}\n\nQuedo a la espera de tu respuesta.\n\nSaludos.`;
+              }Mis datos de contacto:\n${myBuyer.name}\n${myBuyer.phone}\n${myBuyer.email}\n\nQuedo a la espera de tu respuesta.\n\nUn saludo.`;
+
               return (
                 <MatchRow
                   key={key}
