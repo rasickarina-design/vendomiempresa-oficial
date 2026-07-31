@@ -365,7 +365,7 @@ export function ProfileScreen({
       {needsBuyer && (
         <>
           <div className="mb-4">
-            <label className="field-label">Rubros que te interesan (separados por coma)</label>
+            <label className="field-label">Sectores que te interesan (separados por comas)</label>
             <input
               className="field-input"
               aria-invalid={!!errors.sectors}
