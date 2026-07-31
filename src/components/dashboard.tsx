@@ -691,8 +691,12 @@ function BuyerForm({
   const set = (k: keyof Profile, v: string) => setP((prev) => ({ ...prev, [k]: v }));
 
   const submit = () => {
+    if (!p.name.trim()) {
+      setError("Introduce tu nombre completo.");
+      return;
+    }
     if (!p.sectors.trim()) {
-      setError("Contanos al menos un rubro de interés.");
+      setError("Indícanos al menos un sector de interés.");
       return;
     }
     setError("");
@@ -701,7 +705,7 @@ function BuyerForm({
       {
         email,
         phone,
-        name: profile.name,
+        name: p.name.trim(),
         sectors: p.sectors.trim(),
         budgetMin: p.budgetMin,
         budgetMax: p.budgetMax,
@@ -713,7 +717,7 @@ function BuyerForm({
         role: nextRole,
         updatedAt: Date.now(),
       },
-      p,
+      { ...p, name: p.name.trim() },
     );
   };
 
@@ -725,9 +729,19 @@ function BuyerForm({
         directamente.
       </p>
       <div className="mb-4">
+        <label className="field-label">Tu nombre completo</label>
+        <input
+          className="field-input"
+          maxLength={100}
+          value={p.name}
+          onChange={(e) => set("name", e.target.value)}
+        />
+      </div>
+      <div className="mb-4">
         <label className="field-label">Sectores que te interesan</label>
         <SectorPicker value={p.sectors} onChange={(v) => set("sectors", v)} />
       </div>
+
       <div className="mb-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div>
           <label className="field-label">Presupuesto mínimo</label>
