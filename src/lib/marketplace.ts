@@ -7,7 +7,10 @@ export interface Company {
   location: string;
   country: string;
   linkedin: string;
+  googleProfile: string;
+  mapsUrl: string;
   age: string;
+
   revenue: string;
   priceAmount: number | null;
   priceCurrency: string;
