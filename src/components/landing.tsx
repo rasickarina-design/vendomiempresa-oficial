@@ -1,5 +1,38 @@
 import logoAsset from "@/assets/logo.jpg.asset.json";
 
+const FAQS: { q: string; a: string }[] = [
+  {
+    q: "¿Cómo funciona el login con código?",
+    a: "No usás contraseña. Ingresás tu email, te enviamos un código de un solo uso válido por 5 minutos y con eso entrás. Si el código expira, pedís uno nuevo.",
+  },
+  {
+    q: "¿Necesito crear una contraseña?",
+    a: "No. El acceso es siempre con el código que llega a tu email, así no hay contraseñas que recordar ni que se filtren.",
+  },
+  {
+    q: "¿Qué pasa si no me llega el código?",
+    a: "Revisá spam o promociones y verificá que el email esté bien escrito. Podés solicitar el código otra vez desde la misma pantalla de acceso.",
+  },
+  {
+    q: "¿Qué es un match?",
+    a: "Un match ocurre cuando lo que una empresa publicada ofrece (rubro, precio, ubicación) coincide con el criterio de búsqueda que definió un comprador.",
+  },
+  {
+    q: "¿Por qué solo puedo contactar cuando hay match?",
+    a: "Para evitar mensajes masivos y consultas sin sentido. El contacto se habilita únicamente entre partes compatibles, así ambas conversaciones arrancan con interés real.",
+  },
+  {
+    q: "¿Se muestran mis datos de contacto a cualquiera?",
+    a: "No. Tus datos de contacto solo se comparten con la otra parte cuando existe un match, y el contacto es directo, sin intermediarios ocultos.",
+  },
+  {
+    q: "¿Publicar mi empresa es público?",
+    a: "Publicás los datos del negocio para que el sistema pueda cruzarlos, pero tu identidad y contacto quedan reservados hasta que haya un match.",
+  },
+];
+
+
+
 function LoginButton({ onLogin, className = "" }: { onLogin: () => void; className?: string }) {
   return (
     <button className={`btn-primary ${className}`} onClick={onLogin}>
@@ -139,6 +172,22 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
           directo.
         </p>
       </Section>
+
+      <section className="mx-auto w-full max-w-[880px] px-6 pb-4 pt-4">
+        <h2 className="mb-4 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Preguntas frecuentes</h2>
+        <div className="flex flex-col gap-3">
+          {FAQS.map((faq) => (
+            <details key={faq.q} className="surface-card group rounded-[16px] px-6 py-4">
+              <summary className="cursor-pointer list-none text-[16px] font-semibold text-foreground max-[560px]:text-[15px]">
+                {faq.q}
+              </summary>
+              <p className="mt-3 text-[15px] leading-[1.7] text-muted-foreground">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+
 
       <section className="mx-auto w-full max-w-[880px] px-6 pb-16 pt-4">
         <div className="surface-card rounded-[20px] px-7 py-8">
