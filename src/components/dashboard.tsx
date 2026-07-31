@@ -636,7 +636,7 @@ function PublishForm({
         </div>
 
         <div>
-          <label className="field-label">Facturación anual</label>
+          <label className="field-label">Facturación anual (obligatorio)</label>
           <input
             className="field-input"
             inputMode="numeric"
@@ -648,7 +648,7 @@ function PublishForm({
         </div>
 
         <div>
-          <label className="field-label">Precio de venta (monto)</label>
+          <label className="field-label">Precio de venta (obligatorio)</label>
           <input
             className="field-input"
             inputMode="numeric"
