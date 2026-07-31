@@ -303,6 +303,8 @@ function PublishForm({
     location: "",
     country: "",
     linkedin: "",
+    googleProfile: "",
+    mapsUrl: "",
     age: "",
     revenue: "",
     price: "",
@@ -317,6 +319,14 @@ function PublishForm({
       setError("Completa al menos nombre, sector y descripción.");
       return;
     }
+    if (!f.mapsUrl.trim()) {
+      setError("Las indicaciones de localización de Google Maps son obligatorias.");
+      return;
+    }
+    if (!/^https?:\/\/\S+$/i.test(f.mapsUrl.trim())) {
+      setError("Introduce un enlace válido de Google Maps (debe empezar por https://).");
+      return;
+    }
     setError("");
     onPublish({
       id: "c_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
@@ -325,8 +335,11 @@ function PublishForm({
       location: f.location.trim() || "—",
       country: f.country.trim() || "—",
       linkedin: f.linkedin.trim(),
+      googleProfile: f.googleProfile.trim(),
+      mapsUrl: f.mapsUrl.trim(),
       age: f.age.trim() || "—",
       revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
+
       priceAmount: f.price ? Number(f.price) : null,
       priceCurrency: f.currency,
       desc: f.desc.trim(),
