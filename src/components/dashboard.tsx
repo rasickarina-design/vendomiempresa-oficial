@@ -480,7 +480,17 @@ function PublishForm({
       <p className="mb-5 mt-1 text-[11.5px] text-subtle-foreground">
         Esta información será visible para los compradores de la plataforma, junto con tu nombre y tu correo.
       </p>
+      <div className="mb-3.5">
+        <label className="field-label">Tu nombre completo</label>
+        <input
+          className="field-input"
+          maxLength={100}
+          value={f.ownerName}
+          onChange={(e) => set("ownerName", e.target.value)}
+        />
+      </div>
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+
         <div>
           <label className="field-label">Nombre de la empresa</label>
           <input className="field-input" maxLength={100} value={f.name} onChange={(e) => set("name", e.target.value)} />
