@@ -220,11 +220,12 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
 
       <section className="mx-auto w-full max-w-[880px] px-6 pb-16 pt-4">
         <div className="surface-card rounded-[20px] px-7 py-8">
-          <h2 className="mb-3 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Empezá ahora</h2>
+          <h2 className="mb-3 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Empieza ahora</h2>
           <p className="mb-6 text-[16px] leading-[1.75] text-foreground max-[560px]:text-[15px]">
-            Ya sea que estés buscando vender tu empresa o encontrar la próxima para comprar, el primer paso te toma
-            menos de un minuto.
+            Tanto si buscas vender tu empresa como encontrar la próxima para comprar, el primer paso te lleva menos
+            de un minuto.
           </p>
+
           <LoginButton onLogin={onLogin} />
         </div>
       </section>
