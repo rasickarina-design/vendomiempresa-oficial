@@ -191,12 +191,11 @@ function Index() {
         <RoleScreen
           onPick={(r) => {
             setRole(r);
-            setScreen("profile");
+            setScreen("dashboard");
           }}
         />
       )}
 
-      {screen === "profile" && <ProfileScreen role={role} onSave={handleSaveProfile} />}
 
       {screen === "dashboard" && (
         <Dashboard
