@@ -466,14 +466,15 @@ function BuyerForm({
     <div className="surface-card max-w-[660px] p-7">
       <h3 className="text-[15px] text-primary">¿Qué empresa estás buscando?</h3>
       <p className="mb-5 mt-1 text-[11.5px] text-subtle-foreground">
-        Con esto te avisamos qué publicaciones hacen match con vos, y los vendedores pueden contactarte
+        Con esto te avisamos qué anuncios hacen match contigo, y los vendedores pueden contactar contigo
         directamente.
       </p>
       <div className="mb-4">
-        <label className="field-label">Rubros que te interesan (separados por coma)</label>
+        <label className="field-label">Sectores que te interesan (separados por comas)</label>
         <input
           className="field-input"
-          placeholder="Gastronomía, Logística, Software"
+          placeholder="Hostelería, Logística, Software"
+
           maxLength={200}
           value={p.sectors}
           onChange={(e) => set("sectors", e.target.value)}
