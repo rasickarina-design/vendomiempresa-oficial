@@ -41,6 +41,7 @@ function AdminPage() {
     contacts: [],
   });
   const [tab, setTab] = useState<TableName>("companies");
+  const [format, setFormat] = useState<"xlsx" | "csv">("xlsx");
 
   const refresh = useCallback(async () => {
     const { data: userData } = await supabase.auth.getUser();
