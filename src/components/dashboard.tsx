@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import type { Buyer, Company, ContactLog, Role } from "@/lib/marketplace";
-import { PAISES, RUBROS, contactKey, fmtMoney, isMatch, mailtoLink, maskEmail } from "@/lib/marketplace";
+import { RUBROS, contactKey, fmtMoney, isMatch, mailtoLink, maskEmail } from "@/lib/marketplace";
 import type { Profile } from "./auth-screens";
+import { CountrySelect } from "./country-select";
 import { SectorPicker } from "./sector-picker";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
@@ -586,14 +587,7 @@ function PublishForm({
         </div>
         <div>
           <label className="field-label">País</label>
-          <select className="field-input" value={f.country} onChange={(e) => set("country", e.target.value)}>
-            <option value="">Selecciona un país</option>
-            {PAISES.map((pais) => (
-              <option key={pais} value={pais}>
-                {pais}
-              </option>
-            ))}
-          </select>
+          <CountrySelect value={f.country} onChange={(v) => set("country", v)} />
         </div>
 
         <div>
@@ -818,14 +812,7 @@ function BuyerForm({
       </div>
       <div className="mb-4">
         <label className="field-label">País</label>
-        <select className="field-input" value={p.country} onChange={(e) => set("country", e.target.value)}>
-          <option value="">Selecciona un país</option>
-          {PAISES.map((pais) => (
-            <option key={pais} value={pais}>
-              {pais}
-            </option>
-          ))}
-        </select>
+        <CountrySelect value={p.country} onChange={(v) => set("country", v)} />
       </div>
       <div className="mb-4">
         <label className="field-label">LinkedIn (opcional)</label>

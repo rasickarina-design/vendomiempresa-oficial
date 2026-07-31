@@ -162,41 +162,42 @@ export function mailtoLink(to: string, subject: string, body: string) {
   );
 }
 
-export const PAISES = [
+export const PAISES_PRIORITARIOS = [
   "España",
-  "Portugal",
-  "Francia",
-  "Italia",
-  "Alemania",
-  "Reino Unido",
-  "Irlanda",
-  "Países Bajos",
-  "Bélgica",
-  "Suiza",
-  "Andorra",
   "Estados Unidos",
   "México",
   "Argentina",
-  "Chile",
-  "Uruguay",
-  "Paraguay",
-  "Bolivia",
-  "Perú",
-  "Ecuador",
   "Colombia",
-  "Venezuela",
+  "Chile",
+  "Perú",
+] as const;
+
+export const PAISES_RESTO = [
+  "Alemania",
+  "Andorra",
+  "Bolivia",
   "Brasil",
-  "Panamá",
+  "Canadá",
   "Costa Rica",
+  "Cuba",
+  "Ecuador",
+  "El Salvador",
+  "Francia",
   "Guatemala",
   "Honduras",
-  "El Salvador",
+  "Italia",
   "Nicaragua",
-  "República Dominicana",
-  "Cuba",
+  "Panamá",
+  "Paraguay",
+  "Portugal",
   "Puerto Rico",
-  "Marruecos",
+  "Reino Unido",
+  "República Dominicana",
+  "Uruguay",
+  "Venezuela",
   "Otro",
 ] as const;
+
+export const PAISES = [...PAISES_PRIORITARIOS, ...PAISES_RESTO] as const;
 
 export type Pais = (typeof PAISES)[number];
