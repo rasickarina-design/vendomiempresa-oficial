@@ -37,11 +37,18 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
               "radial-gradient(circle, color-mix(in oklch, var(--primary) 10%, transparent) 0%, transparent 65%)",
           }}
         />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-14 top-8 z-[2] rotate-[38deg] select-none border-y-2 border-primary-foreground/20 bg-primary px-16 py-2 text-center text-[15px] font-extrabold uppercase tracking-[0.32em] text-primary-foreground shadow-[0_8px_24px_rgba(0,0,0,0.45)] max-[560px]:-right-12 max-[560px]:px-12 max-[560px]:text-[12px]"
+        >
+          Vende
+        </div>
         <div className="relative z-[1] mx-auto w-full max-w-[880px]">
-          <img src={logoAsset.url} alt="Logo Vendomiempresa" className="mb-5 h-20 w-20 rounded-xl object-contain" />
-          <h1 className="mb-4 text-[44px] font-bold leading-[1.05] text-primary max-[560px]:text-[32px]">
-            Empresas en Venta
+          <img src={logoAsset.url} alt="Logo Vendo Mi Empresa" className="mb-5 h-20 w-20 rounded-xl object-contain" />
+          <h1 className="mb-4 text-[44px] font-bold uppercase leading-[1.05] tracking-[0.02em] text-primary max-[560px]:text-[32px]">
+            Vendo Mi Empresa
           </h1>
+
           <p className="mb-4 text-[20px] font-semibold leading-snug text-foreground max-[560px]:text-[18px]">
             El lugar donde vendedores y compradores de empresas se encuentran.
           </p>
