@@ -643,9 +643,11 @@ function PublishForm({
           <label className="field-label">Precio de venta (monto)</label>
           <input
             className="field-input"
-            type="number"
-            value={f.price}
-            onChange={(e) => set("price", e.target.value)}
+            inputMode="numeric"
+            maxLength={40}
+            placeholder={f.currency === "EUR" ? "1.500.000" : "1,500,000"}
+            value={formatAmountInput(f.price, f.currency)}
+            onChange={(e) => set("price", digitsOnly(e.target.value))}
           />
         </div>
         <div className="sm:col-span-2">
