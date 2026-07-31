@@ -350,13 +350,14 @@ export function ProfileScreen({
 
       <div className="mb-4">
         <label className="field-label">País</label>
-        <input
-          className="field-input"
-          placeholder="España"
-          maxLength={60}
-          value={p.country}
-          onChange={(e) => set("country", e.target.value)}
-        />
+        <select className="field-input" value={p.country} onChange={(e) => set("country", e.target.value)}>
+          <option value="">Selecciona un país</option>
+          {PAISES.map((pais) => (
+            <option key={pais} value={pais}>
+              {pais}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-4">
@@ -377,26 +378,6 @@ export function ProfileScreen({
             <SectorPicker value={p.sectors} onChange={(v) => set("sectors", v)} />
             {errors.sectors && <p className="field-error">{errors.sectors}</p>}
           </div>
-          <div className="mb-4 grid grid-cols-2 gap-3.5">
-            <div>
-              <label className="field-label">Presupuesto mínimo</label>
-              <input
-                className="field-input"
-                type="number"
-                value={p.budgetMin}
-                onChange={(e) => set("budgetMin", e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="field-label">Presupuesto máximo</label>
-              <input
-                className="field-input"
-                type="number"
-                value={p.budgetMax}
-                onChange={(e) => set("budgetMax", e.target.value)}
-              />
-            </div>
-          </div>
           <div className="mb-4">
             <label className="field-label">Moneda</label>
             <select
@@ -407,6 +388,28 @@ export function ProfileScreen({
               <option>USD</option>
               <option>EUR</option>
             </select>
+          </div>
+          <div className="mb-4 grid grid-cols-2 gap-3.5">
+            <div>
+              <label className="field-label">Presupuesto mínimo ({p.currency})</label>
+              <input
+                className="field-input"
+                inputMode="numeric"
+                placeholder={p.currency === "EUR" ? "100.000" : "100,000"}
+                value={formatAmountInput(p.budgetMin, p.currency)}
+                onChange={(e) => set("budgetMin", digitsOnly(e.target.value))}
+              />
+            </div>
+            <div>
+              <label className="field-label">Presupuesto máximo ({p.currency})</label>
+              <input
+                className="field-input"
+                inputMode="numeric"
+                placeholder={p.currency === "EUR" ? "1.500.000" : "1,500,000"}
+                value={formatAmountInput(p.budgetMax, p.currency)}
+                onChange={(e) => set("budgetMax", digitsOnly(e.target.value))}
+              />
+            </div>
           </div>
           <div className="mb-4">
             <label className="field-label">Ubicación preferida (opcional)</label>
