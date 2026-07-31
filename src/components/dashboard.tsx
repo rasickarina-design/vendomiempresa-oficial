@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { Buyer, Company, ContactLog, Role } from "@/lib/marketplace";
-import { contactKey, fmtMoney, isMatch, mailtoLink, maskEmail } from "@/lib/marketplace";
+import { RUBROS, contactKey, fmtMoney, isMatch, mailtoLink, maskEmail } from "@/lib/marketplace";
 import type { Profile } from "./auth-screens";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 
