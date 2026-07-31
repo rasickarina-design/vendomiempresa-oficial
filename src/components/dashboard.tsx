@@ -357,6 +357,8 @@ function PublishForm({
   const [f, setF] = useState({
     name: "",
     sector: "",
+    ownerPosition: "Dueño",
+
     location: "",
     country: "",
     linkedin: "",
