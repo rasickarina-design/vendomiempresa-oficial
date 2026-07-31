@@ -536,7 +536,7 @@ function BuyerForm({
         />
       </div>
       <div className="mb-4">
-        <label className="field-label">Descripción de lo que buscás</label>
+        <label className="field-label">Descripción de lo que buscas</label>
         <textarea
           className="field-input min-h-20 resize-y"
           maxLength={1000}
