@@ -443,6 +443,8 @@ function PublishForm({
       return;
     }
     setError("");
+    onOwnerName(f.ownerName.trim());
+
     onPublish({
       id: "c_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
       name: f.name.trim(),
