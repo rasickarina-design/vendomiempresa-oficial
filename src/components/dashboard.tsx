@@ -203,7 +203,7 @@ function Explore({
           value={sectorFilter}
           onChange={(e) => setSectorFilter(e.target.value)}
         >
-          <option value="">Todos los rubros</option>
+          <option value="">Todos los sectores</option>
           {sectors.map((s) => (
             <option key={s} value={s}>
               {s}
@@ -215,7 +215,7 @@ function Explore({
       {list.length === 0 ? (
         <EmptyState
           title="Todavía no hay empresas para mostrar"
-          text='Sé el primero en publicar en la pestaña "Publicar mi empresa".'
+          text='Sé el primero en publicar desde la pestaña "Publicar mi empresa".'
         />
       ) : (
         <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(280px,1fr))]">
@@ -231,7 +231,7 @@ function Explore({
                     {c.sector}
                   </span>
                   {match && (
-                    <span className="pill bg-success text-[10px] text-primary-foreground">★ Match con vos</span>
+                    <span className="pill bg-success text-[10px] text-primary-foreground">★ Match contigo</span>
                   )}
                   {c.owner === email && (
                     <button className="text-[11px] text-destructive" onClick={() => onDelete(c.id)}>
@@ -299,7 +299,7 @@ function PublishForm({
 
   const submit = () => {
     if (!f.name.trim() || !f.sector.trim() || !f.desc.trim()) {
-      setError("Completá al menos nombre, rubro y descripción.");
+      setError("Completa al menos nombre, sector y descripción.");
       return;
     }
     setError("");
@@ -326,7 +326,7 @@ function PublishForm({
     <div className="surface-card max-w-[660px] p-7">
       <h3 className="text-[15px] text-primary">Datos de la empresa</h3>
       <p className="mb-5 mt-1 text-[11.5px] text-subtle-foreground">
-        Esta información será visible para compradores en la plataforma, junto con tu nombre y email.
+        Esta información será visible para los compradores de la plataforma, junto con tu nombre y tu correo.
       </p>
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div>
@@ -334,7 +334,7 @@ function PublishForm({
           <input className="field-input" maxLength={100} value={f.name} onChange={(e) => set("name", e.target.value)} />
         </div>
         <div>
-          <label className="field-label">Rubro / Sector</label>
+          <label className="field-label">Sector</label>
           <input
             className="field-input"
             maxLength={60}
@@ -355,7 +355,7 @@ function PublishForm({
           <label className="field-label">País</label>
           <input
             className="field-input"
-            placeholder="Argentina"
+            placeholder="España"
             maxLength={60}
             value={f.country}
             onChange={(e) => set("country", e.target.value)}
@@ -466,14 +466,15 @@ function BuyerForm({
     <div className="surface-card max-w-[660px] p-7">
       <h3 className="text-[15px] text-primary">¿Qué empresa estás buscando?</h3>
       <p className="mb-5 mt-1 text-[11.5px] text-subtle-foreground">
-        Con esto te avisamos qué publicaciones hacen match con vos, y los vendedores pueden contactarte
+        Con esto te avisamos qué anuncios hacen match contigo, y los vendedores pueden contactar contigo
         directamente.
       </p>
       <div className="mb-4">
-        <label className="field-label">Rubros que te interesan (separados por coma)</label>
+        <label className="field-label">Sectores que te interesan (separados por comas)</label>
         <input
           className="field-input"
-          placeholder="Gastronomía, Logística, Software"
+          placeholder="Hostelería, Logística, Software"
+
           maxLength={200}
           value={p.sectors}
           onChange={(e) => set("sectors", e.target.value)}
@@ -519,7 +520,8 @@ function BuyerForm({
         <label className="field-label">País</label>
         <input
           className="field-input"
-          placeholder="Argentina"
+          placeholder="España"
+
           maxLength={60}
           value={p.country}
           onChange={(e) => set("country", e.target.value)}
@@ -536,7 +538,7 @@ function BuyerForm({
         />
       </div>
       <div className="mb-4">
-        <label className="field-label">Descripción de lo que buscás</label>
+        <label className="field-label">Descripción de lo que buscas</label>
         <textarea
           className="field-input min-h-20 resize-y"
           maxLength={1000}
@@ -607,8 +609,9 @@ function Matches({
   if (myCompanies.length === 0 && !myBuyer) {
     return (
       <EmptyState
-        title="Todavía no configuraste nada para matchear"
-        text='Publicá una empresa o completá tu búsqueda en "Buscar para comprar" para empezar a ver matches acá.'
+        title="Todavía no has configurado nada para hacer match"
+        text='Publica una empresa o completa tu búsqueda en "Buscar para comprar" para empezar a ver matches aquí.'
+
       />
     );
   }
@@ -636,7 +639,7 @@ function Matches({
             return matched.map((b) => {
               const key = contactKey(b.email, company.id);
               const subject = `Interés en tu búsqueda de empresas — ${company.name}`;
-              const body = `Hola ${b.name},\n\nTe contacto desde Vendomiempresa porque tu búsqueda (${b.sectors}) coincide con mi empresa "${company.name}", ubicada en ${company.location}.\n\nFacturación anual: ${company.revenue}\nPrecio de venta: ${fmtMoney(company.priceAmount, company.priceCurrency)}\n\nMis datos de contacto:\n${company.ownerName}\n${company.ownerPhone}\n${company.owner}\n\nQuedo atento/a si querés que conversemos.\n\nSaludos.`;
+              const body = `Hola ${b.name}:\n\nTe escribo desde Vendomiempresa porque tu búsqueda (${b.sectors}) coincide con mi empresa "${company.name}", ubicada en ${company.location}.\n\nFacturación anual: ${company.revenue}\nPrecio de venta: ${fmtMoney(company.priceAmount, company.priceCurrency)}\n\nMis datos de contacto:\n${company.ownerName}\n${company.ownerPhone}\n${company.owner}\n\nQuedo a tu disposición si quieres que hablemos.\n\nUn saludo.`;
               return (
                 <MatchRow
                   key={key}
@@ -661,20 +664,22 @@ function Matches({
         <section className="mb-9">
           <h3 className="text-[15px] text-primary">Empresas que coinciden con tu búsqueda</h3>
           <p className="mb-4 mt-1 text-[12.5px] text-muted-foreground">
-            Según los rubros y presupuesto que definiste en "Buscar para comprar".
+            Según los sectores y el presupuesto que definiste en "Buscar para comprar".
           </p>
           {buyerMatches.length === 0 ? (
             <EmptyState
               title="Todavía no hay matches"
-              text="Te vamos a mostrar acá las empresas publicadas que coincidan con tu búsqueda."
+              text="Aquí te mostraremos las empresas publicadas que coincidan con tu búsqueda."
+
             />
           ) : (
             buyerMatches.map((c) => {
               const key = contactKey(myBuyer.email, c.id);
               const subject = `Interesado/a en comprar tu empresa — ${c.name}`;
-              const body = `Hola ${c.ownerName},\n\nVi tu publicación de "${c.name}" en Vendomiempresa y coincide con lo que estoy buscando (${myBuyer.sectors}).\n\n${
+              const body = `Hola ${c.ownerName}:\n\nHe visto tu anuncio de "${c.name}" en Vendomiempresa y coincide con lo que estoy buscando (${myBuyer.sectors}).\n\n${
                 myBuyer.thesis ? myBuyer.thesis + "\n\n" : ""
-              }Mis datos de contacto:\n${myBuyer.name}\n${myBuyer.phone}\n${myBuyer.email}\n\nQuedo a la espera de tu respuesta.\n\nSaludos.`;
+              }Mis datos de contacto:\n${myBuyer.name}\n${myBuyer.phone}\n${myBuyer.email}\n\nQuedo a la espera de tu respuesta.\n\nUn saludo.`;
+
               return (
                 <MatchRow
                   key={key}

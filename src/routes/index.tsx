@@ -20,7 +20,8 @@ import {
 
 const TITLE = "Vendomiempresa — Marketplace de compra y venta de empresas";
 const DESCRIPTION =
-  "Publicá tu empresa en venta o definí qué querés comprar. Login sin contraseña y matches automáticos entre vendedores y compradores.";
+  "Publica tu empresa en venta o define qué quieres comprar. Acceso sin contraseña y matches automáticos entre vendedores y compradores.";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -64,7 +65,7 @@ export const Route = createFileRoute("/")({
               name: "¿Cómo publico mi empresa en venta?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Creá tu cuenta con un código de un solo uso enviado a tu email, elegí el rol de vendedor y completá los datos de la empresa: sector, ubicación, facturación y precio.",
+                text: "Crea tu cuenta con un código de un solo uso enviado a tu correo, elige el rol de vendedor y completa los datos de la empresa: sector, ubicación, facturación y precio.",
               },
             },
             {
@@ -72,7 +73,8 @@ export const Route = createFileRoute("/")({
               name: "¿Cómo encuentro empresas que se ajusten a lo que busco?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Definí tu perfil de comprador con sectores, presupuesto y ubicación preferida, y la plataforma te muestra automáticamente los matches disponibles.",
+                text: "Define tu perfil de comprador con sectores, presupuesto y ubicación preferida, y la plataforma te muestra automáticamente los matches disponibles.",
+
               },
             },
             {
@@ -253,7 +255,7 @@ function Index() {
             setBuyers(next);
             saveList(KEY_BUYERS, next);
             void recordBuyer(b);
-            showToast("¡Tu búsqueda quedó guardada! Ya podés ver tus matches.");
+            showToast("¡Tu búsqueda se ha guardado! Ya puedes ver tus matches.");
           }}
           onContact={(key) => {
             if (contacts.some((c) => c.key === key)) return;

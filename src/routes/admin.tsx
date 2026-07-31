@@ -80,20 +80,20 @@ function AdminPage() {
 
   const translate = (msg: string) => {
     const m = msg.toLowerCase();
-    if (m.includes("anonymous")) return "Escribí tu email y contraseña antes de continuar.";
+    if (m.includes("anonymous")) return "Escribe tu correo y tu contraseña antes de continuar.";
     if (m.includes("already registered") || m.includes("already been registered"))
-      return "Esa cuenta ya existe. Iniciá sesión o usá «Olvidé mi contraseña».";
-    if (m.includes("invalid login")) return "Email o contraseña incorrectos.";
-    if (m.includes("email not confirmed")) return "Falta confirmar el email de esa cuenta.";
+      return "Esa cuenta ya existe. Inicia sesión o usa «He olvidado mi contraseña».";
+    if (m.includes("invalid login")) return "Correo o contraseña incorrectos.";
+    if (m.includes("email not confirmed")) return "Falta confirmar el correo de esa cuenta.";
     if (m.includes("password")) return "La contraseña debe tener al menos 6 caracteres.";
     if (m.includes("rate limit") || m.includes("after"))
-      return "Demasiados intentos seguidos. Esperá un minuto y probá de nuevo.";
+      return "Demasiados intentos seguidos. Espera un minuto e inténtalo de nuevo.";
     return msg;
   };
 
   const validate = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError("Ingresá un email válido.");
+      setError("Introduce un correo válido.");
       return false;
     }
     if (password.length < 6) {
@@ -128,13 +128,13 @@ function AdminPage() {
     });
     setBusy(false);
     if (err) return setError(translate(err.message));
-    setError("Cuenta creada. Revisá tu email para confirmarla y después iniciá sesión.");
+    setError("Cuenta creada. Revisa tu correo para confirmarla y después inicia sesión.");
   };
 
   const resetPassword = async () => {
     setError("");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError("Escribí tu email para enviarte el enlace de recuperación.");
+      setError("Escribe tu correo para enviarte el enlace de recuperación.");
       return;
     }
     setBusy(true);
@@ -143,7 +143,7 @@ function AdminPage() {
     });
     setBusy(false);
     if (err) return setError(translate(err.message));
-    setError("Te enviamos un email para elegir una contraseña nueva.");
+    setError("Te hemos enviado un correo para elegir una contraseña nueva.");
   };
 
 
@@ -175,7 +175,7 @@ function AdminPage() {
               className="field-input"
               type="email"
               autoComplete="email"
-              placeholder="tu@email.com"
+              placeholder="tu@correo.com"
               value={email}
               maxLength={255}
               onChange={(e) => setEmail(e.target.value)}

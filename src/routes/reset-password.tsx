@@ -3,7 +3,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const TITLE = "Nueva contraseña — Vendomiempresa";
-const DESCRIPTION = "Elegí una contraseña nueva para tu cuenta de Vendomiempresa.";
+const DESCRIPTION = "Elige una contraseña nueva para tu cuenta de Vendomiempresa.";
 
 export const Route = createFileRoute("/reset-password")({
   ssr: false,
@@ -39,7 +39,7 @@ function ResetPasswordPage() {
     if (error) {
       setMessage(
         error.message.toLowerCase().includes("session")
-          ? "El enlace venció. Pedí uno nuevo desde el panel."
+          ? "El enlace ha caducado. Solicita uno nuevo desde el panel."
           : error.message,
       );
       return;
