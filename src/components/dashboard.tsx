@@ -400,6 +400,31 @@ function PublishForm({
           />
         </div>
         <div>
+          <label className="field-label">Perfil del negocio en Google (opcional)</label>
+          <input
+            className="field-input"
+            placeholder="https://www.google.com/maps/place/… o enlace del perfil"
+            maxLength={300}
+            value={f.googleProfile}
+            onChange={(e) => set("googleProfile", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">Indicaciones de localización en Google Maps *</label>
+          <input
+            className="field-input"
+            placeholder="https://maps.app.goo.gl/…"
+            maxLength={500}
+            required
+            value={f.mapsUrl}
+            onChange={(e) => set("mapsUrl", e.target.value)}
+          />
+          <p className="mt-1 text-[11px] text-subtle-foreground">
+            Campo obligatorio: pega el enlace de Google Maps con la localización del negocio.
+          </p>
+        </div>
+
+        <div>
           <label className="field-label">Antigüedad</label>
           <input className="field-input" maxLength={40} value={f.age} onChange={(e) => set("age", e.target.value)} />
         </div>
