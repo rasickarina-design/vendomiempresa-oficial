@@ -469,7 +469,7 @@ function PublishForm({
 
       revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
 
-      priceAmount: f.price ? Number(f.price) : null,
+      priceAmount: digitsOnly(f.price) ? Number(digitsOnly(f.price)) : null,
       priceCurrency: f.currency,
       desc: f.desc.trim(),
       owner: email,
