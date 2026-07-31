@@ -162,8 +162,10 @@ export function Dashboard(props: Props) {
             email={email}
             phone={phone}
             ownerName={profile.name}
+            onOwnerName={(n) => props.onProfileName?.(n)}
           />
         )}
+
         {tab === "buyerprofile" && (
           <BuyerForm
             profile={profile}
