@@ -421,10 +421,15 @@ function PublishForm({
   const set = (k: keyof typeof f, v: string) => setF((p) => ({ ...p, [k]: v }));
 
   const submit = () => {
+    if (!f.ownerName.trim()) {
+      setError("Introduce tu nombre completo.");
+      return;
+    }
     if (!f.name.trim() || !f.sector.trim() || !f.desc.trim()) {
       setError("Completa al menos nombre, sector y descripción.");
       return;
     }
+
     if (!f.mapsUrl.trim()) {
       setError("Las indicaciones de localización de Google Maps son obligatorias.");
       return;
