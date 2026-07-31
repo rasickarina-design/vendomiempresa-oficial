@@ -9,7 +9,7 @@ export function SiteFooter() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
           <a
-            href="https://instagram.com/karinarasicfinanzas"
+            href="https://www.instagram.com/karinarasicfinanzas/"
             target="_blank"
             rel="noopener noreferrer"
             className="transition hover:text-primary"
