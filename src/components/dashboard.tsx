@@ -352,6 +352,17 @@ function Explore({
                     Ver localización en Google Maps →
                   </a>
                 )}
+                {c.financialsUrl && (
+                  <a
+                    className="mt-1 block text-[11.5px] text-primary underline"
+                    href={c.financialsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ver balances y estados de resultados →
+                  </a>
+                )}
+
 
               </article>
             );
