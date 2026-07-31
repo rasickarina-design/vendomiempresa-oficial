@@ -95,12 +95,12 @@ function PrivacidadPage() {
             </p>
           </Section>
 
-          <Section title="2. Información que recolectamos">
-            <p>PALFRAN LLC puede recolectar los siguientes datos:</p>
+          <Section title="2. Información que recogemos">
+            <p>PALFRAN LLC puede recoger los siguientes datos:</p>
             <ul className="list-disc space-y-2 pl-6">
               <li>
                 <strong className="text-foreground">Datos de contacto:</strong> nombre, correo
-                electrónico, teléfono y empresa cuando completás un formulario o agendás una sesión.
+                electrónico, teléfono y empresa cuando rellenas un formulario o reservas una sesión.
               </li>
               <li>
                 <strong className="text-foreground">Datos de navegación:</strong> dirección IP, tipo de
@@ -260,16 +260,16 @@ function PrivacidadPage() {
           </Section>
 
           <Section title="8. Tus derechos">
-            <p>Como usuario tenés derecho a:</p>
+            <p>Como usuario tienes derecho a:</p>
             <ul className="list-disc space-y-2 pl-6">
-              <li>Acceder a los datos personales que tenemos sobre vos.</li>
+              <li>Acceder a los datos personales que tenemos sobre ti.</li>
               <li>Solicitar la rectificación o eliminación de tus datos.</li>
               <li>Oponerte o limitar el tratamiento de tu información.</li>
               <li>Retirar tu consentimiento en cualquier momento.</li>
               <li>Presentar una reclamación ante la autoridad de protección de datos correspondiente.</li>
             </ul>
             <p>
-              Para ejercer estos derechos escribinos a{" "}
+              Para ejercer estos derechos escríbenos a{" "}
               <a href="mailto:contact@makebusinessesflow.com" className="text-primary hover:underline">
                 contact@makebusinessesflow.com
               </a>
@@ -308,7 +308,7 @@ function PrivacidadPage() {
 
           <Section title="12. Contacto">
             <p>
-              Para preguntas sobre estas normas o sobre el tratamiento de tus datos, escribinos a{" "}
+              Para preguntas sobre estas normas o sobre el tratamiento de tus datos, escríbenos a{" "}
               <a href="mailto:contact@makebusinessesflow.com" className="text-primary hover:underline">
                 contact@makebusinessesflow.com
               </a>
