@@ -65,7 +65,7 @@ export const Route = createFileRoute("/")({
               name: "¿Cómo publico mi empresa en venta?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Creá tu cuenta con un código de un solo uso enviado a tu email, elegí el rol de vendedor y completá los datos de la empresa: sector, ubicación, facturación y precio.",
+                text: "Crea tu cuenta con un código de un solo uso enviado a tu correo, elige el rol de vendedor y completa los datos de la empresa: sector, ubicación, facturación y precio.",
               },
             },
             {
@@ -73,7 +73,8 @@ export const Route = createFileRoute("/")({
               name: "¿Cómo encuentro empresas que se ajusten a lo que busco?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Definí tu perfil de comprador con sectores, presupuesto y ubicación preferida, y la plataforma te muestra automáticamente los matches disponibles.",
+                text: "Define tu perfil de comprador con sectores, presupuesto y ubicación preferida, y la plataforma te muestra automáticamente los matches disponibles.",
+
               },
             },
             {
