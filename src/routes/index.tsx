@@ -153,33 +153,6 @@ function Index() {
     setScreen("role");
   };
 
-  const handleSaveProfile = (p: Profile) => {
-    setProfile(p);
-    if (role === "buyer" || role === "both") {
-      const entry: Buyer = {
-        email,
-        phone,
-        name: p.name,
-        sectors: p.sectors,
-        budgetMin: p.budgetMin,
-        budgetMax: p.budgetMax,
-        currency: p.currency,
-        locationPref: p.locationPref,
-        country: p.country,
-        linkedin: p.linkedin,
-        thesis: p.thesis,
-        role,
-        updatedAt: Date.now(),
-      };
-      const idx = buyers.findIndex((b) => b.email === email);
-      const next = idx >= 0 ? buyers.map((b, i) => (i === idx ? entry : b)) : [entry, ...buyers];
-      setBuyers(next);
-      saveList(KEY_BUYERS, next);
-      void recordBuyer(entry);
-    }
-    setScreen("dashboard");
-    showToast("¡Perfil listo!");
-  };
 
   return (
     <div className="flex min-h-screen flex-col">
