@@ -355,7 +355,7 @@ function PublishForm({
           <label className="field-label">País</label>
           <input
             className="field-input"
-            placeholder="Argentina"
+            placeholder="España"
             maxLength={60}
             value={f.country}
             onChange={(e) => set("country", e.target.value)}
