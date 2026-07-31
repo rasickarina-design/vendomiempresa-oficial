@@ -331,7 +331,9 @@ function Explore({
                   </div>
                 </div>
                 <p className="text-[11px] text-subtle-foreground">
-                  Publicado por {c.ownerName} · {maskEmail(c.owner)}
+                  Publicado por {c.ownerName}
+                  {c.ownerPosition ? ` (${c.ownerPosition})` : ""} · {maskEmail(c.owner)}
+
                 </p>
                 {c.mapsUrl && (
                   <a
