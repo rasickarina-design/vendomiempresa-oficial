@@ -94,8 +94,10 @@ export function Dashboard(props: Props) {
         <div className="flex flex-wrap items-center gap-3">
           <span className="pill border border-success/25 bg-success/10 text-success">🔒 Sesión verificada</span>
           <span className="pill border border-border bg-card text-[13px] text-muted-foreground">
-            {profile.name} · {maskEmail(email)}
+            {profile.name ? `${profile.name} · ` : ""}
+            {maskEmail(email)}
           </span>
+
           <button className="btn-ghost" onClick={props.onLogout}>
             Salir
           </button>
