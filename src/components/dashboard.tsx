@@ -433,7 +433,9 @@ function PublishForm({
           <p className="mt-1 text-[11px] text-subtle-foreground">
             Campo obligatorio: pega el enlace de Google Maps con la localización del negocio.
           </p>
+          <MapPreview url={f.mapsUrl} fallbackQuery={[f.name, f.location, f.country].filter(Boolean).join(", ")} />
         </div>
+
 
         <div>
           <label className="field-label">Antigüedad</label>
