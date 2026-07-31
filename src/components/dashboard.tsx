@@ -607,8 +607,9 @@ function Matches({
   if (myCompanies.length === 0 && !myBuyer) {
     return (
       <EmptyState
-        title="Todavía no configuraste nada para matchear"
-        text='Publicá una empresa o completá tu búsqueda en "Buscar para comprar" para empezar a ver matches acá.'
+        title="Todavía no has configurado nada para hacer match"
+        text='Publica una empresa o completa tu búsqueda en "Buscar para comprar" para empezar a ver matches aquí.'
+
       />
     );
   }
