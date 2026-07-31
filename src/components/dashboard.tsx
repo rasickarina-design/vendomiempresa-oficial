@@ -4,6 +4,21 @@ import { contactKey, fmtMoney, isMatch, mailtoLink, maskEmail } from "@/lib/mark
 import type { Profile } from "./auth-screens";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 
+/** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
+export function digitsOnly(v: string) {
+  return v.replace(/\D/g, "");
+}
+
+/** Formatea con separador de miles según moneda: EUR usa punto, USD usa coma. */
+export function formatAmountInput(raw: string, currency: string) {
+  const digits = digitsOnly(raw);
+  if (!digits) return "";
+  const grouped = Number(digits).toLocaleString(currency === "EUR" ? "es-ES" : "en-US");
+  return currency === "EUR" ? `${grouped} €` : `$${grouped}`;
+}
+
+
+
 interface Props {
   email: string;
   phone: string;
