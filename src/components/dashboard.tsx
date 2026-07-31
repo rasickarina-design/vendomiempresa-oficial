@@ -173,7 +173,53 @@ export function Dashboard(props: Props) {
   );
 }
 
+function mapEmbedQuery(url: string): string | null {
+  const u = url.trim();
+  if (!u) return null;
+  const coords = u.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) ?? u.match(/(-?\d{1,3}\.\d{3,}),\s*(-?\d{1,3}\.\d{3,})/);
+  if (coords) return `${coords[1]},${coords[2]}`;
+  const q = u.match(/[?&]q=([^&]+)/);
+  if (q) return decodeURIComponent(q[1].replace(/\+/g, " "));
+  const place = u.match(/\/place\/([^/?@]+)/);
+  if (place) return decodeURIComponent(place[1].replace(/\+/g, " "));
+  return null;
+}
+
+export function MapPreview({ url, fallbackQuery = "" }: { url: string; fallbackQuery?: string }) {
+  const query = mapEmbedQuery(url) ?? (url.trim() ? fallbackQuery.trim() : "");
+  if (!query) {
+    return (
+      <p className="mt-2 text-[11px] text-subtle-foreground">
+        Pega el enlace de Google Maps para ver la vista previa del mapa.
+      </p>
+    );
+  }
+  return (
+    <div className="mt-2.5 overflow-hidden rounded-[10px] border border-border bg-input">
+      <iframe
+        title="Vista previa de la localización en Google Maps"
+        src={`https://www.google.com/maps?q=${encodeURIComponent(query)}&z=15&hl=es&output=embed`}
+        className="block h-52 w-full border-0"
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      />
+      <div className="flex items-center justify-between gap-2 border-t border-border px-3 py-2">
+        <span className="truncate text-[11px] text-muted-foreground">{query}</span>
+        <a
+          className="shrink-0 text-[11px] font-semibold text-primary hover:underline"
+          href={url.trim() || `https://www.google.com/maps?q=${encodeURIComponent(query)}`}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Abrir en Maps →
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function EmptyState({ title, text }: { title: string; text: string }) {
+
   return (
     <div className="px-5 py-16 text-center text-muted-foreground">
       <h3 className="mb-2 text-[17px] text-foreground">{title}</h3>
