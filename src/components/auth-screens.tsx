@@ -41,9 +41,12 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 export function LoginScreen({
   onCode,
+  onHome,
 }: {
   onCode: (data: { email: string; phone: string; code: string; expires: number }) => void;
+  onHome?: () => void;
 }) {
+
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
