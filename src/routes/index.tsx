@@ -193,7 +193,9 @@ function Index() {
             setCodeExpires(expires);
             setScreen("verify");
           }}
+          onHome={() => setScreen("landing")}
         />
+
       )}
 
       {screen === "verify" && (

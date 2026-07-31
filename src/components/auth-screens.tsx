@@ -41,9 +41,12 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 export function LoginScreen({
   onCode,
+  onHome,
 }: {
   onCode: (data: { email: string; phone: string; code: string; expires: number }) => void;
+  onHome?: () => void;
 }) {
+
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
@@ -64,9 +67,18 @@ export function LoginScreen({
 
   return (
     <AuthCard>
+      {onHome && (
+        <button
+          className="mb-4 cursor-pointer self-start text-[13px] text-primary underline underline-offset-[3px]"
+          onClick={onHome}
+        >
+          ← Volver al inicio
+        </button>
+      )}
       <img
         src={logoAsset.url}
         alt="Logo Vendomiempresa"
+
         className="mb-4 h-16 w-16 rounded-xl object-contain"
       />
       <Eyebrow>Portal de empresas en venta</Eyebrow>
