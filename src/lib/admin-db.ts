@@ -12,6 +12,8 @@ export async function recordCompany(c: Company) {
     linkedin: c.linkedin,
     google_profile: c.googleProfile,
     maps_url: c.mapsUrl,
+    owner_position: c.ownerPosition,
+
 
     age: c.age,
     revenue: c.revenue,

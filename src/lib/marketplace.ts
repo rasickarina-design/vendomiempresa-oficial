@@ -17,7 +17,9 @@ export interface Company {
   desc: string;
   owner: string;
   ownerName: string;
+  ownerPosition: string;
   ownerPhone: string;
+
   createdAt: number;
 }
 

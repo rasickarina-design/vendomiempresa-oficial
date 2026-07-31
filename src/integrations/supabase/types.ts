@@ -80,6 +80,7 @@ export type Database = {
           owner_email: string
           owner_name: string | null
           owner_phone: string | null
+          owner_position: string | null
           price_amount: number | null
           price_currency: string
           revenue: string | null
@@ -99,6 +100,7 @@ export type Database = {
           owner_email: string
           owner_name?: string | null
           owner_phone?: string | null
+          owner_position?: string | null
           price_amount?: number | null
           price_currency?: string
           revenue?: string | null
@@ -118,6 +120,7 @@ export type Database = {
           owner_email?: string
           owner_name?: string | null
           owner_phone?: string | null
+          owner_position?: string | null
           price_amount?: number | null
           price_currency?: string
           revenue?: string | null

@@ -5,7 +5,17 @@ import type { Profile } from "./auth-screens";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
+export const OWNER_POSITIONS = [
+  "Dueño",
+  "Broker / Consultor M&A",
+  "Franquicia",
+  "Contador",
+  "Abogado",
+  "CFO / Consultor Financiero",
+];
+
 export function digitsOnly(v: string) {
+
   return v.replace(/\D/g, "");
 }
 
@@ -321,7 +331,9 @@ function Explore({
                   </div>
                 </div>
                 <p className="text-[11px] text-subtle-foreground">
-                  Publicado por {c.ownerName} · {maskEmail(c.owner)}
+                  Publicado por {c.ownerName}
+                  {c.ownerPosition ? ` (${c.ownerPosition})` : ""} · {maskEmail(c.owner)}
+
                 </p>
                 {c.mapsUrl && (
                   <a
@@ -357,6 +369,8 @@ function PublishForm({
   const [f, setF] = useState({
     name: "",
     sector: "",
+    ownerPosition: "Dueño",
+
     location: "",
     country: "",
     linkedin: "",
@@ -402,6 +416,8 @@ function PublishForm({
       desc: f.desc.trim(),
       owner: email,
       ownerName,
+      ownerPosition: f.ownerPosition,
+
       ownerPhone: phone,
       createdAt: Date.now(),
     });
@@ -427,6 +443,21 @@ function PublishForm({
             onChange={(e) => set("sector", e.target.value)}
           />
         </div>
+        <div>
+          <label className="field-label">Puesto en la empresa</label>
+          <select
+            className="field-input"
+            value={f.ownerPosition}
+            onChange={(e) => set("ownerPosition", e.target.value)}
+          >
+            {OWNER_POSITIONS.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div>
           <label className="field-label">Ubicación</label>
           <input
