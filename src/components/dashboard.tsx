@@ -313,9 +313,15 @@ function Explore({
                 </div>
                 <h3 className="mb-1.5 text-[17px] font-bold">{c.name}</h3>
                 <p className="mb-3 text-xs text-muted-foreground">
-                  📍 {c.location}
-                  {c.country && c.country !== "—" ? ` · ${c.country}` : ""}
+                  📍{" "}
+                  {[c.location, c.postalCode, c.city, c.country && c.country !== "—" ? c.country : ""]
+                    .filter((x) => x && x !== "—")
+                    .join(" · ")}
                 </p>
+                {c.age && c.age !== "—" && (
+                  <p className="mb-3 text-[11.5px] text-subtle-foreground">Años operativos: {c.age}</p>
+                )}
+
                 <p className="mb-4 min-h-10 text-[13px] leading-relaxed text-foreground/80">{c.desc}</p>
                 <div className="mb-3 flex justify-between border-t border-border-soft pt-3">
                   <div>
@@ -346,6 +352,17 @@ function Explore({
                     Ver localización en Google Maps →
                   </a>
                 )}
+                {c.financialsUrl && (
+                  <a
+                    className="mt-1 block text-[11.5px] text-primary underline"
+                    href={c.financialsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ver balances y estados de resultados →
+                  </a>
+                )}
+
 
               </article>
             );
@@ -373,11 +390,15 @@ function PublishForm({
     ownerPosition: "Dueño",
 
     location: "",
+    city: "",
+    postalCode: "",
     country: "",
     linkedin: "",
     googleProfile: "",
     mapsUrl: "",
+    financialsUrl: "",
     age: "",
+
     revenue: "",
     price: "",
     currency: "USD",
@@ -399,17 +420,25 @@ function PublishForm({
       setError("Introduce un enlace válido de Google Maps (debe empezar por https://).");
       return;
     }
+    if (f.financialsUrl.trim() && !/^https?:\/\/\S+$/i.test(f.financialsUrl.trim())) {
+      setError("El enlace de balances debe ser una URL válida de Google Drive (https://).");
+      return;
+    }
     setError("");
     onPublish({
       id: "c_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
       name: f.name.trim(),
       sector: f.sector.trim(),
       location: f.location.trim() || "—",
+      city: f.city.trim(),
+      postalCode: f.postalCode.trim(),
       country: f.country.trim() || "—",
       linkedin: f.linkedin.trim(),
       googleProfile: f.googleProfile.trim(),
       mapsUrl: f.mapsUrl.trim(),
+      financialsUrl: f.financialsUrl.trim(),
       age: f.age.trim() || "—",
+
       revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
 
       priceAmount: f.price ? Number(f.price) : null,
@@ -462,12 +491,33 @@ function PublishForm({
         </div>
 
         <div>
-          <label className="field-label">Ubicación</label>
+          <label className="field-label">Dirección</label>
           <input
             className="field-input"
-            maxLength={100}
+            placeholder="Calle Mayor 12, 2ºB"
+            maxLength={140}
             value={f.location}
             onChange={(e) => set("location", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">Ciudad</label>
+          <input
+            className="field-input"
+            placeholder="Madrid"
+            maxLength={80}
+            value={f.city}
+            onChange={(e) => set("city", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">Código postal</label>
+          <input
+            className="field-input"
+            placeholder="28013"
+            maxLength={12}
+            value={f.postalCode}
+            onChange={(e) => set("postalCode", e.target.value)}
           />
         </div>
         <div>
@@ -480,6 +530,7 @@ function PublishForm({
             onChange={(e) => set("country", e.target.value)}
           />
         </div>
+
         <div>
           <label className="field-label">LinkedIn de la empresa (opcional)</label>
           <input
@@ -513,14 +564,38 @@ function PublishForm({
           <p className="mt-1 text-[11px] text-subtle-foreground">
             Campo obligatorio: pega el enlace de Google Maps con la localización del negocio.
           </p>
-          <MapPreview url={f.mapsUrl} fallbackQuery={[f.name, f.location, f.country].filter(Boolean).join(", ")} />
+          <MapPreview
+            url={f.mapsUrl}
+            fallbackQuery={[f.name, f.location, f.postalCode, f.city, f.country].filter(Boolean).join(", ")}
+          />
         </div>
 
+        <div className="sm:col-span-2">
+          <label className="field-label">Últimos balances y estados de resultados (enlace de Google Drive)</label>
+          <input
+            className="field-input"
+            placeholder="https://drive.google.com/drive/folders/…"
+            maxLength={500}
+            value={f.financialsUrl}
+            onChange={(e) => set("financialsUrl", e.target.value)}
+          />
+          <p className="mt-1 text-[11px] text-subtle-foreground">
+            Sube los documentos a Google Drive y comparte la carpeta o el archivo con acceso público (cualquier persona
+            con el enlace), luego pega aquí el enlace.
+          </p>
+        </div>
 
         <div>
-          <label className="field-label">Antigüedad</label>
-          <input className="field-input" maxLength={40} value={f.age} onChange={(e) => set("age", e.target.value)} />
+          <label className="field-label">Años operativos</label>
+          <input
+            className="field-input"
+            placeholder="12"
+            maxLength={40}
+            value={f.age}
+            onChange={(e) => set("age", e.target.value)}
+          />
         </div>
+
         <div>
           <label className="field-label">Facturación anual</label>
           <input

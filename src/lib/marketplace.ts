@@ -31,11 +31,15 @@ export interface Company {
   name: string;
   sector: string;
   location: string;
+  city: string;
+  postalCode: string;
   country: string;
   linkedin: string;
   googleProfile: string;
   mapsUrl: string;
+  financialsUrl: string;
   age: string;
+
 
   revenue: string;
   priceAmount: number | null;

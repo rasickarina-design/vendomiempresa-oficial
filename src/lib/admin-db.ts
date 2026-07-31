@@ -8,11 +8,15 @@ export async function recordCompany(c: Company) {
     name: c.name,
     sector: c.sector,
     location: c.location,
+    city: c.city,
+    postal_code: c.postalCode,
     country: c.country,
     linkedin: c.linkedin,
     google_profile: c.googleProfile,
     maps_url: c.mapsUrl,
+    financials_url: c.financialsUrl,
     owner_position: c.ownerPosition,
+
 
 
     age: c.age,
