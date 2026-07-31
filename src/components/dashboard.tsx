@@ -215,7 +215,7 @@ function Explore({
       {list.length === 0 ? (
         <EmptyState
           title="Todavía no hay empresas para mostrar"
-          text='Sé el primero en publicar en la pestaña "Publicar mi empresa".'
+          text='Sé el primero en publicar desde la pestaña "Publicar mi empresa".'
         />
       ) : (
         <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(280px,1fr))]">
