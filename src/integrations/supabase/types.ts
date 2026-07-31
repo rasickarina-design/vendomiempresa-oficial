@@ -88,6 +88,7 @@ export type Database = {
           price_currency: string
           revenue: string | null
           sector: string
+          share_ref: string | null
         }
         Insert: {
           age?: string | null
@@ -111,6 +112,7 @@ export type Database = {
           price_currency?: string
           revenue?: string | null
           sector: string
+          share_ref?: string | null
         }
         Update: {
           age?: string | null
@@ -134,6 +136,7 @@ export type Database = {
           price_currency?: string
           revenue?: string | null
           sector?: string
+          share_ref?: string | null
         }
         Relationships: []
       }
@@ -190,6 +193,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_public_company: {
+        Args: { _ref: string }
+        Returns: {
+          age: string
+          city: string
+          country: string
+          description: string
+          maps_url: string
+          name: string
+          owner_position: string
+          price_amount: number
+          price_currency: string
+          revenue: string
+          sector: string
+          share_ref: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
