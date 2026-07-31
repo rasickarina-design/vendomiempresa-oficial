@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { downloadCsv } from "@/lib/admin-db";
+import { downloadCsv, downloadXlsx } from "@/lib/admin-db";
 
 const TITLE = "Panel interno — Vendomiempresa";
 const DESCRIPTION = "Acceso restringido al administrador: base de datos interna y exportación a CSV.";
@@ -22,9 +22,9 @@ export const Route = createFileRoute("/admin")({
 type TableName = "companies" | "buyers" | "contacts";
 
 const TABLES: Array<{ name: TableName; label: string; file: string }> = [
-  { name: "companies", label: "Empresas publicadas", file: "empresas.csv" },
-  { name: "buyers", label: "Compradores registrados", file: "compradores.csv" },
-  { name: "contacts", label: "Contactos realizados", file: "contactos.csv" },
+  { name: "companies", label: "Empresas publicadas", file: "empresas" },
+  { name: "buyers", label: "Compradores registrados", file: "compradores" },
+  { name: "contacts", label: "Contactos realizados", file: "contactos" },
 ];
 
 function AdminPage() {
@@ -41,6 +41,7 @@ function AdminPage() {
     contacts: [],
   });
   const [tab, setTab] = useState<TableName>("companies");
+  const [format, setFormat] = useState<"xlsx" | "csv">("xlsx");
 
   const refresh = useCallback(async () => {
     const { data: userData } = await supabase.auth.getUser();
@@ -274,20 +275,39 @@ function AdminPage() {
         ))}
       </div>
 
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <span className="text-[12px] text-muted-foreground">Formato de descarga:</span>
+        {(["xlsx", "csv"] as const).map((f) => (
+          <button
+            key={f}
+            onClick={() => setFormat(f)}
+            className={`rounded-lg px-3 py-1.5 text-[12px] font-semibold transition ${
+              format === f ? "bg-primary text-primary-foreground" : "border border-border text-muted-foreground"
+            }`}
+          >
+            {f === "xlsx" ? "Excel (.xlsx)" : "CSV (.csv)"}
+          </button>
+        ))}
+      </div>
+
       <div className="mb-5 flex flex-wrap gap-2">
         {TABLES.map((t) => (
           <button
             key={t.name}
             className="btn-primary px-4 py-2.5"
-            onClick={() => downloadCsv(t.file, rows[t.name])}
+            onClick={() => {
+              if (format === "csv") downloadCsv(`${t.file}.csv`, rows[t.name]);
+              else void downloadXlsx(`${t.file}.xlsx`, rows[t.name]);
+            }}
             disabled={rows[t.name].length === 0}
           >
-            ⬇ Descargar {t.label.toLowerCase()} (CSV)
+            ⬇ Descargar {t.label.toLowerCase()} ({format === "csv" ? "CSV" : "Excel"})
           </button>
         ))}
       </div>
       <p className="mb-6 text-[11.5px] text-subtle-foreground">
-        Los CSV se abren directo en Excel y se pueden importar en Google Sheets con Archivo → Importar.
+        Los archivos Excel se abren directamente en Excel; los CSV también se pueden importar en Google Sheets con
+        Archivo → Importar.
       </p>
 
       <div className="surface-card overflow-x-auto">

@@ -77,13 +77,33 @@ export function toCsv(rows: Array<Record<string, unknown>>) {
   ].join("\n");
 }
 
-export function downloadCsv(filename: string, rows: Array<Record<string, unknown>>) {
-  // BOM so Excel opens accents correctly.
-  const blob = new Blob(["\uFEFF" + toCsv(rows)], { type: "text/csv;charset=utf-8;" });
+function triggerDownload(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+export function downloadCsv(filename: string, rows: Array<Record<string, unknown>>) {
+  // BOM so Excel opens accents correctly.
+  triggerDownload(
+    new Blob(["\uFEFF" + toCsv(rows)], { type: "text/csv;charset=utf-8;" }),
+    filename,
+  );
+}
+
+export async function downloadXlsx(filename: string, rows: Array<Record<string, unknown>>) {
+  const XLSX = await import("xlsx");
+  const sheet = XLSX.utils.json_to_sheet(rows);
+  const book = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(book, sheet, "Datos");
+  const out = XLSX.write(book, { bookType: "xlsx", type: "array" }) as ArrayBuffer;
+  triggerDownload(
+    new Blob([out], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    }),
+    filename,
+  );
 }

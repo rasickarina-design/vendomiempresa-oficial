@@ -438,6 +438,14 @@ function PublishForm({
       setError("Introduce un enlace válido de Google Maps (debe empezar por https://).");
       return;
     }
+    if (!digitsOnly(f.revenue)) {
+      setError("La facturación anual es obligatoria.");
+      return;
+    }
+    if (!digitsOnly(f.price)) {
+      setError("El precio de venta es obligatorio.");
+      return;
+    }
     if (f.financialsUrl.trim() && !/^https?:\/\/\S+$/i.test(f.financialsUrl.trim())) {
       setError("El enlace de balances debe ser una URL válida de Google Drive (https://).");
       return;
@@ -461,7 +469,7 @@ function PublishForm({
 
       revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
 
-      priceAmount: f.price ? Number(f.price) : null,
+      priceAmount: digitsOnly(f.price) ? Number(digitsOnly(f.price)) : null,
       priceCurrency: f.currency,
       desc: f.desc.trim(),
       owner: email,
@@ -628,7 +636,7 @@ function PublishForm({
         </div>
 
         <div>
-          <label className="field-label">Facturación anual</label>
+          <label className="field-label">Facturación anual (obligatorio)</label>
           <input
             className="field-input"
             inputMode="numeric"
@@ -640,12 +648,14 @@ function PublishForm({
         </div>
 
         <div>
-          <label className="field-label">Precio de venta (monto)</label>
+          <label className="field-label">Precio de venta (obligatorio)</label>
           <input
             className="field-input"
-            type="number"
-            value={f.price}
-            onChange={(e) => set("price", e.target.value)}
+            inputMode="numeric"
+            maxLength={40}
+            placeholder={f.currency === "EUR" ? "1.500.000" : "1,500,000"}
+            value={formatAmountInput(f.price, f.currency)}
+            onChange={(e) => set("price", digitsOnly(e.target.value))}
           />
         </div>
         <div className="sm:col-span-2">
