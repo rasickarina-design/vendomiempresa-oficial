@@ -18,10 +18,12 @@ export type Database = {
         Row: {
           budget_max: number | null
           budget_min: number | null
+          country: string | null
           created_at: string
           currency: string
           email: string
           id: string
+          linkedin: string | null
           location_pref: string | null
           name: string | null
           phone: string | null
@@ -32,10 +34,12 @@ export type Database = {
         Insert: {
           budget_max?: number | null
           budget_min?: number | null
+          country?: string | null
           created_at?: string
           currency?: string
           email: string
           id?: string
+          linkedin?: string | null
           location_pref?: string | null
           name?: string | null
           phone?: string | null
@@ -46,10 +50,12 @@ export type Database = {
         Update: {
           budget_max?: number | null
           budget_min?: number | null
+          country?: string | null
           created_at?: string
           currency?: string
           email?: string
           id?: string
+          linkedin?: string | null
           location_pref?: string | null
           name?: string | null
           phone?: string | null
@@ -62,9 +68,11 @@ export type Database = {
       companies: {
         Row: {
           age: string | null
+          country: string | null
           created_at: string
           description: string
           id: string
+          linkedin: string | null
           location: string | null
           name: string
           owner_email: string
@@ -77,9 +85,11 @@ export type Database = {
         }
         Insert: {
           age?: string | null
+          country?: string | null
           created_at?: string
           description: string
           id?: string
+          linkedin?: string | null
           location?: string | null
           name: string
           owner_email: string
@@ -92,9 +102,11 @@ export type Database = {
         }
         Update: {
           age?: string | null
+          country?: string | null
           created_at?: string
           description?: string
           id?: string
+          linkedin?: string | null
           location?: string | null
           name?: string
           owner_email?: string
