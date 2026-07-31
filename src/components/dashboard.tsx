@@ -203,7 +203,7 @@ function Explore({
           value={sectorFilter}
           onChange={(e) => setSectorFilter(e.target.value)}
         >
-          <option value="">Todos los rubros</option>
+          <option value="">Todos los sectores</option>
           {sectors.map((s) => (
             <option key={s} value={s}>
               {s}
