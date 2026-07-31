@@ -43,13 +43,15 @@ interface Props {
   onSaveBuyer: (b: Buyer, profile: Profile) => void;
   onContact: (key: string) => void;
   onLogout: () => void;
+  onProfileName?: (name: string) => void;
 }
 
 type Tab = "explore" | "publish" | "buyerprofile" | "matches";
 
 export function Dashboard(props: Props) {
   const { email, phone, role, profile, companies, buyers, contacts } = props;
-  const [tab, setTab] = useState<Tab>(role === "buyer" ? "explore" : "publish");
+  const [tab, setTab] = useState<Tab>(role === "buyer" ? "buyerprofile" : "publish");
+
   const [search, setSearch] = useState("");
   const [sectorFilter, setSectorFilter] = useState("");
 
