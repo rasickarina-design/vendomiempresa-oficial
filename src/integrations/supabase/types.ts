@@ -68,9 +68,11 @@ export type Database = {
       companies: {
         Row: {
           age: string | null
+          city: string | null
           country: string | null
           created_at: string
           description: string
+          financials_url: string | null
           google_profile: string | null
           id: string
           linkedin: string | null
@@ -81,6 +83,7 @@ export type Database = {
           owner_name: string | null
           owner_phone: string | null
           owner_position: string | null
+          postal_code: string | null
           price_amount: number | null
           price_currency: string
           revenue: string | null
@@ -88,9 +91,11 @@ export type Database = {
         }
         Insert: {
           age?: string | null
+          city?: string | null
           country?: string | null
           created_at?: string
           description: string
+          financials_url?: string | null
           google_profile?: string | null
           id?: string
           linkedin?: string | null
@@ -101,6 +106,7 @@ export type Database = {
           owner_name?: string | null
           owner_phone?: string | null
           owner_position?: string | null
+          postal_code?: string | null
           price_amount?: number | null
           price_currency?: string
           revenue?: string | null
@@ -108,9 +114,11 @@ export type Database = {
         }
         Update: {
           age?: string | null
+          city?: string | null
           country?: string | null
           created_at?: string
           description?: string
+          financials_url?: string | null
           google_profile?: string | null
           id?: string
           linkedin?: string | null
@@ -121,6 +129,7 @@ export type Database = {
           owner_name?: string | null
           owner_phone?: string | null
           owner_position?: string | null
+          postal_code?: string | null
           price_amount?: number | null
           price_currency?: string
           revenue?: string | null
