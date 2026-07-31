@@ -2,8 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-const TITLE = "Nueva contraseña — Empresas en Venta";
-const DESCRIPTION = "Elegí una contraseña nueva para tu cuenta de Empresas en Venta.";
+const TITLE = "Nueva contraseña — Vendomiempresa";
+const DESCRIPTION = "Elegí una contraseña nueva para tu cuenta de Vendomiempresa.";
 
 export const Route = createFileRoute("/reset-password")({
   ssr: false,

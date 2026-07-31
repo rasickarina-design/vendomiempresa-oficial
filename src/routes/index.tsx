@@ -17,7 +17,7 @@ import {
   type Role,
 } from "@/lib/marketplace";
 
-const TITLE = "Empresas en Venta — Marketplace de compra y venta de empresas";
+const TITLE = "Vendomiempresa — Marketplace de compra y venta de empresas";
 const DESCRIPTION =
   "Publicá tu empresa en venta o definí qué querés comprar. Login sin contraseña y matches automáticos entre vendedores y compradores.";
 
@@ -46,7 +46,7 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Empresas en Venta",
+          name: "Vendomiempresa",
           description: DESCRIPTION,
           inLanguage: "es",
           url: "/",
@@ -97,6 +97,8 @@ const emptyProfile: Profile = {
   budgetMax: "",
   currency: "USD",
   locationPref: "",
+  country: "",
+  linkedin: "",
   thesis: "",
 };
 
@@ -137,6 +139,8 @@ function Index() {
         budgetMax: existing.budgetMax,
         currency: existing.currency,
         locationPref: existing.locationPref,
+        country: existing.country ?? "",
+        linkedin: existing.linkedin ?? "",
         thesis: existing.thesis,
       });
       setScreen("dashboard");
@@ -158,6 +162,8 @@ function Index() {
         budgetMax: p.budgetMax,
         currency: p.currency,
         locationPref: p.locationPref,
+        country: p.country,
+        linkedin: p.linkedin,
         thesis: p.thesis,
         role,
         updatedAt: Date.now(),

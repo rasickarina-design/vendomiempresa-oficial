@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/site-footer";
 
-const TITLE = "Normas de Privacidad — PALFRAN LLC | Empresas en Venta";
+const TITLE = "Normas de Privacidad — PALFRAN LLC | Vendomiempresa";
 const DESCRIPTION =
-  "Normas de privacidad, política de cookies y disclaimer legal de PALFRAN LLC, propietaria de Make Businesses Flow y de Empresas en Venta.";
+  "Normas de privacidad, política de cookies y disclaimer legal de PALFRAN LLC, propietaria de Make Businesses Flow y de Vendomiempresa.";
 
 export const Route = createFileRoute("/privacidad")({
   head: () => ({
@@ -39,7 +39,7 @@ function PrivacidadPage() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-border bg-card/95 px-5 py-4 backdrop-blur">
         <Link to="/" className="text-[15px] font-bold tracking-tight text-primary">
-          Empresas en Venta
+          Vendomiempresa
         </Link>
         <Link to="/" className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted-foreground hover:text-primary">
           ← Volver al inicio

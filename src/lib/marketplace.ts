@@ -5,6 +5,8 @@ export interface Company {
   name: string;
   sector: string;
   location: string;
+  country: string;
+  linkedin: string;
   age: string;
   revenue: string;
   priceAmount: number | null;
@@ -25,6 +27,8 @@ export interface Buyer {
   budgetMax: string;
   currency: string;
   locationPref: string;
+  country: string;
+  linkedin: string;
   thesis: string;
   role: Role;
   updatedAt: number;

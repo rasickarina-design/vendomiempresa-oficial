@@ -1,0 +1,2 @@
+ALTER TABLE public.companies ADD COLUMN IF NOT EXISTS country text, ADD COLUMN IF NOT EXISTS linkedin text;
+ALTER TABLE public.buyers ADD COLUMN IF NOT EXISTS country text, ADD COLUMN IF NOT EXISTS linkedin text;

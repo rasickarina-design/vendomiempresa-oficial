@@ -10,6 +10,8 @@ interface Profile {
   budgetMax: string;
   currency: string;
   locationPref: string;
+  country: string;
+  linkedin: string;
   thesis: string;
 }
 
@@ -64,11 +66,11 @@ export function LoginScreen({
     <AuthCard>
       <img
         src={logoAsset.url}
-        alt="Logo Empresas en Venta"
+        alt="Logo Vendomiempresa"
         className="mb-4 h-16 w-16 rounded-xl object-contain"
       />
       <Eyebrow>Portal de empresas en venta</Eyebrow>
-      <h1 className="mb-2 text-[26px] font-bold text-primary">Empresas en Venta</h1>
+      <h1 className="mb-2 text-[26px] font-bold text-primary">Vendomiempresa</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
         Conectamos vendedores y compradores de empresas. Login sin contraseña: solo tu email y un código de un
         solo uso.
@@ -278,6 +280,8 @@ export function ProfileScreen({
     budgetMax: "",
     currency: "USD",
     locationPref: "",
+    country: "",
+    linkedin: "",
     thesis: "",
   });
   const [errors, setErrors] = useState<{ name?: string; sectors?: string }>({});
@@ -312,6 +316,28 @@ export function ProfileScreen({
           onChange={(e) => set("name", e.target.value)}
         />
         {errors.name && <p className="field-error">{errors.name}</p>}
+      </div>
+
+      <div className="mb-4">
+        <label className="field-label">País</label>
+        <input
+          className="field-input"
+          placeholder="Argentina"
+          maxLength={60}
+          value={p.country}
+          onChange={(e) => set("country", e.target.value)}
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="field-label">LinkedIn (opcional)</label>
+        <input
+          className="field-input"
+          placeholder="https://www.linkedin.com/in/tu-perfil"
+          maxLength={200}
+          value={p.linkedin}
+          onChange={(e) => set("linkedin", e.target.value)}
+        />
       </div>
 
       {needsBuyer && (
