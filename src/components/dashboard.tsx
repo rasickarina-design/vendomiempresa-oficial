@@ -326,7 +326,7 @@ function PublishForm({
     <div className="surface-card max-w-[660px] p-7">
       <h3 className="text-[15px] text-primary">Datos de la empresa</h3>
       <p className="mb-5 mt-1 text-[11.5px] text-subtle-foreground">
-        Esta información será visible para compradores en la plataforma, junto con tu nombre y email.
+        Esta información será visible para los compradores de la plataforma, junto con tu nombre y tu correo.
       </p>
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div>
