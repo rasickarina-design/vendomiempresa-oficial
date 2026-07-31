@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { downloadCsv } from "@/lib/admin-db";
+import { downloadCsv, downloadXlsx } from "@/lib/admin-db";
 
 const TITLE = "Panel interno — Vendomiempresa";
 const DESCRIPTION = "Acceso restringido al administrador: base de datos interna y exportación a CSV.";
