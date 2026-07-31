@@ -465,7 +465,8 @@ function PublishForm({
       priceCurrency: f.currency,
       desc: f.desc.trim(),
       owner: email,
-      ownerName,
+      ownerName: f.ownerName.trim(),
+
       ownerPosition: f.ownerPosition,
 
       ownerPhone: phone,
