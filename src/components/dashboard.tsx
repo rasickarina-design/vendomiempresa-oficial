@@ -474,12 +474,33 @@ function PublishForm({
         </div>
 
         <div>
-          <label className="field-label">Ubicación</label>
+          <label className="field-label">Dirección</label>
           <input
             className="field-input"
-            maxLength={100}
+            placeholder="Calle Mayor 12, 2ºB"
+            maxLength={140}
             value={f.location}
             onChange={(e) => set("location", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">Ciudad</label>
+          <input
+            className="field-input"
+            placeholder="Madrid"
+            maxLength={80}
+            value={f.city}
+            onChange={(e) => set("city", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">Código postal</label>
+          <input
+            className="field-input"
+            placeholder="28013"
+            maxLength={12}
+            value={f.postalCode}
+            onChange={(e) => set("postalCode", e.target.value)}
           />
         </div>
         <div>
@@ -492,6 +513,7 @@ function PublishForm({
             onChange={(e) => set("country", e.target.value)}
           />
         </div>
+
         <div>
           <label className="field-label">LinkedIn de la empresa (opcional)</label>
           <input
