@@ -432,6 +432,21 @@ function PublishForm({
           />
         </div>
         <div>
+          <label className="field-label">Puesto en la empresa</label>
+          <select
+            className="field-input"
+            value={f.ownerPosition}
+            onChange={(e) => set("ownerPosition", e.target.value)}
+          >
+            {OWNER_POSITIONS.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
           <label className="field-label">Ubicación</label>
           <input
             className="field-input"
