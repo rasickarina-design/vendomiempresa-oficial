@@ -5,7 +5,17 @@ import type { Profile } from "./auth-screens";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
+export const OWNER_POSITIONS = [
+  "Dueño",
+  "Broker / Consultor M&A",
+  "Franquicia",
+  "Contador",
+  "Abogado",
+  "CFO / Consultor Financiero",
+];
+
 export function digitsOnly(v: string) {
+
   return v.replace(/\D/g, "");
 }
 
