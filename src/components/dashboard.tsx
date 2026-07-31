@@ -4,6 +4,21 @@ import { contactKey, fmtMoney, isMatch, mailtoLink, maskEmail } from "@/lib/mark
 import type { Profile } from "./auth-screens";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 
+/** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
+export function digitsOnly(v: string) {
+  return v.replace(/\D/g, "");
+}
+
+/** Formatea con separador de miles según moneda: EUR usa punto, USD usa coma. */
+export function formatAmountInput(raw: string, currency: string) {
+  const digits = digitsOnly(raw);
+  if (!digits) return "";
+  const grouped = Number(digits).toLocaleString(currency === "EUR" ? "es-ES" : "en-US");
+  return currency === "EUR" ? `${grouped} €` : `$${grouped}`;
+}
+
+
+
 interface Props {
   email: string;
   phone: string;
@@ -311,7 +326,7 @@ function PublishForm({
       country: f.country.trim() || "—",
       linkedin: f.linkedin.trim(),
       age: f.age.trim() || "—",
-      revenue: f.revenue.trim() || "No especificada",
+      revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
       priceAmount: f.price ? Number(f.price) : null,
       priceCurrency: f.currency,
       desc: f.desc.trim(),
@@ -379,11 +394,14 @@ function PublishForm({
           <label className="field-label">Facturación anual</label>
           <input
             className="field-input"
+            inputMode="numeric"
             maxLength={40}
-            value={f.revenue}
-            onChange={(e) => set("revenue", e.target.value)}
+            placeholder={f.currency === "EUR" ? "1.500.000" : "1,500,000"}
+            value={formatAmountInput(f.revenue, f.currency)}
+            onChange={(e) => set("revenue", digitsOnly(e.target.value))}
           />
         </div>
+
         <div>
           <label className="field-label">Precio de venta (monto)</label>
           <input
