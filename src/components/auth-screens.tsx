@@ -70,7 +70,7 @@ export function LoginScreen({
         className="mb-4 h-16 w-16 rounded-xl object-contain"
       />
       <Eyebrow>Portal de empresas en venta</Eyebrow>
-      <h1 className="mb-2 text-[26px] font-bold text-primary">Vendomiempresa</h1>
+      <h1 className="mb-2 text-[40px] font-bold leading-[1.05] text-primary max-[560px]:text-[32px]">Vendomiempresa</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
         Conectamos vendedores y compradores de empresas. Login sin contraseña: solo tu email y un código de un
         solo uso.
