@@ -313,9 +313,15 @@ function Explore({
                 </div>
                 <h3 className="mb-1.5 text-[17px] font-bold">{c.name}</h3>
                 <p className="mb-3 text-xs text-muted-foreground">
-                  📍 {c.location}
-                  {c.country && c.country !== "—" ? ` · ${c.country}` : ""}
+                  📍{" "}
+                  {[c.location, c.postalCode, c.city, c.country && c.country !== "—" ? c.country : ""]
+                    .filter((x) => x && x !== "—")
+                    .join(" · ")}
                 </p>
+                {c.age && c.age !== "—" && (
+                  <p className="mb-3 text-[11.5px] text-subtle-foreground">Años operativos: {c.age}</p>
+                )}
+
                 <p className="mb-4 min-h-10 text-[13px] leading-relaxed text-foreground/80">{c.desc}</p>
                 <div className="mb-3 flex justify-between border-t border-border-soft pt-3">
                   <div>
