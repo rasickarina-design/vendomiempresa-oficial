@@ -174,18 +174,28 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
       </Section>
 
       <section className="mx-auto w-full max-w-[880px] px-6 pb-4 pt-4">
-        <h2 className="mb-4 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Preguntas frecuentes</h2>
-        <div className="flex flex-col gap-3">
-          {FAQS.map((faq) => (
-            <details key={faq.q} className="surface-card group rounded-[16px] px-6 py-4">
-              <summary className="cursor-pointer list-none text-[16px] font-semibold text-foreground max-[560px]:text-[15px]">
+        <h2 className="mb-2 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Preguntas frecuentes</h2>
+        <p className="mb-5 text-[15px] leading-[1.7] text-muted-foreground">
+          Tocá cada pregunta para desplegar la respuesta.
+        </p>
+        <Accordion type="single" collapsible className="flex flex-col gap-3">
+          {FAQS.map((faq, i) => (
+            <AccordionItem
+              key={faq.q}
+              value={`faq-${i}`}
+              className="surface-card rounded-[16px] border-none px-6"
+            >
+              <AccordionTrigger className="py-4 text-left text-[16px] font-semibold text-foreground hover:no-underline max-[560px]:text-[15px]">
                 {faq.q}
-              </summary>
-              <p className="mt-3 text-[15px] leading-[1.7] text-muted-foreground">{faq.a}</p>
-            </details>
+              </AccordionTrigger>
+              <AccordionContent className="pb-5 text-[15px] leading-[1.75] text-muted-foreground">
+                {faq.a}
+              </AccordionContent>
+            </AccordionItem>
           ))}
-        </div>
+        </Accordion>
       </section>
+
 
 
 
