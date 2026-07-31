@@ -113,31 +113,31 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
 
       <Section title="El problema">
         <p>
-          Vender o comprar una empresa PyME hoy es un proceso desordenado: contactos personales, corredores
-          informales, publicaciones sueltas en grupos de WhatsApp o redes sociales. No hay un lugar centralizado
-          donde un vendedor pueda mostrar su negocio de forma prolija, ni donde un comprador pueda filtrar
-          oportunidades según lo que realmente busca.
+          Vender o comprar una pequeña o mediana empresa hoy es un proceso desordenado: contactos personales,
+          intermediarios informales, anuncios sueltos en grupos de WhatsApp o redes sociales. No hay un lugar
+          centralizado donde un vendedor pueda mostrar su negocio de forma ordenada, ni donde un comprador pueda
+          filtrar oportunidades según lo que realmente busca.
         </p>
         <p className="font-semibold text-primary">Vendo Mi Empresa ordena ese proceso.</p>
       </Section>
 
       <Section title="Cómo funciona">
         <div className="surface-card rounded-[16px] px-6 py-5">
-          <h3 className="mb-2 text-[17px] font-bold text-foreground">1. Entrás en segundos</h3>
+          <h3 className="mb-2 text-[17px] font-bold text-foreground">1. Entras en segundos</h3>
           <p>
-            Solo necesitás tu email y tu teléfono. Te enviamos un código de un solo uso para confirmar que sos vos —
+            Solo necesitas tu correo y tu teléfono. Te enviamos un código de un solo uso para confirmar que eres tú,
             sin contraseñas que crear ni recordar.
           </p>
         </div>
         <div className="surface-card rounded-[16px] px-6 py-5">
-          <h3 className="mb-2 text-[17px] font-bold text-foreground">2. Contás qué buscás</h3>
+          <h3 className="mb-2 text-[17px] font-bold text-foreground">2. Cuentas qué buscas</h3>
           <ul className="flex flex-col gap-2 pl-5">
             <li className="list-disc">
-              <strong className="text-foreground">Si vendés:</strong> publicás los datos de tu empresa — rubro,
+              <strong className="text-foreground">Si vendes:</strong> publicas los datos de tu empresa — sector,
               ubicación, antigüedad, facturación, precio y motivo de venta.
             </li>
             <li className="list-disc">
-              <strong className="text-foreground">Si comprás:</strong> definís tu criterio de búsqueda — rubros de
+              <strong className="text-foreground">Si compras:</strong> defines tu criterio de búsqueda — sectores de
               interés, presupuesto y ubicación preferida.
             </li>
           </ul>
@@ -146,43 +146,43 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
           <h3 className="mb-2 text-[17px] font-bold text-foreground">3. Te avisamos cuando hay match</h3>
           <p>
             Cuando una empresa publicada coincide con lo que un comprador está buscando, se genera un match
-            automático para ambos lados. Desde ahí, cualquiera de las dos partes puede escribirle directamente a la
-            otra con un solo clic.
+            automático para ambas partes. Desde ahí, cualquiera de las dos puede escribir directamente a la otra con
+            un solo clic.
           </p>
         </div>
       </Section>
 
       <Section title="Para quienes venden">
         <p>
-          Dejá de salir a buscar compradores uno por uno. Publicá tu empresa una sola vez y dejá que los compradores
-          interesados lleguen a vos, ya filtrados por rubro y presupuesto.
+          Deja de salir a buscar compradores uno por uno. Publica tu empresa una sola vez y deja que los compradores
+          interesados lleguen a ti, ya filtrados por sector y presupuesto.
         </p>
         <ul className="flex flex-col gap-2 pl-5">
           <li className="list-disc">Publicación en minutos, sin intermediarios.</li>
-          <li className="list-disc">Ves quién está genuinamente interesado antes de responder.</li>
-          <li className="list-disc">Contacto directo, sin comisiones de corretaje.</li>
+          <li className="list-disc">Ves quién está realmente interesado antes de responder.</li>
+          <li className="list-disc">Contacto directo, sin comisiones de intermediación.</li>
         </ul>
       </Section>
 
       <Section title="Para quienes compran">
         <p>
-          Dejá de revisar publicación por publicación buscando algo que tenga sentido. Definí tu criterio una vez y
-          la plataforma te muestra solo lo que matchea con vos.
+          Deja de revisar anuncio por anuncio buscando algo que tenga sentido. Define tu criterio una vez y la
+          plataforma te muestra solo lo que encaja contigo.
         </p>
         <ul className="flex flex-col gap-2 pl-5">
-          <li className="list-disc">Filtrás por rubro, presupuesto y ubicación.</li>
-          <li className="list-disc">Recibís alertas de match, no ruido.</li>
-          <li className="list-disc">Contactás al vendedor con un mensaje que ya incluye tus datos.</li>
+          <li className="list-disc">Filtras por sector, presupuesto y ubicación.</li>
+          <li className="list-disc">Recibes avisos de match, no ruido.</li>
+          <li className="list-disc">Contactas con el vendedor con un mensaje que ya incluye tus datos.</li>
         </ul>
       </Section>
 
       <Section title="Seguridad y privacidad">
         <p>
-          <strong className="text-foreground">Login sin contraseñas.</strong> Verificamos tu identidad con un código
-          de un solo uso enviado a tu email, válido por 5 minutos.
+          <strong className="text-foreground">Acceso sin contraseñas.</strong> Verificamos tu identidad con un código
+          de un solo uso enviado a tu correo, válido durante 5 minutos.
         </p>
         <p>
-          <strong className="text-foreground">Vos controlás qué compartís.</strong> Tus datos de contacto solo se
+          <strong className="text-foreground">Tú controlas qué compartes.</strong> Tus datos de contacto solo se
           muestran cuando hay un match real.
         </p>
         <p>
@@ -194,8 +194,9 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
       <section className="mx-auto w-full max-w-[880px] px-6 pb-4 pt-4">
         <h2 className="mb-2 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Preguntas frecuentes</h2>
         <p className="mb-5 text-[15px] leading-[1.7] text-muted-foreground">
-          Tocá cada pregunta para desplegar la respuesta.
+          Pulsa cada pregunta para desplegar la respuesta.
         </p>
+
         <Accordion type="single" collapsible className="flex flex-col gap-3">
           {FAQS.map((faq, i) => (
             <AccordionItem
