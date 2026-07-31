@@ -231,7 +231,7 @@ function Explore({
                     {c.sector}
                   </span>
                   {match && (
-                    <span className="pill bg-success text-[10px] text-primary-foreground">★ Match con vos</span>
+                    <span className="pill bg-success text-[10px] text-primary-foreground">★ Match contigo</span>
                   )}
                   {c.owner === email && (
                     <button className="text-[11px] text-destructive" onClick={() => onDelete(c.id)}>
