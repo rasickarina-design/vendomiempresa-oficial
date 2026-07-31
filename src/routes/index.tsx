@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { LoginScreen, ProfileScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
 import { Dashboard } from "@/components/dashboard";
+import { LandingScreen } from "@/components/landing";
 import { SiteFooter } from "@/components/site-footer";
 
 import { recordBuyer, recordCompany, recordContact } from "@/lib/admin-db";
@@ -102,10 +103,10 @@ const emptyProfile: Profile = {
   thesis: "",
 };
 
-type Screen = "login" | "verify" | "role" | "profile" | "dashboard";
+type Screen = "landing" | "login" | "verify" | "role" | "profile" | "dashboard";
 
 function Index() {
-  const [screen, setScreen] = useState<Screen>("login");
+  const [screen, setScreen] = useState<Screen>("landing");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [pendingCode, setPendingCode] = useState("");
@@ -180,6 +181,8 @@ function Index() {
 
   return (
     <div className="flex min-h-screen flex-col">
+
+      {screen === "landing" && <LandingScreen onLogin={() => setScreen("login")} />}
 
       {screen === "login" && (
         <LoginScreen
