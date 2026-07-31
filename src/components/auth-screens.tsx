@@ -170,8 +170,8 @@ export function VerifyScreen({
 
   const verify = () => {
     const entered = digits.join("");
-    if (entered.length < 6) return setError("Completá los 6 dígitos.");
-    if (Date.now() > codeExpires) return setError("El código expiró. Volvé atrás y pedí uno nuevo.");
+    if (entered.length < 6) return setError("Completa los 6 dígitos.");
+    if (Date.now() > codeExpires) return setError("El código ha caducado. Vuelve atrás y pide uno nuevo.");
     if (entered !== pendingCode) {
       const next = attempts + 1;
       setAttempts(next);
@@ -190,16 +190,18 @@ export function VerifyScreen({
   return (
     <AuthCard>
       <Eyebrow>Paso 2 de 2</Eyebrow>
-      <h1 className="mb-2 text-[26px] font-bold text-primary">Confirmá tu email</h1>
+      <h1 className="mb-2 text-[26px] font-bold text-primary">Confirma tu correo</h1>
       <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-        Enviamos un código de 6 dígitos a {maskEmail(email)}. Válido por {minutesLeft} min.
+        Hemos enviado un código de 6 dígitos a {maskEmail(email)}. Válido durante {minutesLeft} min.
       </p>
 
       <div className="mb-5 rounded-[10px] border border-dashed border-primary-dim bg-primary-soft px-3 py-3 text-[12.5px] leading-relaxed text-primary">
-        MODO DEMO — esta app todavía no tiene un servicio de envío de emails conectado, así que te mostramos el
-        código acá: <b className="font-mono text-[15px] tracking-[0.15em]">{pendingCode}</b>. En producción
-        llegaría solo a tu casilla.
+        MODO DEMO — esta aplicación todavía no tiene un servicio de envío de correos conectado, así que te mostramos
+        el código aquí: <b className="font-mono text-[15px] tracking-[0.15em]">{pendingCode}</b>. En producción
+        llegaría solo a tu buzón.
       </div>
+
+
 
       <div className="mb-4 flex justify-between gap-2">
         {digits.map((d, i) => (
