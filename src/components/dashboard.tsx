@@ -334,7 +334,7 @@ function PublishForm({
           <input className="field-input" maxLength={100} value={f.name} onChange={(e) => set("name", e.target.value)} />
         </div>
         <div>
-          <label className="field-label">Rubro / Sector</label>
+          <label className="field-label">Sector</label>
           <input
             className="field-input"
             maxLength={60}
