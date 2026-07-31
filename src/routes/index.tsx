@@ -20,7 +20,8 @@ import {
 
 const TITLE = "Vendomiempresa — Marketplace de compra y venta de empresas";
 const DESCRIPTION =
-  "Publicá tu empresa en venta o definí qué querés comprar. Login sin contraseña y matches automáticos entre vendedores y compradores.";
+  "Publica tu empresa en venta o define qué quieres comprar. Acceso sin contraseña y matches automáticos entre vendedores y compradores.";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
