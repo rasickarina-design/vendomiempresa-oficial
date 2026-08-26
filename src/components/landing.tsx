@@ -41,9 +41,14 @@ const FAQS: { q: string; a: string }[] = [
     a: "Sí. Al crear tu cuenta puedes elegir el rol de vendedor, comprador o ambos. Si eliges ambos, publicas tu empresa y defines tu criterio de búsqueda en el mismo perfil, y recibes los matches de las dos partes por separado.",
   },
   {
+    q: "¿Cómo preparo y comparto los balances de mi empresa?",
+    a: "Reúne los balances y la cuenta de resultados de los tres últimos ejercicios cerrados en PDF (o Excel), súbelos a una carpeta de Google Drive y pega en la publicación el enlace de esa carpeta. Configura el enlace como «Cualquier persona con el enlace puede ver» y no incluyas datos personales de empleados ni clientes. El enlace solo se comparte con la contraparte cuando existe un match.",
+  },
+  {
     q: "¿Tiene coste usar la plataforma?",
     a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene coste, y el contacto entre las partes es directo: no cobramos comisión sobre la operación entre las partes.",
   },
+
 ];
 
 
@@ -160,6 +165,47 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
           <li className="list-disc">Contacto directo, sin comisiones de intermediación.</li>
         </ul>
       </Section>
+
+      <Section title="Prepara tus balances antes de publicar">
+        <p>
+          Un comprador serio pedirá números. Ten la documentación económica lista y alojada en un enlace de Google
+          Drive: en la publicación solo tendrás que pegar ese enlace en el campo «Enlace a balances».
+        </p>
+        <div className="surface-card rounded-[16px] px-6 py-5">
+          <h3 className="mb-2 text-[17px] font-bold text-foreground">1. Reúne la documentación</h3>
+          <ul className="flex flex-col gap-2 pl-5">
+            <li className="list-disc">Balances y cuenta de resultados de los 3 últimos ejercicios cerrados.</li>
+            <li className="list-disc">Facturación del ejercicio en curso (acumulado mes a mes).</li>
+            <li className="list-disc">Deuda actual, préstamos y avales vigentes, si los hay.</li>
+            <li className="list-disc">Inventario de activos relevantes: maquinaria, vehículos, local, licencias.</li>
+          </ul>
+        </div>
+        <div className="surface-card rounded-[16px] px-6 py-5">
+          <h3 className="mb-2 text-[17px] font-bold text-foreground">2. Súbelo a Google Drive</h3>
+          <ul className="flex flex-col gap-2 pl-5">
+            <li className="list-disc">
+              Crea una carpeta en Google Drive con un nombre neutro (por ejemplo, «Documentación económica 2024»).
+            </li>
+            <li className="list-disc">Sube los archivos en PDF o Excel, con nombres claros por año.</li>
+            <li className="list-disc">
+              Pulsa <strong className="text-foreground">Compartir → Cualquier persona con el enlace → Lector</strong> y
+              copia el enlace.
+            </li>
+          </ul>
+        </div>
+        <div className="surface-card rounded-[16px] px-6 py-5">
+          <h3 className="mb-2 text-[17px] font-bold text-foreground">3. Pega el enlace en tu publicación</h3>
+          <p>
+            Añade el enlace de la carpeta en el campo «Enlace a balances» al publicar tu empresa. Solo se comparte con
+            la contraparte cuando se produce un match, nunca con visitantes que exploran el listado.
+          </p>
+        </div>
+        <p className="text-muted-foreground">
+          Recomendación: no incluyas datos personales de empleados o clientes, y revoca el acceso al enlace cuando
+          cierres la operación.
+        </p>
+      </Section>
+
 
       <Section title="Para quienes compran">
         <p>
