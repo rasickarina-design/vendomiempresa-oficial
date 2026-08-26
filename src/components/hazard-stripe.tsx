@@ -44,21 +44,29 @@ export function HazardCorner({
   );
 }
 
-/** Banda industrial grande con texto. */
+/** Banda industrial grande con texto.
+ *  variant="solid" = fondo amarillo completo con letras negras.
+ *  variant="stripe" (default) = patrón diagonal negro/amarillo.
+ */
 export function HazardBanner({
   text,
   className = "",
+  variant = "stripe",
 }: {
   text: string;
   className?: string;
+  variant?: "stripe" | "solid";
 }) {
+  const isSolid = variant === "solid";
   return (
     <div
       aria-hidden
-      className={`relative w-full overflow-hidden py-6 ${className}`}
-      style={stripeStyle}
+      className={`relative w-full overflow-hidden py-6 ${isSolid ? "bg-primary" : ""} ${className}`}
+      style={isSolid ? undefined : stripeStyle}
     >
-      <div className="hero-stencil flex items-center justify-center text-[clamp(56px,10vw,112px)] font-extrabold uppercase leading-none tracking-[0.06em] text-primary-foreground drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)]">
+      <div
+        className={`hero-stencil flex items-center justify-center text-[clamp(56px,10vw,112px)] font-extrabold uppercase leading-none tracking-[0.06em] ${isSolid ? "text-background" : "text-primary-foreground drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)]"}`}
+      >
         {text}
       </div>
     </div>
