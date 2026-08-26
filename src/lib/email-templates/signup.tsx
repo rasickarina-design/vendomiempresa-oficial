@@ -48,6 +48,12 @@ export const SignupEmail = ({
         <Text style={footer}>
           Si no has solicitado este acceso, puedes ignorar este correo.
         </Text>
+        <Text style={footer}>
+          Atención al cliente:{' '}
+          <Link href="mailto:contact@makebusinessesflow.com" style={link}>
+            contact@makebusinessesflow.com
+          </Link>
+        </Text>
         <Text style={footer}>Powered by Make Business Flow</Text>
       </Container>
     </Body>

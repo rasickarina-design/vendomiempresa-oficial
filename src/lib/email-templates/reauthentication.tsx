@@ -33,6 +33,9 @@ export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => 
           El código caduca en unos minutos. Si no has solicitado esta
           verificación, puedes ignorar este correo.
         </Text>
+        <Text style={footer}>
+          Atención al cliente: contact@makebusinessesflow.com
+        </Text>
         <Text style={footer}>Powered by Make Business Flow</Text>
       </Container>
     </Body>

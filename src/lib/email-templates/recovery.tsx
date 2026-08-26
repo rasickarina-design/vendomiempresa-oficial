@@ -39,6 +39,12 @@ export const RecoveryEmail = ({
           Si no has solicitado este cambio, puedes ignorar este correo: tu
           contraseña no se modificará.
         </Text>
+        <Text style={footer}>
+          Atención al cliente:{' '}
+          <Link href="mailto:contact@makebusinessesflow.com" style={link}>
+            contact@makebusinessesflow.com
+          </Link>
+        </Text>
         <Text style={footer}>Powered by Make Business Flow</Text>
       </Container>
     </Body>
