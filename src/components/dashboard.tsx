@@ -540,6 +540,7 @@ function PublishForm({
       googleProfile: f.googleProfile.trim(),
       mapsUrl: f.mapsUrl.trim(),
       financialsUrl: f.financialsUrl.trim(),
+      websiteUrl: f.websiteUrl.trim(),
       age: f.age.trim() || "—",
 
       revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
