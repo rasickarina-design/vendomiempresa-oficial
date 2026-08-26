@@ -9,15 +9,13 @@ import {
   Html,
   Link,
   Preview,
+  Section,
   Text,
 } from '@react-email/components'
 
 interface EmailChangeEmailProps {
   siteName: string
-  // oldEmail is the user's current address (HookData.OldEmail). For the
-  // NEW-recipient half of a secure email_change fanout, `email` equals the
-  // recipient (NEW), so the "from" line must render oldEmail to read
-  // "from OLD to NEW" instead of "from NEW to NEW".
+  // oldEmail es la dirección actual del usuario (HookData.OldEmail).
   oldEmail: string
   email: string
   newEmail: string
@@ -30,33 +28,32 @@ export const EmailChangeEmail = ({
   newEmail,
   confirmationUrl,
 }: EmailChangeEmailProps) => (
-  <Html lang="en" dir="ltr">
+  <Html lang="es" dir="ltr">
     <Head />
-    <Preview>Confirm your email change for {siteName}</Preview>
+    <Preview>Confirma el cambio de email en {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Confirm your email change</Heading>
+        <Section style={stripe} />
+        <Heading style={h1}>Confirma el cambio de email</Heading>
         <Text style={text}>
-          You requested to change your email address for {siteName} from{' '}
+          Has solicitado cambiar tu dirección de email en {siteName} de{' '}
           <Link href={`mailto:${oldEmail}`} style={link}>
             {oldEmail}
           </Link>{' '}
-          to{' '}
+          a{' '}
           <Link href={`mailto:${newEmail}`} style={link}>
             {newEmail}
           </Link>
           .
         </Text>
-        <Text style={text}>
-          Click the button below to confirm this change:
-        </Text>
+        <Text style={text}>Pulsa el botón para confirmar el cambio:</Text>
         <Button style={button} href={confirmationUrl}>
-          Confirm Email Change
+          Confirmar cambio de email
         </Button>
         <Text style={footer}>
-          If you didn't request this change, please secure your account
-          immediately.
+          Si no has solicitado este cambio, protege tu cuenta cuanto antes.
         </Text>
+        <Text style={footer}>Powered by Make Business Flow</Text>
       </Container>
     </Body>
   </Html>
@@ -64,27 +61,39 @@ export const EmailChangeEmail = ({
 
 export default EmailChangeEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const main = { backgroundColor: '#0b0b0b', fontFamily: 'Arial, sans-serif' }
+const container = {
+  padding: '24px 28px',
+  backgroundColor: '#111111',
+  borderRadius: '10px',
+  maxWidth: '520px',
+}
+const stripe = {
+  height: '8px',
+  borderRadius: '4px',
+  backgroundColor: '#f5c400',
+  marginBottom: '20px',
+}
 const h1 = {
-  fontSize: '22px',
+  fontSize: '24px',
   fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
+  color: '#ffffff',
+  margin: '0 0 16px',
 }
 const text = {
-  fontSize: '14px',
-  color: '#55575d',
+  fontSize: '15px',
+  color: '#c9c9c9',
   lineHeight: '1.5',
-  margin: '0 0 25px',
+  margin: '0 0 18px',
 }
-const link = { color: 'inherit', textDecoration: 'underline' }
+const link = { color: '#f5c400', textDecoration: 'underline' }
 const button = {
-  backgroundColor: '#000000',
-  color: '#ffffff',
-  fontSize: '14px',
+  backgroundColor: '#f5c400',
+  color: '#000000',
+  fontSize: '15px',
+  fontWeight: 'bold' as const,
   borderRadius: '8px',
   padding: '12px 20px',
   textDecoration: 'none',
 }
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const footer = { fontSize: '12px', color: '#7c7c7c', margin: '28px 0 0' }
