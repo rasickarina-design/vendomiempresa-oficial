@@ -93,4 +93,5 @@ const code = {
   color: '#f5c400',
   margin: '0',
 }
+const link = { color: '#f5c400', textDecoration: 'underline' }
 const footer = { fontSize: '12px', color: '#7c7c7c', margin: '28px 0 0' }
