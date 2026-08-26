@@ -421,6 +421,16 @@ function Explore({
                     Ver balances y estados de resultados →
                   </a>
                 )}
+                {c.websiteUrl && (
+                  <a
+                    className="mt-1 block text-[11.5px] text-primary underline"
+                    href={c.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visitar web de la empresa →
+                  </a>
+                )}
 
                 <ShareLinkButton companyId={c.id} />
               </article>
