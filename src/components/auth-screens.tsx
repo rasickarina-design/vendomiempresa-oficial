@@ -6,6 +6,8 @@ import { digitsOnly, formatAmountInput } from "./dashboard";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { SectorPicker } from "./sector-picker";
 import { CountrySelect } from "./country-select";
+import { HazardCorner } from "./hazard-stripe";
+import { Factory, Handshake, Lock, Search, type LucideIcon } from "lucide-react";
 
 
 interface Profile {
@@ -31,7 +33,10 @@ export function AuthCard({ children }: { children: React.ReactNode }) {
             "radial-gradient(circle, color-mix(in oklch, var(--primary) 8%, transparent) 0%, transparent 65%)",
         }}
       />
-      <div className="surface-card relative z-[1] w-full max-w-[440px] rounded-[20px] px-8 py-9">{children}</div>
+      <div className="surface-card relative z-[1] w-full max-w-[440px] overflow-hidden rounded-[20px] px-8 py-9">
+        <HazardCorner size={32} />
+        {children}
+      </div>
     </div>
   );
 }
@@ -101,7 +106,7 @@ export function LoginScreen({
         className="mb-4 h-16 w-16 rounded-xl object-contain"
       />
       <Eyebrow>Portal de empresas en venta</Eyebrow>
-      <h1 className="mb-3 text-[34px] font-bold uppercase leading-[1.05] tracking-[0.02em] text-primary max-[560px]:text-[28px]">
+      <h1 className="hero-stencil mb-4 text-[58px] uppercase text-primary max-[560px]:text-[42px]">
         Vendo Mi Empresa
       </h1>
       <p className="mb-3 text-[17px] font-semibold leading-snug text-foreground">
@@ -151,7 +156,7 @@ export function LoginScreen({
       </button>
 
       <div className="mt-6 flex items-start gap-2.5 rounded-[10px] border border-border-soft bg-input px-3 py-3">
-        <span className="text-primary">🔒</span>
+        <Lock className="mt-px shrink-0 text-primary" size={16} strokeWidth={2} />
         <p className="text-[11.5px] leading-relaxed text-muted-foreground">
           No usamos contraseñas. Te enviamos un código de 6 dígitos a tu correo, válido durante 5 minutos, para
           confirmar que eres tú.
@@ -288,22 +293,22 @@ export function VerifyScreen({
 
 
 export function RoleScreen({ onPick }: { onPick: (role: Role) => void }) {
-  const opts: Array<{ role: Role; icon: string; title: string; sub: string }> = [
+  const opts: Array<{ role: Role; icon: LucideIcon; title: string; sub: string }> = [
     {
       role: "seller",
-      icon: "🏢",
+      icon: Factory,
       title: "Vendo mi empresa",
       sub: "Quiero publicar los datos de mi empresa para encontrar compradores.",
     },
     {
       role: "buyer",
-      icon: "🔎",
+      icon: Search,
       title: "Busco comprar una empresa",
       sub: "Quiero definir qué busco y que me avisen cuando haya match.",
     },
     {
       role: "both",
-      icon: "🤝",
+      icon: Handshake,
       title: "Las dos cosas",
       sub: "Vendo una empresa y también estoy evaluando comprar otra.",
     },
@@ -323,7 +328,7 @@ export function RoleScreen({ onPick }: { onPick: (role: Role) => void }) {
             onClick={() => onPick(o.role)}
             className="flex cursor-pointer items-center gap-3.5 rounded-xl border border-border bg-input p-4 text-left transition hover:border-primary-dim hover:bg-card-hover"
           >
-            <span className="text-[22px]">{o.icon}</span>
+            <o.icon className="shrink-0 text-primary" size={26} strokeWidth={2} />
             <span>
               <span className="mb-0.5 block text-sm font-bold">{o.title}</span>
               <span className="block text-xs text-muted-foreground">{o.sub}</span>
