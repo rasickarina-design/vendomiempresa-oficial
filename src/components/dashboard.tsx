@@ -460,6 +460,7 @@ function PublishForm({
     googleProfile: "",
     mapsUrl: "",
     financialsUrl: "",
+    websiteUrl: "",
     age: "",
 
     revenue: "",
