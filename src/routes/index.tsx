@@ -6,12 +6,15 @@ import { LandingScreen } from "@/components/landing";
 import { SiteFooter } from "@/components/site-footer";
 
 import { recordBuyer, recordCompany, recordContact, saveProfile } from "@/lib/admin-db";
+import { notifyMatch } from "@/lib/match-emails.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchPublicCompany, toCompany } from "@/lib/public-company";
 import {
   KEY_BUYERS,
   KEY_COMPANIES,
   KEY_CONTACTS,
+  fmtMoney,
+  isMatch,
   loadList,
   saveList,
   type Buyer,
@@ -19,6 +22,7 @@ import {
   type ContactLog,
   type Role,
 } from "@/lib/marketplace";
+
 
 const TITLE = "Vendomiempresa — Marketplace de compra y venta de empresas";
 const DESCRIPTION =
