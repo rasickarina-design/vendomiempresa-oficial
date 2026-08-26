@@ -79,6 +79,8 @@ function Section({
 export function LandingScreen({ onLogin }: { onLogin: () => void }) {
   return (
     <main className="flex-1">
+      <HazardBanner text="VENDO" variant="solid" />
+
       <section className="relative overflow-hidden px-6 pb-12 pt-14">
         <div
           aria-hidden
@@ -111,8 +113,6 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
           <LoginButton onLogin={onLogin} />
         </div>
       </section>
-
-      <HazardBanner text="VENDO" />
 
       <Section title="El problema">
         <p>
