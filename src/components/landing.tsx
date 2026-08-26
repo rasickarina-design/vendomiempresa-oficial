@@ -9,16 +9,8 @@ import {
 
 const FAQS: { q: string; a: string }[] = [
   {
-    q: "¿Cómo funciona el acceso con código?",
-    a: "No usas contraseña. Introduces tu correo en la pantalla de acceso y te enviamos un código numérico de un solo uso. Lo copias en la aplicación y entras. El código caduca a los 5 minutos y solo sirve una vez, así que nadie puede reutilizarlo. Si caduca, pides uno nuevo desde la misma pantalla.",
-  },
-  {
-    q: "¿Necesito crear una contraseña?",
-    a: "No. El acceso es siempre con el código que llega a tu correo, así no hay contraseñas que recordar, ni que reciclar, ni que se puedan filtrar. Cada vez que quieras entrar desde un dispositivo nuevo, repites el mismo paso de 30 segundos.",
-  },
-  {
-    q: "¿Qué pasa si no me llega el código?",
-    a: "Primero revisa las carpetas de spam y promociones, y comprueba que el correo esté bien escrito (sin espacios ni letras de más). Si tu correo es corporativo, puede haber un filtro interno retrasándolo un minuto. Puedes volver a solicitar el código desde la pantalla de acceso todas las veces que necesites: siempre vale el último que hayas recibido.",
+    q: "¿En qué me puede ayudar la plataforma?",
+    a: "Además de conectar compradores y vendedores, podemos ayudarte a armar una carpeta de presentación de tu empresa para el comprador, analizar los números del negocio si estás del lado comprador, y ponerte en contacto con bancos internacionales y family desks que puedan acompañar la operación.",
   },
   {
     q: "¿Qué es exactamente un match?",
@@ -45,10 +37,6 @@ const FAQS: { q: string; a: string }[] = [
     a: "Reúne los balances y la cuenta de resultados de los tres últimos ejercicios cerrados en PDF (o Excel), súbelos a una carpeta de Google Drive y pega en la publicación el enlace de esa carpeta. Configura el enlace como «Cualquier persona con el enlace puede ver» y no incluyas datos personales de empleados ni clientes. El enlace solo se comparte con la contraparte cuando existe un match.",
   },
   {
-    q: "¿En qué me puede ayudar la plataforma?",
-    a: "Además de conectar compradores y vendedores, podemos ayudarte a armar una carpeta de presentación de tu empresa para el comprador, analizar los números del negocio si estás del lado comprador, y ponerte en contacto con bancos internacionales y family desks que puedan acompañar la operación.",
-  },
-  {
     q: "Si soy un banco o family desk, ¿cómo obtengo el listado de empresas en venta?",
     a: "Si sos un banco o family desk interesado en nuestra base de datos, podés escribirnos a contact@makebusinessesflow.com o suscribirte como comprador y buscar tu match dentro de la plataforma.",
   },
@@ -56,7 +44,18 @@ const FAQS: { q: string; a: string }[] = [
     q: "¿Tiene coste usar la plataforma?",
     a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene coste, y el contacto entre las partes es directo: no cobramos comisión sobre la operación entre las partes.",
   },
-
+  {
+    q: "¿Cómo funciona el acceso con código?",
+    a: "No usas contraseña. Introduces tu correo en la pantalla de acceso y te enviamos un código numérico de un solo uso. Lo copias en la aplicación y entras. El código caduca a los 5 minutos y solo sirve una vez, así que nadie puede reutilizarlo. Si caduca, pides uno nuevo desde la misma pantalla.",
+  },
+  {
+    q: "¿Necesito crear una contraseña?",
+    a: "No. El acceso es siempre con el código que llega a tu correo, así no hay contraseñas que recordar, ni que reciclar, ni que se puedan filtrar. Cada vez que quieras entrar desde un dispositivo nuevo, repites el mismo paso de 30 segundos.",
+  },
+  {
+    q: "¿Qué pasa si no me llega el código?",
+    a: "Primero revisa las carpetas de spam y promociones, y comprueba que el correo esté bien escrito (sin espacios ni letras de más). Si tu correo es corporativo, puede haber un filtro interno retrasándolo un minuto. Puedes volver a solicitar el código desde la pantalla de acceso todas las veces que necesites: siempre vale el último que hayas recibido.",
+  },
 ];
 
 
