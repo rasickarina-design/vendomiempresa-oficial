@@ -521,6 +521,10 @@ function PublishForm({
       setError("El enlace de balances debe ser una URL válida de Google Drive (https://).");
       return;
     }
+    if (f.websiteUrl.trim() && !/^https?:\/\/\S+$/i.test(f.websiteUrl.trim())) {
+      setError("El enlace de la web debe ser una URL válida (https://).");
+      return;
+    }
     setError("");
     onOwnerName(f.ownerName.trim());
 
