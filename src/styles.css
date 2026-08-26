@@ -43,9 +43,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-stencil: "Big Shoulders Stencil", "Space Grotesk", ui-sans-serif, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-stencil: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -130,9 +130,9 @@
 
   .hero-stencil {
     font-family: var(--font-stencil);
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    line-height: 0.92;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 0.95;
   }
 
   .card-hairline {
