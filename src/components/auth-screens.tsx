@@ -273,6 +273,10 @@ export function VerifyScreen({
             inputMode="numeric"
             className="h-14 w-[46px] rounded-[10px] border border-border bg-input text-center font-mono text-[22px] font-bold text-primary outline-none transition focus:border-primary focus:ring-[3px] focus:ring-primary-soft max-[560px]:h-[50px] max-[560px]:w-[38px] max-[560px]:text-lg"
             value={d}
+            onPaste={(ev) => {
+              ev.preventDefault();
+              fill(ev.clipboardData.getData("text"), i);
+            }}
             onChange={(ev) => setDigit(i, ev.target.value)}
             onKeyDown={(ev) => {
               if (ev.key === "Backspace" && !d && refs.current[i - 1]) refs.current[i - 1]?.focus();
