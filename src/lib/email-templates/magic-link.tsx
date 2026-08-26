@@ -32,7 +32,7 @@ export const MagicLinkEmail = ({
         <Section style={stripe} />
         <Heading style={h1}>Tu código de acceso</Heading>
         <Text style={text}>
-          Introduce este código de 6 dígitos en {siteName} para entrar. Caduca
+          Introduce este código de 8 dígitos en {siteName} para entrar. Caduca
           en unos minutos.
         </Text>
         {token ? (
