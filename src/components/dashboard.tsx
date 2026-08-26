@@ -973,11 +973,7 @@ function Matches({
             Según los sectores y el presupuesto que definiste en "Buscar para comprar".
           </p>
           {buyerMatches.length === 0 ? (
-            <EmptyState
-              title="Todavía no hay matches"
-              text="Aquí te mostraremos las empresas publicadas que coincidan con tu búsqueda."
-
-            />
+            <NearMatches myBuyer={myBuyer} companies={companies} contacts={contacts} onContact={onContact} />
           ) : (
             buyerMatches.map((c) => {
               const key = contactKey(myBuyer.email, c.id);
