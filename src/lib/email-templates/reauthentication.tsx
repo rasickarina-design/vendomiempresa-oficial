@@ -6,25 +6,31 @@ import {
   Head,
   Heading,
   Html,
+  Link,
   Preview,
   Section,
   Text,
 } from '@react-email/components'
 
 interface ReauthenticationEmailProps {
+  siteName: string
   token: string
 }
 
-export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => (
+export const ReauthenticationEmail = ({
+  siteName,
+  token,
+}: ReauthenticationEmailProps) => (
   <Html lang="es" dir="ltr">
     <Head />
-    <Preview>Tu código de verificación</Preview>
+    <Preview>Tu código de verificación de {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={stripe} />
-        <Heading style={h1}>Confirma tu identidad</Heading>
+        <Heading style={h1}>Confirma tu identidad en {siteName}</Heading>
         <Text style={text}>
-          Introduce este código de 6 dígitos para confirmar tu identidad:
+          Introduce este código de 6 dígitos para confirmar tu identidad en{' '}
+          {siteName}:
         </Text>
         <Section style={codeBox}>
           <Text style={code}>{token}</Text>
@@ -34,7 +40,10 @@ export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => 
           verificación, puedes ignorar este correo.
         </Text>
         <Text style={footer}>
-          Atención al cliente: contact@makebusinessesflow.com
+          Atención al cliente:{' '}
+          <Link href="mailto:contact@makebusinessesflow.com" style={link}>
+            contact@makebusinessesflow.com
+          </Link>
         </Text>
         <Text style={footer}>Powered by Make Business Flow</Text>
       </Container>
