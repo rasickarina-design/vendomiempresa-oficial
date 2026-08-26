@@ -7,50 +7,48 @@ import {
   Head,
   Heading,
   Html,
-  Link,
   Preview,
+  Section,
   Text,
 } from '@react-email/components'
 
 interface SignupEmailProps {
   siteName: string
-  siteUrl: string
-  recipient: string
+  siteUrl?: string
+  recipient?: string
   confirmationUrl: string
+  token?: string
 }
 
 export const SignupEmail = ({
   siteName,
-  siteUrl,
-  recipient,
   confirmationUrl,
+  token,
 }: SignupEmailProps) => (
-  <Html lang="en" dir="ltr">
+  <Html lang="es" dir="ltr">
     <Head />
-    <Preview>Confirm your email for {siteName}</Preview>
+    <Preview>Tu código de acceso a {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Confirm your email</Heading>
+        <Section style={stripe} />
+        <Heading style={h1}>Bienvenido a {siteName}</Heading>
         <Text style={text}>
-          Thanks for signing up for{' '}
-          <Link href={siteUrl} style={link}>
-            <strong>{siteName}</strong>
-          </Link>
-          !
+          Introduce este código de 6 dígitos en la pantalla de acceso para
+          confirmar tu email y entrar. Caduca en unos minutos.
         </Text>
-        <Text style={text}>
-          Please confirm your email address (
-          <Link href={`mailto:${recipient}`} style={link}>
-            {recipient}
-          </Link>
-          ) by clicking the button below:
-        </Text>
+        {token ? (
+          <Section style={codeBox}>
+            <Text style={code}>{token}</Text>
+          </Section>
+        ) : null}
+        <Text style={text}>O confirma directamente con este botón:</Text>
         <Button style={button} href={confirmationUrl}>
-          Verify Email
+          Confirmar y entrar
         </Button>
         <Text style={footer}>
-          If you didn't create an account, you can safely ignore this email.
+          Si no has solicitado este acceso, puedes ignorar este correo.
         </Text>
+        <Text style={footer}>Powered by Make Business Flow</Text>
       </Container>
     </Body>
   </Html>
@@ -58,27 +56,53 @@ export const SignupEmail = ({
 
 export default SignupEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const main = { backgroundColor: '#0b0b0b', fontFamily: 'Arial, sans-serif' }
+const container = {
+  padding: '24px 28px',
+  backgroundColor: '#111111',
+  borderRadius: '10px',
+  maxWidth: '520px',
+}
+const stripe = {
+  height: '8px',
+  borderRadius: '4px',
+  backgroundColor: '#f5c400',
+  marginBottom: '20px',
+}
 const h1 = {
-  fontSize: '22px',
+  fontSize: '24px',
   fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
+  color: '#ffffff',
+  margin: '0 0 16px',
 }
 const text = {
-  fontSize: '14px',
-  color: '#55575d',
+  fontSize: '15px',
+  color: '#c9c9c9',
   lineHeight: '1.5',
-  margin: '0 0 25px',
+  margin: '0 0 18px',
 }
-const link = { color: 'inherit', textDecoration: 'underline' }
-const button = {
+const codeBox = {
   backgroundColor: '#000000',
-  color: '#ffffff',
-  fontSize: '14px',
+  border: '2px solid #f5c400',
+  borderRadius: '8px',
+  padding: '14px',
+  textAlign: 'center' as const,
+  margin: '0 0 22px',
+}
+const code = {
+  fontSize: '32px',
+  letterSpacing: '10px',
+  fontWeight: 'bold' as const,
+  color: '#f5c400',
+  margin: '0',
+}
+const button = {
+  backgroundColor: '#f5c400',
+  color: '#000000',
+  fontSize: '15px',
+  fontWeight: 'bold' as const,
   borderRadius: '8px',
   padding: '12px 20px',
   textDecoration: 'none',
 }
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const footer = { fontSize: '12px', color: '#7c7c7c', margin: '28px 0 0' }
