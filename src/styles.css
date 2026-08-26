@@ -45,6 +45,7 @@
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-stencil: "Big Shoulders Stencil", "Space Grotesk", ui-sans-serif, sans-serif;
 }
 
 :root {
@@ -125,6 +126,17 @@
 
   .surface-card {
     @apply rounded-2xl border border-border bg-card;
+  }
+
+  .hero-stencil {
+    font-family: var(--font-stencil);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 0.92;
+  }
+
+  .card-hairline {
+    @apply relative rounded-none border-0 border-t-2 border-t-primary bg-card;
   }
 
   .pill {
