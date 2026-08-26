@@ -111,10 +111,6 @@ export function maskEmail(e: string) {
   return u.slice(0, 2) + "*".repeat(Math.max(u.length - 2, 1)) + "@" + d;
 }
 
-export function genCode() {
-  return String(Math.floor(100000 + Math.random() * 900000));
-}
-
 export function fmtMoney(amount: number | string | null | undefined, currency: string) {
   if (!amount) return "A convenir";
   return currency + " " + Number(amount).toLocaleString("es-AR");

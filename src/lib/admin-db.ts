@@ -3,8 +3,29 @@ import type { Buyer, Company } from "./marketplace";
 
 /** Mirror app activity into the internal (admin-only) database. */
 
+async function currentUserId() {
+  const { data } = await supabase.auth.getUser();
+  return data.user?.id ?? null;
+}
+
+/** Link the verified email + phone to the real auth user (auth.uid()). */
+export async function saveProfile(params: { email: string; phone: string; name?: string }) {
+  const { data } = await supabase.auth.getUser();
+  const user = data.user;
+  if (!user) return;
+  const { error } = await supabase.from("profiles").upsert({
+    id: user.id,
+    email: user.email ?? params.email,
+    phone: params.phone || null,
+    name: params.name || null,
+  });
+  if (error) console.error("saveProfile", error.message);
+}
+
 export async function recordCompany(c: Company) {
+  const userId = await currentUserId();
   const { error } = await supabase.from("companies").insert({
+    user_id: userId,
     share_ref: c.id,
     name: c.name,
     sector: c.sector,
@@ -33,7 +54,9 @@ export async function recordCompany(c: Company) {
 }
 
 export async function recordBuyer(b: Buyer) {
+  const userId = await currentUserId();
   const { error } = await supabase.from("buyers").insert({
+    user_id: userId,
     name: b.name,
     email: b.email,
     phone: b.phone,

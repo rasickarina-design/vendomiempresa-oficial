@@ -30,6 +30,7 @@ export type Database = {
           role: string | null
           sectors: string
           thesis: string | null
+          user_id: string | null
         }
         Insert: {
           budget_max?: number | null
@@ -46,6 +47,7 @@ export type Database = {
           role?: string | null
           sectors: string
           thesis?: string | null
+          user_id?: string | null
         }
         Update: {
           budget_max?: number | null
@@ -62,6 +64,7 @@ export type Database = {
           role?: string | null
           sectors?: string
           thesis?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -89,6 +92,7 @@ export type Database = {
           revenue: string | null
           sector: string
           share_ref: string | null
+          user_id: string | null
         }
         Insert: {
           age?: string | null
@@ -113,6 +117,7 @@ export type Database = {
           revenue?: string | null
           sector: string
           share_ref?: string | null
+          user_id?: string | null
         }
         Update: {
           age?: string | null
@@ -137,6 +142,7 @@ export type Database = {
           revenue?: string | null
           sector?: string
           share_ref?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -164,6 +170,33 @@ export type Database = {
           created_at?: string
           direction?: string | null
           id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string | null
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          name?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string | null
+          phone?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
