@@ -605,27 +605,29 @@ function PublishForm({
           />
         </div>
         <div>
-          <label className="field-label">Ciudad</label>
+          <label className="field-label">Ciudad (obligatorio)</label>
           <input
             className="field-input"
             placeholder="Madrid"
             maxLength={80}
+            required
             value={f.city}
             onChange={(e) => set("city", e.target.value)}
           />
         </div>
         <div>
-          <label className="field-label">Código postal</label>
+          <label className="field-label">Código postal (obligatorio)</label>
           <input
             className="field-input"
             placeholder="28013"
             maxLength={12}
+            required
             value={f.postalCode}
             onChange={(e) => set("postalCode", e.target.value)}
           />
         </div>
         <div>
-          <label className="field-label">País</label>
+          <label className="field-label">País (obligatorio)</label>
           <CountrySelect value={f.country} onChange={(v) => set("country", v)} />
         </div>
 
