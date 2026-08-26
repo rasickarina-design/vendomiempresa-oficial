@@ -115,7 +115,7 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
               "radial-gradient(circle, color-mix(in oklch, var(--primary) 10%, transparent) 0%, transparent 65%)",
           }}
         />
-        <div className="relative z-[1] mx-auto w-full max-w-[880px]">
+        <div className="relative z-[1] mx-auto flex w-full max-w-[880px] flex-col items-center text-center">
           <img src={logoAsset.url} alt="Logo Vendo Mi Empresa" className="mb-5 h-20 w-20 rounded-xl object-contain" />
           <h1 className="mb-4 text-[44px] font-bold uppercase leading-[1.05] tracking-[0.02em] text-primary max-[560px]:text-[32px]">
             Vendo Mi Empresa
