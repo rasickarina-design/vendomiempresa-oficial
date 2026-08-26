@@ -728,10 +728,11 @@ function PublishForm({
           </select>
         </div>
         <div className="sm:col-span-2">
-          <label className="field-label">Descripción y motivo de venta</label>
+          <label className="field-label">Descripción y motivo de venta (obligatorio)</label>
           <textarea
             className="field-input min-h-20 resize-y"
             maxLength={1000}
+            required
             value={f.desc}
             onChange={(e) => set("desc", e.target.value)}
           />
