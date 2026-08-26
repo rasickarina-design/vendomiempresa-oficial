@@ -686,11 +686,12 @@ function PublishForm({
         </div>
 
         <div>
-          <label className="field-label">Años operativos</label>
+          <label className="field-label">Años operativos (obligatorio)</label>
           <input
             className="field-input"
             placeholder="12"
             maxLength={40}
+            required
             value={f.age}
             onChange={(e) => set("age", e.target.value)}
           />
