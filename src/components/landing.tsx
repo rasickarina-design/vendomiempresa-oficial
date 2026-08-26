@@ -73,9 +73,14 @@ const FAQS: { q: string; a: string }[] = [
 
 function LoginButton({ onLogin, className = "" }: { onLogin: () => void; className?: string }) {
   return (
-    <button className={`btn-primary ${className}`} onClick={onLogin}>
-      Login →
-    </button>
+    <div className={`flex w-full justify-center ${className}`}>
+      <button
+        className="btn-primary min-h-[72px] w-full max-w-[360px] px-10 py-5 text-[24px] uppercase tracking-[0.02em] max-[560px]:max-w-full max-[560px]:text-[22px]"
+        onClick={onLogin}
+      >
+        Login →
+      </button>
+    </div>
   );
 }
 
