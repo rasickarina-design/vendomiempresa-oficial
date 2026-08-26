@@ -239,7 +239,16 @@ export function VerifyScreen({
     setResent("Te hemos enviado un código nuevo.");
   };
 
+  const fill = (raw: string, from = 0) => {
+    const nums = raw.replace(/[^0-9]/g, "").slice(0, 6 - from);
+    if (!nums) return;
+    setDigits((d) => d.map((x, idx) => (idx >= from && idx < from + nums.length ? nums[idx - from]! : x)));
+    const last = Math.min(from + nums.length, 5);
+    refs.current[last]?.focus();
+  };
+
   const setDigit = (i: number, v: string) => {
+    if (v.replace(/[^0-9]/g, "").length > 1) return fill(v, i);
     const clean = v.replace(/[^0-9]/g, "").slice(0, 1);
     setDigits((d) => d.map((x, idx) => (idx === i ? clean : x)));
     if (clean && refs.current[i + 1]) refs.current[i + 1]?.focus();
