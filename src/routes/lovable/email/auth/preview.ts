@@ -18,7 +18,7 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 }
 
 // Configuration
-const SITE_NAME = "Business Match Maker"
+const SITE_NAME = "Vendo Mi Empresa"
 const ROOT_DOMAIN = "vendomiempresa.app"
 
 // Sample data for preview mode ONLY (not used in actual email sending).
