@@ -663,6 +663,16 @@ function PublishForm({
           />
         </div>
         <div>
+          <label className="field-label">Web de la empresa (opcional)</label>
+          <input
+            className="field-input"
+            placeholder="https://www.tuempresa.com"
+            maxLength={300}
+            value={f.websiteUrl}
+            onChange={(e) => set("websiteUrl", e.target.value)}
+          />
+        </div>
+        <div>
           <label className="field-label">Indicaciones de localización en Google Maps *</label>
           <input
             className="field-input"
