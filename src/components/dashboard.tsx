@@ -396,7 +396,7 @@ function Explore({
                   {c.ownerPosition ? ` (${c.ownerPosition})` : ""} · {maskEmail(c.owner)}
 
                 </p>
-                {c.mapsUrl && (
+                {c.mapsUrl && (match || c.owner === email) && (
                   <a
                     className="mt-2 inline-block text-[11.5px] text-primary underline"
                     href={c.mapsUrl}
@@ -405,6 +405,11 @@ function Explore({
                   >
                     Ver localización en Google Maps →
                   </a>
+                )}
+                {c.mapsUrl && !match && c.owner !== email && (
+                  <p className="mt-2 text-[11px] text-subtle-foreground">
+                    La localización exacta en Google Maps se muestra solo cuando hay match.
+                  </p>
                 )}
                 {c.financialsUrl && (
                   <a
@@ -470,8 +475,28 @@ function PublishForm({
       setError("Introduce tu nombre completo.");
       return;
     }
-    if (!f.name.trim() || !f.sector.trim() || !f.desc.trim()) {
-      setError("Completa al menos nombre, sector y descripción.");
+    if (!f.name.trim() || !f.sector.trim()) {
+      setError("Completa al menos nombre y sector.");
+      return;
+    }
+    if (f.desc.trim().length < 10) {
+      setError("La descripción y el motivo de venta son obligatorios (mínimo 10 caracteres).");
+      return;
+    }
+    if (!f.city.trim()) {
+      setError("La ciudad es obligatoria.");
+      return;
+    }
+    if (!f.postalCode.trim()) {
+      setError("El código postal es obligatorio.");
+      return;
+    }
+    if (!f.country.trim()) {
+      setError("El país es obligatorio.");
+      return;
+    }
+    if (!f.age.trim()) {
+      setError("Los años operativos son obligatorios.");
       return;
     }
 
@@ -585,27 +610,29 @@ function PublishForm({
           />
         </div>
         <div>
-          <label className="field-label">Ciudad</label>
+          <label className="field-label">Ciudad (obligatorio)</label>
           <input
             className="field-input"
             placeholder="Madrid"
             maxLength={80}
+            required
             value={f.city}
             onChange={(e) => set("city", e.target.value)}
           />
         </div>
         <div>
-          <label className="field-label">Código postal</label>
+          <label className="field-label">Código postal (obligatorio)</label>
           <input
             className="field-input"
             placeholder="28013"
             maxLength={12}
+            required
             value={f.postalCode}
             onChange={(e) => set("postalCode", e.target.value)}
           />
         </div>
         <div>
-          <label className="field-label">País</label>
+          <label className="field-label">País (obligatorio)</label>
           <CountrySelect value={f.country} onChange={(v) => set("country", v)} />
         </div>
 
@@ -664,11 +691,12 @@ function PublishForm({
         </div>
 
         <div>
-          <label className="field-label">Años operativos</label>
+          <label className="field-label">Años operativos (obligatorio)</label>
           <input
             className="field-input"
             placeholder="12"
             maxLength={40}
+            required
             value={f.age}
             onChange={(e) => set("age", e.target.value)}
           />
@@ -705,10 +733,11 @@ function PublishForm({
           </select>
         </div>
         <div className="sm:col-span-2">
-          <label className="field-label">Descripción y motivo de venta</label>
+          <label className="field-label">Descripción y motivo de venta (obligatorio)</label>
           <textarea
             className="field-input min-h-20 resize-y"
             maxLength={1000}
+            required
             value={f.desc}
             onChange={(e) => set("desc", e.target.value)}
           />
