@@ -112,6 +112,8 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
         </div>
       </section>
 
+      <HazardBanner text="VENDO" />
+
       <Section title="El problema">
         <p>
           Vender o comprar una pequeña o mediana empresa hoy es un proceso desordenado: contactos personales,
