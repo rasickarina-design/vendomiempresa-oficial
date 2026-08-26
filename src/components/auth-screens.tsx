@@ -76,7 +76,10 @@ export function LoginScreen({
     setSending(true);
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: typeof window === "undefined" ? undefined : window.location.origin,
+      },
     });
     setSending(false);
     if (error) {
@@ -160,8 +163,8 @@ export function LoginScreen({
       <div className="mt-6 flex items-start gap-2.5 rounded-[10px] border border-border-soft bg-input px-3 py-3">
         <Lock className="mt-px shrink-0 text-primary" size={16} strokeWidth={2} />
         <p className="text-[11.5px] leading-relaxed text-muted-foreground">
-          No usamos contraseñas. Te enviamos un código de 6 dígitos a tu correo, válido durante 5 minutos, para
-          confirmar que eres tú.
+          No usamos contraseñas. Te enviamos a tu correo un enlace de acceso y un código de 6 dígitos, válidos
+          durante unos minutos. Puedes pulsar el enlace o escribir el código aquí.
         </p>
       </div>
 
@@ -223,7 +226,10 @@ export function VerifyScreen({
     setResent("");
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: typeof window === "undefined" ? undefined : window.location.origin,
+      },
     });
     if (err) {
       setError(err.message);
@@ -233,7 +239,16 @@ export function VerifyScreen({
     setResent("Te hemos enviado un código nuevo.");
   };
 
+  const fill = (raw: string, from = 0) => {
+    const nums = raw.replace(/[^0-9]/g, "").slice(0, 6 - from);
+    if (!nums) return;
+    setDigits((d) => d.map((x, idx) => (idx >= from && idx < from + nums.length ? nums[idx - from]! : x)));
+    const last = Math.min(from + nums.length, 5);
+    refs.current[last]?.focus();
+  };
+
   const setDigit = (i: number, v: string) => {
+    if (v.replace(/[^0-9]/g, "").length > 1) return fill(v, i);
     const clean = v.replace(/[^0-9]/g, "").slice(0, 1);
     setDigits((d) => d.map((x, idx) => (idx === i ? clean : x)));
     if (clean && refs.current[i + 1]) refs.current[i + 1]?.focus();
@@ -244,8 +259,8 @@ export function VerifyScreen({
       <Eyebrow>Paso 2 de 2</Eyebrow>
       <h1 className="mb-2 text-[26px] font-bold text-primary">Confirma tu correo</h1>
       <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-        Hemos enviado un código de 6 dígitos a {maskEmail(email)}. Revisa tu bandeja de entrada (y el correo no
-        deseado).
+        Hemos enviado un correo a {maskEmail(email)} con un enlace de acceso y un código de 6 dígitos. Pulsa el
+        enlace del correo o escribe aquí el código (revisa también el correo no deseado).
       </p>
 
       <div className="mb-4 flex justify-between gap-2">
@@ -258,6 +273,10 @@ export function VerifyScreen({
             inputMode="numeric"
             className="h-14 w-[46px] rounded-[10px] border border-border bg-input text-center font-mono text-[22px] font-bold text-primary outline-none transition focus:border-primary focus:ring-[3px] focus:ring-primary-soft max-[560px]:h-[50px] max-[560px]:w-[38px] max-[560px]:text-lg"
             value={d}
+            onPaste={(ev) => {
+              ev.preventDefault();
+              fill(ev.clipboardData.getData("text"), i);
+            }}
             onChange={(ev) => setDigit(i, ev.target.value)}
             onKeyDown={(ev) => {
               if (ev.key === "Backspace" && !d && refs.current[i - 1]) refs.current[i - 1]?.focus();
