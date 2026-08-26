@@ -41,9 +41,14 @@ const FAQS: { q: string; a: string }[] = [
     a: "Sí. Al crear tu cuenta puedes elegir el rol de vendedor, comprador o ambos. Si eliges ambos, publicas tu empresa y defines tu criterio de búsqueda en el mismo perfil, y recibes los matches de las dos partes por separado.",
   },
   {
+    q: "¿Cómo preparo y comparto los balances de mi empresa?",
+    a: "Reúne los balances y la cuenta de resultados de los tres últimos ejercicios cerrados en PDF (o Excel), súbelos a una carpeta de Google Drive y pega en la publicación el enlace de esa carpeta. Configura el enlace como «Cualquier persona con el enlace puede ver» y no incluyas datos personales de empleados ni clientes. El enlace solo se comparte con la contraparte cuando existe un match.",
+  },
+  {
     q: "¿Tiene coste usar la plataforma?",
     a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene coste, y el contacto entre las partes es directo: no cobramos comisión sobre la operación entre las partes.",
   },
+
 ];
 
 
