@@ -396,7 +396,7 @@ function Explore({
                   {c.ownerPosition ? ` (${c.ownerPosition})` : ""} · {maskEmail(c.owner)}
 
                 </p>
-                {c.mapsUrl && (
+                {c.mapsUrl && (match || c.owner === email) && (
                   <a
                     className="mt-2 inline-block text-[11.5px] text-primary underline"
                     href={c.mapsUrl}
@@ -405,6 +405,11 @@ function Explore({
                   >
                     Ver localización en Google Maps →
                   </a>
+                )}
+                {c.mapsUrl && !match && c.owner !== email && (
+                  <p className="mt-2 text-[11px] text-subtle-foreground">
+                    La localización exacta en Google Maps se muestra solo cuando hay match.
+                  </p>
                 )}
                 {c.financialsUrl && (
                   <a
