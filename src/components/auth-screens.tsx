@@ -124,7 +124,7 @@ export function LoginScreen({
           value={email}
           maxLength={255}
           onChange={(ev) => setEmail(ev.target.value)}
-          onKeyDown={(ev) => ev.key === "Enter" && submit()}
+          onKeyDown={(ev) => { if (ev.key === "Enter") void submit(); }}
         />
         {errors.email && <p className="field-error">{errors.email}</p>}
       </div>
@@ -141,13 +141,13 @@ export function LoginScreen({
           value={phone}
           maxLength={18}
           onChange={(ev) => setPhone(ev.target.value)}
-          onKeyDown={(ev) => ev.key === "Enter" && submit()}
+          onKeyDown={(ev) => { if (ev.key === "Enter") void submit(); }}
         />
         {errors.phone && <p className="field-error">{errors.phone}</p>}
       </div>
 
-      <button className="btn-primary mt-1.5 w-full" onClick={submit}>
-        Enviar código de verificación
+      <button className="btn-primary mt-1.5 w-full" onClick={() => void submit()} disabled={sending}>
+        {sending ? "Enviando código…" : "Enviar código de verificación"}
       </button>
 
       <div className="mt-6 flex items-start gap-2.5 rounded-[10px] border border-border-soft bg-input px-3 py-3">
