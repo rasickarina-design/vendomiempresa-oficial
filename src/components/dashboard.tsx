@@ -6,6 +6,8 @@ import { CountrySelect } from "./country-select";
 import { SectorPicker } from "./sector-picker";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
+import { HazardCorner, HazardStripe } from "./hazard-stripe";
+import { Check, Link2, Mail, MapPin, ShieldCheck, Star } from "lucide-react";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
 export const OWNER_POSITIONS = [
@@ -84,7 +86,8 @@ export function Dashboard(props: Props) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-2.5 border-b border-border-soft bg-background/90 px-7 py-4 backdrop-blur">
+      <header className="relative sticky top-0 z-20 flex flex-wrap items-center justify-between gap-2.5 border-b border-border-soft bg-background/90 px-7 py-4 backdrop-blur">
+        <HazardCorner size={32} />
         <div className="flex items-center gap-2.5 font-display text-[26px] font-bold leading-tight text-primary max-[560px]:text-[22px]">
           <img
             src={logoAsset.url}
@@ -94,7 +97,9 @@ export function Dashboard(props: Props) {
           Vendomiempresa
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="pill border border-success/25 bg-success/10 text-success">🔒 Sesión verificada</span>
+          <span className="pill border border-success/25 bg-success/10 text-success">
+            <ShieldCheck size={13} strokeWidth={2} /> Sesión verificada
+          </span>
           <span className="pill border border-border bg-card text-[13px] text-muted-foreground">
             {profile.name ? `${profile.name} · ` : ""}
             {maskEmail(email)}
@@ -269,7 +274,10 @@ function ShareLinkButton({ companyId }: { companyId: string }) {
       onClick={() => void copy()}
       className="mt-3 w-full rounded-full border border-primary-dim bg-primary-soft px-3 py-2 text-[11.5px] font-bold text-primary transition hover:bg-primary/15"
     >
-      {copied ? "¡Enlace copiado!" : "🔗 Copiar enlace de la empresa"}
+      <span className="inline-flex items-center justify-center gap-1.5">
+        <Link2 size={13} strokeWidth={2} />
+        {copied ? "¡Enlace copiado!" : "Copiar enlace de la empresa"}
+      </span>
     </button>
   );
 }
@@ -331,14 +339,16 @@ function Explore({
             return (
               <article
                 key={c.id}
-                className="surface-card p-5 transition hover:-translate-y-0.5 hover:border-primary-dim"
+                className="card-hairline p-5 transition hover:-translate-y-0.5 hover:bg-card-hover"
               >
                 <div className="mb-2.5 flex items-start justify-between gap-2">
                   <span className="pill bg-primary-soft text-[10.5px] uppercase tracking-[0.08em] text-primary">
                     {c.sector}
                   </span>
                   {match && (
-                    <span className="pill bg-success text-[10px] text-primary-foreground">★ Match contigo</span>
+                    <span className="pill bg-success text-[10px] text-primary-foreground">
+                      <Star size={11} strokeWidth={2.5} /> Match contigo
+                    </span>
                   )}
                   {c.owner === email && (
                     <button className="text-[11px] text-destructive" onClick={() => onDelete(c.id)}>
@@ -347,8 +357,8 @@ function Explore({
                   )}
                 </div>
                 <h3 className="mb-1.5 text-[17px] font-bold">{c.name}</h3>
-                <p className="mb-3 text-xs text-muted-foreground">
-                  📍{" "}
+                <p className="mb-3 flex items-start gap-1 text-xs text-muted-foreground">
+                  <MapPin className="mt-px shrink-0" size={12} strokeWidth={2} />
                   {[c.location, c.postalCode, c.city, c.country && c.country !== "—" ? c.country : ""]
                     .filter((x) => x && x !== "—")
                     .join(" · ")}
@@ -696,7 +706,8 @@ function PublishForm({
         </div>
       </div>
       {error && <p className="field-error">{error}</p>}
-      <button className="btn-primary mt-5 w-full" onClick={submit}>
+      <button className="btn-primary relative mt-5 w-full overflow-hidden" onClick={submit}>
+        <HazardCorner size={26} />
         Publicar empresa
       </button>
     </div>
@@ -869,7 +880,15 @@ function MatchRow({
           sent ? "border border-success bg-input text-success" : "bg-primary text-primary-foreground"
         }`}
       >
-        {sent ? "✓ Contactado" : label}
+        {sent ? (
+          <>
+            <Check size={14} strokeWidth={3} /> Contactado
+          </>
+        ) : (
+          <>
+            <Mail size={14} strokeWidth={2} /> {label}
+          </>
+        )}
       </a>
     </div>
   );
@@ -938,7 +957,7 @@ function Matches({
                   }`}
                   href={mailtoLink(b.email, subject, body)}
                   sent={wasContacted(key)}
-                  label="✉ Contactar comprador"
+                  label="Contactar comprador"
                   onClick={() => onContact(key)}
                 />
               );
@@ -971,10 +990,10 @@ function Matches({
                 <MatchRow
                   key={key}
                   title={c.name}
-                  sub={`${c.sector} · ${fmtMoney(c.priceAmount, c.priceCurrency)} · 📍 ${c.location}`}
+                  sub={`${c.sector} · ${fmtMoney(c.priceAmount, c.priceCurrency)} · ${c.location}`}
                   href={mailtoLink(c.owner, subject, body)}
                   sent={wasContacted(key)}
-                  label="✉ Contactar vendedor"
+                  label="Contactar vendedor"
                   onClick={() => onContact(key)}
                 />
               );

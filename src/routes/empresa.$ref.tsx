@@ -1,3 +1,4 @@
+import { MapPin } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SiteFooter } from "@/components/site-footer";
@@ -74,7 +75,7 @@ function EmpresaPage() {
             <h1 className="mt-3 text-2xl font-extrabold tracking-tight">{company.name}</h1>
             {(company.city || company.country) && (
               <p className="mt-1 text-xs text-muted-foreground">
-                📍 {[company.city, company.country].filter((x) => x && x !== "—").join(" · ")}
+                <MapPin className="mr-1 inline align-[-2px]" size={12} strokeWidth={2} /> {[company.city, company.country].filter((x) => x && x !== "—").join(" · ")}
               </p>
             )}
             {company.age && company.age !== "—" && (

@@ -22,9 +22,11 @@ interface Profile {
   thesis: string;
 }
 
-export function AuthCard({ children }: { children: React.ReactNode }) {
+export function AuthCard({ children, hero = false }: { children: React.ReactNode; hero?: boolean }) {
   return (
-    <div className="relative flex flex-1 items-center justify-center overflow-hidden px-6 py-10">
+    <div
+      className={`relative flex flex-1 items-center justify-center overflow-hidden px-6 ${hero ? "py-20 max-[560px]:py-12" : "py-10"}`}
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute -right-36 -top-48 h-[600px] w-[600px] rounded-full"
@@ -33,7 +35,7 @@ export function AuthCard({ children }: { children: React.ReactNode }) {
             "radial-gradient(circle, color-mix(in oklch, var(--primary) 8%, transparent) 0%, transparent 65%)",
         }}
       />
-      <div className="surface-card relative z-[1] w-full max-w-[440px] overflow-hidden rounded-[20px] px-8 py-9">
+      <div className={`surface-card relative z-[1] w-full overflow-hidden rounded-[20px] px-8 ${hero ? "max-w-[500px] py-12 max-[560px]:py-9" : "max-w-[440px] py-9"}`}>
         <HazardCorner size={32} />
         {children}
       </div>
@@ -86,7 +88,7 @@ export function LoginScreen({
 
 
   return (
-    <AuthCard>
+    <AuthCard hero>
       {onHome && (
         <button
           className="mb-4 cursor-pointer self-start text-[13px] text-primary underline underline-offset-[3px]"
