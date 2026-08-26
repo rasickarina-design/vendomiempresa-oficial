@@ -163,8 +163,8 @@ export function LoginScreen({
       <div className="mt-6 flex items-start gap-2.5 rounded-[10px] border border-border-soft bg-input px-3 py-3">
         <Lock className="mt-px shrink-0 text-primary" size={16} strokeWidth={2} />
         <p className="text-[11.5px] leading-relaxed text-muted-foreground">
-          No usamos contraseñas. Te enviamos un código de 6 dígitos a tu correo, válido durante 5 minutos, para
-          confirmar que eres tú.
+          No usamos contraseñas. Te enviamos a tu correo un enlace de acceso y un código de 6 dígitos, válidos
+          durante unos minutos. Puedes pulsar el enlace o escribir el código aquí.
         </p>
       </div>
 
