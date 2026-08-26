@@ -29,7 +29,7 @@ export const ReauthenticationEmail = ({
         <Section style={stripe} />
         <Heading style={h1}>Confirma tu identidad en {siteName}</Heading>
         <Text style={text}>
-          Introduce este código de 6 dígitos para confirmar tu identidad en{' '}
+          Introduce este código de 8 dígitos para confirmar tu identidad en{' '}
           {siteName}:
         </Text>
         <Section style={codeBox}>

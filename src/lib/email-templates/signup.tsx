@@ -34,7 +34,7 @@ export const SignupEmail = ({
         <Section style={stripe} />
         <Heading style={h1}>Bienvenido a {siteName}</Heading>
         <Text style={text}>
-          Introduce este código de 6 dígitos en la pantalla de acceso para
+          Introduce este código de 8 dígitos en la pantalla de acceso para
           confirmar tu email y entrar. Caduca en unos minutos.
         </Text>
         {token ? (

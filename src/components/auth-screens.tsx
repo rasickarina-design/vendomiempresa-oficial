@@ -9,6 +9,7 @@ import { CountrySelect } from "./country-select";
 import { HazardCorner } from "./hazard-stripe";
 import { Factory, Handshake, Lock, Search, type LucideIcon } from "lucide-react";
 
+const OTP_LENGTH = 8;
 
 interface Profile {
   name: string;
@@ -163,7 +164,7 @@ export function LoginScreen({
       <div className="mt-6 flex items-start gap-2.5 rounded-[10px] border border-border-soft bg-input px-3 py-3">
         <Lock className="mt-px shrink-0 text-primary" size={16} strokeWidth={2} />
         <p className="text-[11.5px] leading-relaxed text-muted-foreground">
-          No usamos contraseñas. Te enviamos a tu correo un enlace de acceso y un código de 6 dígitos, válidos
+          No usamos contraseñas. Te enviamos a tu correo un enlace de acceso y un código de 8 dígitos, válidos
           durante unos minutos. Puedes pulsar el enlace o escribir el código aquí.
         </p>
       </div>
@@ -181,7 +182,7 @@ export function VerifyScreen({
   onVerified: () => void;
   onBack: () => void;
 }) {
-  const [digits, setDigits] = useState(["", "", "", "", "", ""]);
+  const [digits, setDigits] = useState(() => Array.from({ length: OTP_LENGTH }, () => ""));
   const [error, setError] = useState("");
   const [verifying, setVerifying] = useState(false);
   const [cooldown, setCooldown] = useState(30);
@@ -201,7 +202,7 @@ export function VerifyScreen({
   const verify = async () => {
     if (verifying) return;
     const entered = digits.join("");
-    if (entered.length < 6) return setError("Completa los 6 dígitos.");
+    if (entered.length < OTP_LENGTH) return setError("Completa los 8 dígitos.");
     setError("");
     setResent("");
     setVerifying(true);
@@ -240,10 +241,10 @@ export function VerifyScreen({
   };
 
   const fill = (raw: string, from = 0) => {
-    const nums = raw.replace(/[^0-9]/g, "").slice(0, 6 - from);
+    const nums = raw.replace(/[^0-9]/g, "").slice(0, OTP_LENGTH - from);
     if (!nums) return;
     setDigits((d) => d.map((x, idx) => (idx >= from && idx < from + nums.length ? nums[idx - from]! : x)));
-    const last = Math.min(from + nums.length, 5);
+    const last = Math.min(from + nums.length, OTP_LENGTH - 1);
     refs.current[last]?.focus();
   };
 
@@ -259,11 +260,11 @@ export function VerifyScreen({
       <Eyebrow>Paso 2 de 2</Eyebrow>
       <h1 className="mb-2 text-[26px] font-bold text-primary">Confirma tu correo</h1>
       <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-        Hemos enviado un correo a {maskEmail(email)} con un enlace de acceso y un código de 6 dígitos. Pulsa el
+        Hemos enviado un correo a {maskEmail(email)} con un enlace de acceso y un código de 8 dígitos. Pulsa el
         enlace del correo o escribe aquí el código (revisa también el correo no deseado).
       </p>
 
-      <div className="mb-4 flex justify-between gap-2">
+      <div className="mb-4 grid grid-cols-8 gap-1.5 sm:gap-2">
         {digits.map((d, i) => (
           <input
             key={i}
@@ -271,7 +272,7 @@ export function VerifyScreen({
               refs.current[i] = el;
             }}
             inputMode="numeric"
-            className="h-14 w-[46px] rounded-[10px] border border-border bg-input text-center font-mono text-[22px] font-bold text-primary outline-none transition focus:border-primary focus:ring-[3px] focus:ring-primary-soft max-[560px]:h-[50px] max-[560px]:w-[38px] max-[560px]:text-lg"
+            className="h-14 w-full min-w-0 rounded-[10px] border border-border bg-input text-center font-mono text-[22px] font-bold text-primary outline-none transition focus:border-primary focus:ring-[3px] focus:ring-primary-soft max-[560px]:h-[50px] max-[560px]:text-lg"
             value={d}
             onPaste={(ev) => {
               ev.preventDefault();
