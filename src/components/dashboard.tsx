@@ -470,8 +470,28 @@ function PublishForm({
       setError("Introduce tu nombre completo.");
       return;
     }
-    if (!f.name.trim() || !f.sector.trim() || !f.desc.trim()) {
-      setError("Completa al menos nombre, sector y descripción.");
+    if (!f.name.trim() || !f.sector.trim()) {
+      setError("Completa al menos nombre y sector.");
+      return;
+    }
+    if (f.desc.trim().length < 10) {
+      setError("La descripción y el motivo de venta son obligatorios (mínimo 10 caracteres).");
+      return;
+    }
+    if (!f.city.trim()) {
+      setError("La ciudad es obligatoria.");
+      return;
+    }
+    if (!f.postalCode.trim()) {
+      setError("El código postal es obligatorio.");
+      return;
+    }
+    if (!f.country.trim()) {
+      setError("El país es obligatorio.");
+      return;
+    }
+    if (!f.age.trim()) {
+      setError("Los años operativos son obligatorios.");
       return;
     }
 
