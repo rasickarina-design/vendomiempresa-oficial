@@ -166,6 +166,47 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
         </ul>
       </Section>
 
+      <Section title="Prepara tus balances antes de publicar">
+        <p>
+          Un comprador serio pedirá números. Ten la documentación económica lista y alojada en un enlace de Google
+          Drive: en la publicación solo tendrás que pegar ese enlace en el campo «Enlace a balances».
+        </p>
+        <div className="surface-card rounded-[16px] px-6 py-5">
+          <h3 className="mb-2 text-[17px] font-bold text-foreground">1. Reúne la documentación</h3>
+          <ul className="flex flex-col gap-2 pl-5">
+            <li className="list-disc">Balances y cuenta de resultados de los 3 últimos ejercicios cerrados.</li>
+            <li className="list-disc">Facturación del ejercicio en curso (acumulado mes a mes).</li>
+            <li className="list-disc">Deuda actual, préstamos y avales vigentes, si los hay.</li>
+            <li className="list-disc">Inventario de activos relevantes: maquinaria, vehículos, local, licencias.</li>
+          </ul>
+        </div>
+        <div className="surface-card rounded-[16px] px-6 py-5">
+          <h3 className="mb-2 text-[17px] font-bold text-foreground">2. Súbelo a Google Drive</h3>
+          <ul className="flex flex-col gap-2 pl-5">
+            <li className="list-disc">
+              Crea una carpeta en Google Drive con un nombre neutro (por ejemplo, «Documentación económica 2024»).
+            </li>
+            <li className="list-disc">Sube los archivos en PDF o Excel, con nombres claros por año.</li>
+            <li className="list-disc">
+              Pulsa <strong className="text-foreground">Compartir → Cualquier persona con el enlace → Lector</strong> y
+              copia el enlace.
+            </li>
+          </ul>
+        </div>
+        <div className="surface-card rounded-[16px] px-6 py-5">
+          <h3 className="mb-2 text-[17px] font-bold text-foreground">3. Pega el enlace en tu publicación</h3>
+          <p>
+            Añade el enlace de la carpeta en el campo «Enlace a balances» al publicar tu empresa. Solo se comparte con
+            la contraparte cuando se produce un match, nunca con visitantes que exploran el listado.
+          </p>
+        </div>
+        <p className="text-muted-foreground">
+          Recomendación: no incluyas datos personales de empleados o clientes, y revoca el acceso al enlace cuando
+          cierres la operación.
+        </p>
+      </Section>
+
+
       <Section title="Para quienes compran">
         <p>
           Deja de revisar anuncio por anuncio buscando algo que tenga sentido. Define tu criterio una vez y la
