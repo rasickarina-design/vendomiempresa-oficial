@@ -17,6 +17,10 @@ const FAQS: { q: string; a: string }[] = [
     a: "Un match es una coincidencia entre las dos partes. Cuando una empresa publicada encaja con el criterio de búsqueda que definió un comprador —sector, rango de precio y ubicación— el sistema lo detecta y avisa a ambos. No es una recomendación aproximada: es una coincidencia concreta entre lo que se ofrece y lo que se busca.",
   },
   {
+    q: "¿Cómo me avisan si hay un match?",
+    a: "Cuando tu empresa coincide con un comprador, o tu búsqueda como comprador coincide con una empresa en venta, recibirás un email en la dirección que usaste para entrar. En ese email verás un resumen de la contraparte y un enlace para acceder al match dentro de la plataforma. Desde ahí podrás ver los datos de contacto compartidos y escribir directamente.",
+  },
+  {
     q: "¿Por qué solo puedo contactar cuando hay match?",
     a: "Para que nadie pierda el tiempo. Si cualquiera pudiera escribir a cualquiera, los vendedores recibirían decenas de consultas de curiosos y los compradores mensajes de empresas que no tienen nada que ver con lo que buscan. Habilitando el contacto solo entre partes compatibles, toda conversación empieza con interés real por ambos lados.",
   },
