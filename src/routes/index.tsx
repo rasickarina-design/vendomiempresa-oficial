@@ -5,7 +5,8 @@ import { Dashboard } from "@/components/dashboard";
 import { LandingScreen } from "@/components/landing";
 import { SiteFooter } from "@/components/site-footer";
 
-import { recordBuyer, recordCompany, recordContact } from "@/lib/admin-db";
+import { recordBuyer, recordCompany, recordContact, saveProfile } from "@/lib/admin-db";
+import { supabase } from "@/integrations/supabase/client";
 import { fetchPublicCompany, toCompany } from "@/lib/public-company";
 import {
   KEY_BUYERS,
@@ -116,14 +117,37 @@ function Index() {
   const [screen, setScreen] = useState<Screen>(empresa ? "login" : "landing");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [pendingCode, setPendingCode] = useState("");
-  const [codeExpires, setCodeExpires] = useState(0);
   const [role, setRole] = useState<Role>("buyer");
   const [profile, setProfile] = useState<Profile>(emptyProfile);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [buyers, setBuyers] = useState<Buyer[]>([]);
   const [contacts, setContacts] = useState<ContactLog[]>([]);
   const [toast, setToast] = useState<string | null>(null);
+
+  /* Sesión real de Supabase: si ya hay JWT activo, entramos directo al dashboard. */
+  useEffect(() => {
+    let active = true;
+    void supabase.auth.getSession().then(({ data }) => {
+      if (!active) return;
+      const session = data.session;
+      if (session?.user.email) {
+        setEmail(session.user.email);
+        setScreen("dashboard");
+      }
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        setEmail("");
+        setScreen("landing");
+        return;
+      }
+      if (session?.user.email) setEmail(session.user.email);
+    });
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     setCompanies(loadList<Company>(KEY_COMPANIES));
@@ -146,6 +170,7 @@ function Index() {
   }, []);
 
   const handleVerified = () => {
+    void saveProfile({ email, phone });
     const existing = buyers.find((b) => b.email === email);
     if (existing) {
       setRole(existing.role || "buyer");
@@ -175,11 +200,9 @@ function Index() {
 
       {screen === "login" && (
         <LoginScreen
-          onCode={({ email: e, phone: p, code, expires }) => {
+          onCode={({ email: e, phone: p }) => {
             setEmail(e);
             setPhone(p);
-            setPendingCode(code);
-            setCodeExpires(expires);
             setScreen("verify");
           }}
           onHome={() => setScreen("landing")}
@@ -195,14 +218,8 @@ function Index() {
       {screen === "verify" && (
         <VerifyScreen
           email={email}
-          pendingCode={pendingCode}
-          codeExpires={codeExpires}
           onVerified={handleVerified}
           onBack={() => setScreen("login")}
-          onTooManyAttempts={() => {
-            setScreen("login");
-            showToast("Demasiados intentos fallidos. Pedí un nuevo código.");
-          }}
         />
       )}
 
@@ -263,6 +280,7 @@ function Index() {
           }}
           onProfileName={(n) => setProfile((prev) => ({ ...prev, name: n }))}
           onLogout={() => {
+            void supabase.auth.signOut();
             setEmail("");
             setPhone("");
             setProfile(emptyProfile);
