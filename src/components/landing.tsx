@@ -1,4 +1,5 @@
 import logoAsset from "@/assets/logo.jpg.asset.json";
+import { HazardBanner } from "@/components/hazard-stripe";
 import {
   Accordion,
   AccordionContent,
