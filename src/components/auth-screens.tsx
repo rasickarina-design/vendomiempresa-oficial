@@ -226,7 +226,10 @@ export function VerifyScreen({
     setResent("");
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: typeof window === "undefined" ? undefined : window.location.origin,
+      },
     });
     if (err) {
       setError(err.message);
