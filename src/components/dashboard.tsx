@@ -1009,3 +1009,85 @@ function Matches({
     </>
   );
 }
+
+/** Aproximaciones cuando no hay coincidencia exacta de precio. */
+function NearMatches({
+  myBuyer,
+  companies,
+  contacts,
+  onContact,
+}: {
+  myBuyer: Buyer;
+  companies: Company[];
+  contacts: ContactLog[];
+  onContact: (key: string) => void;
+}) {
+  const { below, above, sectorCount, tooFar } = useMemo(
+    () => findNearMatches(companies, myBuyer),
+    [companies, myBuyer],
+  );
+
+  const wasContacted = (k: string) => contacts.some((c) => c.key === k);
+
+  const row = (c: Company, tag: string) => {
+    const key = contactKey(myBuyer.email, c.id);
+    const subject = `Interesado/a en comprar tu empresa — ${c.name}`;
+    const body = `Hola ${c.ownerName}:\n\nHe visto tu anuncio de "${c.name}" en Vendomiempresa y encaja con el sector que estoy buscando (${myBuyer.sectors}).\n\n${
+      myBuyer.thesis ? myBuyer.thesis + "\n\n" : ""
+    }Mis datos de contacto:\n${myBuyer.name}\n${myBuyer.phone}\n${myBuyer.email}\n\nQuedo a la espera de tu respuesta.\n\nUn saludo.`;
+    return (
+      <MatchRow
+        key={key}
+        title={`${c.name} · ${tag}`}
+        sub={`${c.sector} · ${fmtMoney(c.priceAmount, c.priceCurrency)} · ${c.location}`}
+        href={mailtoLink(c.owner, subject, body)}
+        sent={wasContacted(key)}
+        label="Contactar vendedor"
+        onClick={() => onContact(key)}
+      />
+    );
+  };
+
+  if (below || above) {
+    return (
+      <>
+        <div className="surface-card mb-3 px-4 py-3.5">
+          <p className="mb-0.5 text-sm font-bold text-primary">
+            No hay coincidencias exactas con tu presupuesto
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Te mostramos las opciones más aproximadas de tu sector, por debajo y por encima del precio
+            que indicaste.
+          </p>
+        </div>
+        {below && row(below, "por debajo de tu presupuesto")}
+        {above && row(above, "por encima de tu presupuesto")}
+      </>
+    );
+  }
+
+  if (tooFar && sectorCount > 0) {
+    return (
+      <div className="surface-card px-4 py-4">
+        <p className="mb-1 text-sm font-bold text-primary">
+          Hay {sectorCount} {sectorCount === 1 ? "negocio" : "negocios"} en venta en tu sector
+        </p>
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          Sin embargo, no coinciden con los parámetros que solicitaste (precio o presupuesto muy
+          alejados). Si quieres más información, escríbenos a{" "}
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-primary underline">
+            {SUPPORT_EMAIL}
+          </a>{" "}
+          y te ayudamos a encontrar la mejor opción.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <EmptyState
+      title="Todavía no hay matches"
+      text="Aquí te mostraremos las empresas publicadas que coincidan con tu búsqueda."
+    />
+  );
+}
