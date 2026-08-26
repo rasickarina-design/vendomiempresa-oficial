@@ -164,41 +164,66 @@ export function LoginScreen({
 
 export function VerifyScreen({
   email,
-  pendingCode,
-  codeExpires,
   onVerified,
   onBack,
-  onTooManyAttempts,
 }: {
   email: string;
-  pendingCode: string;
-  codeExpires: number;
   onVerified: () => void;
   onBack: () => void;
-  onTooManyAttempts: () => void;
 }) {
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
-  const [attempts, setAttempts] = useState(0);
+  const [verifying, setVerifying] = useState(false);
+  const [cooldown, setCooldown] = useState(30);
+  const [resent, setResent] = useState("");
   const refs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
     refs.current[0]?.focus();
   }, []);
 
-  const minutesLeft = Math.max(0, Math.ceil((codeExpires - Date.now()) / 60000));
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = window.setInterval(() => setCooldown((c) => (c <= 1 ? 0 : c - 1)), 1000);
+    return () => window.clearInterval(t);
+  }, [cooldown]);
 
-  const verify = () => {
+  const verify = async () => {
+    if (verifying) return;
     const entered = digits.join("");
     if (entered.length < 6) return setError("Completa los 6 dígitos.");
-    if (Date.now() > codeExpires) return setError("El código ha caducado. Vuelve atrás y pide uno nuevo.");
-    if (entered !== pendingCode) {
-      const next = attempts + 1;
-      setAttempts(next);
-      if (next >= 5) return onTooManyAttempts();
-      return setError(`Código incorrecto (intento ${next}/5).`);
+    setError("");
+    setResent("");
+    setVerifying(true);
+    const { error: err } = await supabase.auth.verifyOtp({ email, token: entered, type: "email" });
+    setVerifying(false);
+    if (err) {
+      setError(
+        /expired/i.test(err.message)
+          ? "El código ha caducado. Pide uno nuevo."
+          : /invalid/i.test(err.message)
+            ? "Código incorrecto. Revísalo e inténtalo de nuevo."
+            : err.message,
+      );
+      return;
     }
     onVerified();
+  };
+
+  const resend = async () => {
+    if (cooldown > 0) return;
+    setError("");
+    setResent("");
+    const { error: err } = await supabase.auth.signInWithOtp({
+      email,
+      options: { shouldCreateUser: true },
+    });
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    setCooldown(30);
+    setResent("Te hemos enviado un código nuevo.");
   };
 
   const setDigit = (i: number, v: string) => {
@@ -212,16 +237,9 @@ export function VerifyScreen({
       <Eyebrow>Paso 2 de 2</Eyebrow>
       <h1 className="mb-2 text-[26px] font-bold text-primary">Confirma tu correo</h1>
       <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-        Hemos enviado un código de 6 dígitos a {maskEmail(email)}. Válido durante {minutesLeft} min.
+        Hemos enviado un código de 6 dígitos a {maskEmail(email)}. Revisa tu bandeja de entrada (y el correo no
+        deseado).
       </p>
-
-      <div className="mb-5 rounded-[10px] border border-dashed border-primary-dim bg-primary-soft px-3 py-3 text-[12.5px] leading-relaxed text-primary">
-        MODO DEMO — esta aplicación todavía no tiene un servicio de envío de correos conectado, así que te mostramos
-        el código aquí: <b className="font-mono text-[15px] tracking-[0.15em]">{pendingCode}</b>. En producción
-        llegaría solo a tu buzón.
-      </div>
-
-
 
       <div className="mb-4 flex justify-between gap-2">
         {digits.map((d, i) => (
@@ -236,17 +254,27 @@ export function VerifyScreen({
             onChange={(ev) => setDigit(i, ev.target.value)}
             onKeyDown={(ev) => {
               if (ev.key === "Backspace" && !d && refs.current[i - 1]) refs.current[i - 1]?.focus();
-              if (ev.key === "Enter") verify();
+              if (ev.key === "Enter") void verify();
             }}
           />
         ))}
       </div>
       {error && <p className="field-error mb-2">{error}</p>}
+      {resent && <p className="mb-2 text-[12.5px] font-semibold text-primary">{resent}</p>}
 
-      <button className="btn-primary w-full" onClick={verify}>
-        Verificar y entrar
+      <button className="btn-primary w-full" onClick={() => void verify()} disabled={verifying}>
+        {verifying ? "Verificando…" : "Verificar y entrar"}
       </button>
-      <div className="mt-5 text-center">
+      <div className="mt-4 text-center">
+        <button
+          className="cursor-pointer text-[13px] text-primary underline underline-offset-[3px] disabled:cursor-default disabled:text-muted-foreground disabled:no-underline"
+          onClick={() => void resend()}
+          disabled={cooldown > 0}
+        >
+          {cooldown > 0 ? `Reenviar código en ${cooldown}s` : "Reenviar código"}
+        </button>
+      </div>
+      <div className="mt-3 text-center">
         <button
           className="cursor-pointer text-[13px] text-primary underline underline-offset-[3px]"
           onClick={onBack}
@@ -257,6 +285,7 @@ export function VerifyScreen({
     </AuthCard>
   );
 }
+
 
 export function RoleScreen({ onPick }: { onPick: (role: Role) => void }) {
   const opts: Array<{ role: Role; icon: string; title: string; sub: string }> = [
