@@ -1,4 +1,6 @@
 import type { ComponentType } from 'react'
+import { template as matchNotificationTemplate } from './match-notification'
+
 
 export interface TemplateEntry {
   component: ComponentType<any>
