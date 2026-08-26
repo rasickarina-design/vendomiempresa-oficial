@@ -38,6 +38,7 @@ export interface Company {
   googleProfile: string;
   mapsUrl: string;
   financialsUrl: string;
+  websiteUrl: string;
   age: string;
 
 
