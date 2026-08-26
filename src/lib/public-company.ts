@@ -14,6 +14,7 @@ export interface PublicCompany {
   description: string;
   maps_url: string | null;
   owner_position: string | null;
+  website_url: string | null;
 }
 
 /** Public, non-sensitive listing lookup by shareable reference. */
@@ -40,6 +41,7 @@ export function toCompany(p: PublicCompany): Company {
     googleProfile: "",
     mapsUrl: p.maps_url ?? "",
     financialsUrl: "",
+    websiteUrl: p.website_url ?? "",
     age: p.age ?? "",
     revenue: p.revenue ?? "",
     priceAmount: p.price_amount,

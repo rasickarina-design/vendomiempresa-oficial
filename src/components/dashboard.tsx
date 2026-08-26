@@ -421,6 +421,16 @@ function Explore({
                     Ver balances y estados de resultados →
                   </a>
                 )}
+                {c.websiteUrl && (
+                  <a
+                    className="mt-1 block text-[11.5px] text-primary underline"
+                    href={c.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visitar web de la empresa →
+                  </a>
+                )}
 
                 <ShareLinkButton companyId={c.id} />
               </article>
@@ -460,6 +470,7 @@ function PublishForm({
     googleProfile: "",
     mapsUrl: "",
     financialsUrl: "",
+    websiteUrl: "",
     age: "",
 
     revenue: "",
@@ -520,6 +531,10 @@ function PublishForm({
       setError("El enlace de balances debe ser una URL válida de Google Drive (https://).");
       return;
     }
+    if (f.websiteUrl.trim() && !/^https?:\/\/\S+$/i.test(f.websiteUrl.trim())) {
+      setError("El enlace de la web debe ser una URL válida (https://).");
+      return;
+    }
     setError("");
     onOwnerName(f.ownerName.trim());
 
@@ -535,6 +550,7 @@ function PublishForm({
       googleProfile: f.googleProfile.trim(),
       mapsUrl: f.mapsUrl.trim(),
       financialsUrl: f.financialsUrl.trim(),
+      websiteUrl: f.websiteUrl.trim(),
       age: f.age.trim() || "—",
 
       revenue: formatAmountInput(f.revenue, f.currency) || "No especificada",
@@ -654,6 +670,16 @@ function PublishForm({
             maxLength={300}
             value={f.googleProfile}
             onChange={(e) => set("googleProfile", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">Web de la empresa (opcional)</label>
+          <input
+            className="field-input"
+            placeholder="https://www.tuempresa.com"
+            maxLength={300}
+            value={f.websiteUrl}
+            onChange={(e) => set("websiteUrl", e.target.value)}
           />
         </div>
         <div>

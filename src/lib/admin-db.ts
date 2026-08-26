@@ -37,6 +37,7 @@ export async function recordCompany(c: Company) {
     google_profile: c.googleProfile,
     maps_url: c.mapsUrl,
     financials_url: c.financialsUrl,
+    website_url: c.websiteUrl,
     owner_position: c.ownerPosition,
 
 

@@ -13,6 +13,10 @@ const FAQS: { q: string; a: string }[] = [
     a: "Además de conectar compradores y vendedores, podemos ayudarte a armar una carpeta de presentación de tu empresa para el comprador, analizar los números del negocio si estás del lado comprador, y ponerte en contacto con bancos internacionales y family desks que puedan acompañar la operación.",
   },
   {
+    q: "¿Qué tipo de empresas se pueden publicar?",
+    a: "Se pueden publicar empresas de cualquier sector, incluidas las de tecnología y software que ya tengan una plataforma construida y estén monetizando. Si tu negocio factura, tiene usuarios o clientes de pago y un modelo de ingresos probado, encaja en la categoría Tecnología y software y puede aparecer en las búsquedas de compradores interesados en activos digitales.",
+  },
+  {
     q: "¿Qué es exactamente un match?",
     a: "Un match es una coincidencia entre las dos partes. Cuando una empresa publicada encaja con el criterio de búsqueda que definió un comprador —sector, rango de precio y ubicación— el sistema lo detecta y avisa a ambos. No es una recomendación aproximada: es una coincidencia concreta entre lo que se ofrece y lo que se busca.",
   },
