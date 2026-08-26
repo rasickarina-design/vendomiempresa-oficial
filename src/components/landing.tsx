@@ -45,10 +45,6 @@ const FAQS: { q: string; a: string }[] = [
     a: "Si sos un banco o family desk interesado en nuestra base de datos, podés escribirnos a contact@makebusinessesflow.com o suscribirte como comprador y buscar tu match dentro de la plataforma.",
   },
   {
-    q: "¿Cómo me avisan si hay un match?",
-    a: "Cuando tu empresa coincide con un comprador, o tu búsqueda como comprador coincide con una empresa en venta, recibirás un email en la dirección que usaste para entrar. En ese email verás un resumen de la contraparte y un enlace para acceder al match dentro de la plataforma. Desde ahí podrás ver los datos de contacto compartidos y escribir directamente.",
-  },
-  {
     q: "¿Tiene coste usar la plataforma?",
     a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene coste, y el contacto entre las partes es directo: no cobramos comisión sobre la operación entre las partes.",
   },
