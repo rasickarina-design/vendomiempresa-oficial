@@ -26,9 +26,10 @@ const DESCRIPTION =
 
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>) => ({
+  validateSearch: (search: Record<string, unknown>): { empresa?: string } => ({
     empresa: typeof search.empresa === "string" ? search.empresa : undefined,
   }),
+
   head: () => ({
     meta: [
       { title: TITLE },
