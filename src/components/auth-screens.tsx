@@ -157,7 +157,7 @@ export function LoginScreen({
         {errors.phone && <p className="field-error">{errors.phone}</p>}
       </div>
 
-      <button className="btn-primary mt-1.5 w-full" onClick={() => void submit()} disabled={sending}>
+      <button className="btn-primary mt-1.5 w-full py-5 text-lg" onClick={() => void submit()} disabled={sending}>
         {sending ? "Enviando código…" : "Enviar código de verificación"}
       </button>
 
