@@ -26,7 +26,7 @@ interface Profile {
 export function AuthCard({ children, hero = false }: { children: React.ReactNode; hero?: boolean }) {
   return (
     <div
-      className={`relative flex flex-1 items-center justify-center overflow-hidden px-6 ${hero ? "py-20 max-[560px]:py-12" : "py-10"}`}
+      className={`relative flex flex-1 items-center justify-center overflow-hidden px-6 ${hero ? "py-24 max-[560px]:py-14" : "py-12"}`}
     >
       <div
         aria-hidden
@@ -36,8 +36,8 @@ export function AuthCard({ children, hero = false }: { children: React.ReactNode
             "radial-gradient(circle, color-mix(in oklch, var(--primary) 8%, transparent) 0%, transparent 65%)",
         }}
       />
-      <div className={`surface-card relative z-[1] w-full overflow-hidden rounded-[20px] px-8 ${hero ? "max-w-[500px] py-12 max-[560px]:py-9" : "max-w-[440px] py-9"}`}>
-        <HazardCorner size={32} />
+      <div className={`surface-card relative z-[1] mx-auto w-full overflow-hidden rounded-[20px] px-8 ${hero ? "max-w-[600px] py-14 max-[560px]:py-10" : "max-w-[480px] py-10"}`}>
+        <HazardCorner size={36} />
         {children}
       </div>
     </div>
@@ -109,27 +109,27 @@ export function LoginScreen({
       <img
         src={logoAsset.url}
         alt="Logo Vendo Mi Empresa"
-        className="mb-4 h-16 w-16 rounded-xl object-contain"
+        className="mx-auto mb-5 h-20 w-20 rounded-xl object-contain"
       />
       <Eyebrow>Portal de empresas en venta</Eyebrow>
-      <h1 className="hero-stencil mb-4 text-[58px] uppercase text-primary max-[560px]:text-[42px]">
+      <h1 className="hero-stencil mb-5 text-center text-[64px] uppercase text-primary max-[560px]:text-[46px]">
         Vendo Mi Empresa
       </h1>
-      <p className="mb-3 text-[17px] font-semibold leading-snug text-foreground">
+      <p className="mb-4 text-center text-[19px] font-semibold leading-snug text-foreground">
         El lugar donde vendedores y compradores de empresas se encuentran.
       </p>
-      <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
+      <p className="mb-8 text-center text-[15px] leading-relaxed text-muted-foreground">
         Publica tu empresa o define qué estás buscando comprar. Nosotros te avisamos cuando hay match y te ponemos
         en contacto directo con la otra parte. Acceso sin contraseña: solo tu correo y un código de un solo uso.
       </p>
 
-      <div className="mb-4">
+      <div className="mb-5">
         <label className="field-label" htmlFor="in-email">
           Correo electrónico
         </label>
         <input
           id="in-email"
-          className="field-input"
+          className="field-input py-4 text-[15px]"
           aria-invalid={!!errors.email}
           placeholder="nombre@empresa.com"
           value={email}
@@ -140,13 +140,13 @@ export function LoginScreen({
         {errors.email && <p className="field-error">{errors.email}</p>}
       </div>
 
-      <div className="mb-4">
+      <div className="mb-5">
         <label className="field-label" htmlFor="in-phone">
           Teléfono
         </label>
         <input
           id="in-phone"
-          className="field-input"
+          className="field-input py-4 text-[15px]"
           aria-invalid={!!errors.phone}
           placeholder="+34 600 000 000"
           value={phone}
@@ -157,13 +157,13 @@ export function LoginScreen({
         {errors.phone && <p className="field-error">{errors.phone}</p>}
       </div>
 
-      <button className="btn-primary mt-1.5 w-full py-5 text-lg" onClick={() => void submit()} disabled={sending}>
+      <button className="btn-primary mt-2 w-full py-5 text-xl" onClick={() => void submit()} disabled={sending}>
         {sending ? "Enviando código…" : "Enviar código de verificación"}
       </button>
 
-      <div className="mt-6 flex items-start gap-2.5 rounded-[10px] border border-border-soft bg-input px-3 py-3">
-        <Lock className="mt-px shrink-0 text-primary" size={16} strokeWidth={2} />
-        <p className="text-[11.5px] leading-relaxed text-muted-foreground">
+      <div className="mt-7 flex items-start gap-3 rounded-[10px] border border-border-soft bg-input px-4 py-4">
+        <Lock className="mt-px shrink-0 text-primary" size={18} strokeWidth={2} />
+        <p className="text-[12.5px] leading-relaxed text-muted-foreground">
           No usamos contraseñas. Te enviamos a tu correo un enlace de acceso y un código de 8 dígitos, válidos
           durante unos minutos. Puedes pulsar el enlace o escribir el código aquí.
         </p>
