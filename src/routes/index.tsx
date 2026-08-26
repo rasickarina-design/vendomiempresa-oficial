@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { LoginScreen, RoleScreen, VerifyScreen, type Profile } from "@/components/auth-screens";
 import { Dashboard } from "@/components/dashboard";
 import { LandingScreen } from "@/components/landing";
@@ -124,6 +124,7 @@ function Index() {
   const [buyers, setBuyers] = useState<Buyer[]>([]);
   const [contacts, setContacts] = useState<ContactLog[]>([]);
   const [toast, setToast] = useState<string | null>(null);
+  const logoutTargetRef = useRef<Screen | null>(null);
 
   /* Sesión real de Supabase: si ya hay JWT activo, entramos directo al dashboard. */
   useEffect(() => {
@@ -139,7 +140,10 @@ function Index() {
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT") {
         setEmail("");
-        setScreen("landing");
+        if (logoutTargetRef.current) {
+          setScreen(logoutTargetRef.current);
+          logoutTargetRef.current = null;
+        }
         return;
       }
       if (session?.user.email) setEmail(session.user.email);
@@ -281,12 +285,13 @@ function Index() {
           }}
           onProfileName={(n) => setProfile((prev) => ({ ...prev, name: n }))}
           onLogout={() => {
-            void supabase.auth.signOut();
+            logoutTargetRef.current = "login";
             setEmail("");
             setPhone("");
             setProfile(emptyProfile);
             setRole("buyer");
             setScreen("login");
+            void supabase.auth.signOut();
           }}
         />
       )}
