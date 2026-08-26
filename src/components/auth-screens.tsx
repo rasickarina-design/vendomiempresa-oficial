@@ -26,7 +26,7 @@ interface Profile {
 export function AuthCard({ children, hero = false }: { children: React.ReactNode; hero?: boolean }) {
   return (
     <div
-      className={`relative flex flex-1 items-center justify-center overflow-hidden px-6 ${hero ? "py-20 max-[560px]:py-12" : "py-10"}`}
+      className={`relative flex flex-1 items-center justify-center overflow-hidden px-6 ${hero ? "py-24 max-[560px]:py-14" : "py-12"}`}
     >
       <div
         aria-hidden
@@ -36,8 +36,8 @@ export function AuthCard({ children, hero = false }: { children: React.ReactNode
             "radial-gradient(circle, color-mix(in oklch, var(--primary) 8%, transparent) 0%, transparent 65%)",
         }}
       />
-      <div className={`surface-card relative z-[1] w-full overflow-hidden rounded-[20px] px-8 ${hero ? "max-w-[500px] py-12 max-[560px]:py-9" : "max-w-[440px] py-9"}`}>
-        <HazardCorner size={32} />
+      <div className={`surface-card relative z-[1] mx-auto w-full overflow-hidden rounded-[20px] px-8 ${hero ? "max-w-[600px] py-14 max-[560px]:py-10" : "max-w-[480px] py-10"}`}>
+        <HazardCorner size={36} />
         {children}
       </div>
     </div>
