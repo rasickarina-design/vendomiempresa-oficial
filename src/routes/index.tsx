@@ -256,6 +256,20 @@ function Index() {
             setCompanies(next);
             saveList(KEY_COMPANIES, next);
             void recordCompany(c);
+            const matched = buyers.filter((b) => isMatch(c, b));
+            if (matched.length > 0) {
+              void notifyMatch({
+                data: {
+                  audience: "seller",
+                  matchCount: matched.length,
+                  items: matched.map(
+                    (b) =>
+                      `Comprador interesado en ${b.sectors || "tu sector"} · presupuesto ${fmtMoney(b.budgetMin, b.currency)} – ${fmtMoney(b.budgetMax, b.currency)}`,
+                  ),
+                  eventRef: `company-${c.id}`,
+                },
+              });
+            }
             showToast("¡Empresa publicada con éxito!");
           }}
           onDelete={(id) => {
@@ -272,8 +286,23 @@ function Index() {
             setBuyers(next);
             saveList(KEY_BUYERS, next);
             void recordBuyer(b);
+            const matched = companies.filter((c) => isMatch(c, b));
+            if (matched.length > 0) {
+              void notifyMatch({
+                data: {
+                  audience: "buyer",
+                  matchCount: matched.length,
+                  items: matched.map(
+                    (c) =>
+                      `${c.name} · ${c.sector} · ${fmtMoney(c.priceAmount, c.priceCurrency)}`,
+                  ),
+                  eventRef: `buyer-${b.email}-${b.updatedAt}`,
+                },
+              });
+            }
             showToast("¡Tu búsqueda se ha guardado! Ya puedes ver tus matches.");
           }}
+
           onContact={(key) => {
             if (contacts.some((c) => c.key === key)) return;
             const next = [...contacts, { key, at: Date.now() }];
