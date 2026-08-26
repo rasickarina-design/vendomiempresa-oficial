@@ -76,7 +76,10 @@ export function LoginScreen({
     setSending(true);
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: typeof window === "undefined" ? undefined : window.location.origin,
+      },
     });
     setSending(false);
     if (error) {
