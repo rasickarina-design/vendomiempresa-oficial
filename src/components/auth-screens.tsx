@@ -259,8 +259,8 @@ export function VerifyScreen({
       <Eyebrow>Paso 2 de 2</Eyebrow>
       <h1 className="mb-2 text-[26px] font-bold text-primary">Confirma tu correo</h1>
       <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-        Hemos enviado un código de 6 dígitos a {maskEmail(email)}. Revisa tu bandeja de entrada (y el correo no
-        deseado).
+        Hemos enviado un correo a {maskEmail(email)} con un enlace de acceso y un código de 6 dígitos. Pulsa el
+        enlace del correo o escribe aquí el código (revisa también el correo no deseado).
       </p>
 
       <div className="mb-4 flex justify-between gap-2">
