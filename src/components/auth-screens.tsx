@@ -49,28 +49,36 @@ export function LoginScreen({
   onHome,
   notice,
 }: {
-  onCode: (data: { email: string; phone: string; code: string; expires: number }) => void;
+  onCode: (data: { email: string; phone: string }) => void;
   onHome?: () => void;
   notice?: string;
 }) {
 
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [sending, setSending] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
 
-  const submit = () => {
+  const submit = async () => {
+    if (sending) return;
     const e: typeof errors = {};
     if (!validEmail(email.trim())) e.email = "Introduce un correo válido.";
     if (!validPhone(phone.trim())) e.phone = "Introduce un teléfono válido (mínimo 8 dígitos).";
     setErrors(e);
     if (Object.keys(e).length) return;
-    onCode({
+    setSending(true);
+    const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      phone: phone.trim(),
-      code: genCode(),
-      expires: Date.now() + 5 * 60 * 1000,
+      options: { shouldCreateUser: true },
     });
+    setSending(false);
+    if (error) {
+      setErrors({ email: error.message });
+      return;
+    }
+    onCode({ email: email.trim(), phone: phone.trim() });
   };
+
 
   return (
     <AuthCard>
