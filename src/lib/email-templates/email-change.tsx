@@ -53,6 +53,12 @@ export const EmailChangeEmail = ({
         <Text style={footer}>
           Si no has solicitado este cambio, protege tu cuenta cuanto antes.
         </Text>
+        <Text style={footer}>
+          Atención al cliente:{' '}
+          <Link href="mailto:contact@makebusinessesflow.com" style={link}>
+            contact@makebusinessesflow.com
+          </Link>
+        </Text>
         <Text style={footer}>Powered by Make Business Flow</Text>
       </Container>
     </Body>

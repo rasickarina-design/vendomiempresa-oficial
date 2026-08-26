@@ -7,6 +7,7 @@ import {
   Head,
   Heading,
   Html,
+  Link,
   Preview,
   Section,
   Text,
@@ -38,6 +39,12 @@ export const RecoveryEmail = ({
         <Text style={footer}>
           Si no has solicitado este cambio, puedes ignorar este correo: tu
           contraseña no se modificará.
+        </Text>
+        <Text style={footer}>
+          Atención al cliente:{' '}
+          <Link href="mailto:contact@makebusinessesflow.com" style={link}>
+            contact@makebusinessesflow.com
+          </Link>
         </Text>
         <Text style={footer}>Powered by Make Business Flow</Text>
       </Container>
@@ -81,4 +88,5 @@ const button = {
   padding: '12px 20px',
   textDecoration: 'none',
 }
+const link = { color: '#f5c400', textDecoration: 'underline' }
 const footer = { fontSize: '12px', color: '#7c7c7c', margin: '28px 0 0' }
