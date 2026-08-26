@@ -1,4 +1,5 @@
 import logoAsset from "@/assets/logo.jpg.asset.json";
+import { HazardBanner } from "@/components/hazard-stripe";
 import {
   Accordion,
   AccordionContent,
@@ -110,6 +111,8 @@ export function LandingScreen({ onLogin }: { onLogin: () => void }) {
           <LoginButton onLogin={onLogin} />
         </div>
       </section>
+
+      <HazardBanner text="VENDO" />
 
       <Section title="El problema">
         <p>

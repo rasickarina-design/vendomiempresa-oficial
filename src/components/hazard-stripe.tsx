@@ -43,3 +43,24 @@ export function HazardCorner({
     />
   );
 }
+
+/** Banda industrial grande con texto. */
+export function HazardBanner({
+  text,
+  className = "",
+}: {
+  text: string;
+  className?: string;
+}) {
+  return (
+    <div
+      aria-hidden
+      className={`relative w-full overflow-hidden py-6 ${className}`}
+      style={stripeStyle}
+    >
+      <div className="hero-stencil flex items-center justify-center text-[clamp(56px,10vw,112px)] font-extrabold uppercase leading-none tracking-[0.06em] text-primary-foreground drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)]">
+        {text}
+      </div>
+    </div>
+  );
+}
