@@ -7,7 +7,7 @@ export const Route = createFileRoute('/api/public/hooks/weekly-summary')({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const key = process.env['SUPABASE_PUBLISHABLE_KEY']
+        const key = process.env['SUPABASE_PUBLISHABLE_KEY'] || process.env['SUPABASE_ANON_KEY']
         if (!key || request.headers.get('apikey') !== key) {
           return new Response('Unauthorized', { status: 401 })
         }
