@@ -34,6 +34,16 @@ function groupAddress(list: Array<Record<string, unknown>>, group: string[]) {
   });
 }
 
+/** Coloca primero los datos de la persona (nombre, email, teléfono, WhatsApp). */
+function putFirst(list: Array<Record<string, unknown>>, first: string[]) {
+  return list.map((r) => {
+    const out: Record<string, unknown> = {};
+    for (const k of first) if (k in r) out[k] = r[k];
+    for (const k of Object.keys(r)) if (!(k in out)) out[k] = r[k];
+    return out;
+  });
+}
+
 const TABLES: Array<{ name: TableName; label: string; file: string }> = [
   { name: "companies", label: "VENDEN · Empresas en venta", file: "empresas" },
   { name: "buyers", label: "COMPRAN · Compradores", file: "compradores" },
@@ -80,14 +90,17 @@ function AdminPage() {
         supabase.from("contacts").select("*").order("created_at", { ascending: false }),
       ]);
       setRows({
-        companies: groupAddress((c.data ?? []) as Array<Record<string, unknown>>, [
+        companies: putFirst(groupAddress((c.data ?? []) as Array<Record<string, unknown>>, [
           "location",
           "city",
           "postal_code",
           "country",
           "maps_url",
-        ]),
-        buyers: groupAddress((b.data ?? []) as Array<Record<string, unknown>>, ["location_pref", "country"]),
+        ]), ["owner_name", "owner_email", "owner_phone", "whatsapp"]),
+        buyers: putFirst(
+          groupAddress((b.data ?? []) as Array<Record<string, unknown>>, ["location_pref", "country"]),
+          ["name", "email", "phone", "whatsapp"],
+        ),
         contacts: (ct.data ?? []) as Array<Record<string, unknown>>,
       });
     }
