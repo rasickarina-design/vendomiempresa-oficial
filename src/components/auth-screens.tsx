@@ -23,7 +23,13 @@ interface Profile {
   thesis: string;
 }
 
-export function AuthCard({ children, hero = false }: { children: React.ReactNode; hero?: boolean }) {
+export function AuthCard({
+  children,
+  hero = false,
+}: {
+  children: React.ReactNode;
+  hero?: boolean;
+}) {
   return (
     <div
       className={`relative flex flex-1 items-center justify-center overflow-hidden px-6 ${hero ? "py-24 max-[560px]:py-14" : "py-12"}`}
@@ -36,7 +42,9 @@ export function AuthCard({ children, hero = false }: { children: React.ReactNode
             "radial-gradient(circle, color-mix(in oklch, var(--primary) 8%, transparent) 0%, transparent 65%)",
         }}
       />
-      <div className={`surface-card relative z-[1] mx-auto w-full overflow-hidden rounded-[20px] px-8 ${hero ? "max-w-[600px] py-14 max-[560px]:py-10" : "max-w-[480px] py-10"}`}>
+      <div
+        className={`surface-card relative z-[1] mx-auto w-full overflow-hidden rounded-[20px] px-8 ${hero ? "max-w-[600px] py-14 max-[560px]:py-10" : "max-w-[480px] py-10"}`}
+      >
         <HazardCorner size={36} />
         {children}
       </div>
@@ -61,7 +69,6 @@ export function LoginScreen({
   onHome?: () => void;
   notice?: string;
 }) {
-
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [sending, setSending] = useState(false);
@@ -70,8 +77,8 @@ export function LoginScreen({
   const submit = async () => {
     if (sending) return;
     const e: typeof errors = {};
-    if (!validEmail(email.trim())) e.email = "Introduce un correo válido.";
-    if (!validPhone(phone.trim())) e.phone = "Introduce un teléfono válido (mínimo 8 dígitos).";
+    if (!validEmail(email.trim())) e.email = "Ingresa un correo válido.";
+    if (!validPhone(phone.trim())) e.phone = "Ingresa un teléfono válido (mínimo 8 dígitos).";
     setErrors(e);
     if (Object.keys(e).length) return;
     setSending(true);
@@ -89,7 +96,6 @@ export function LoginScreen({
     }
     onCode({ email: email.trim(), phone: phone.trim() });
   };
-
 
   return (
     <AuthCard hero>
@@ -119,8 +125,9 @@ export function LoginScreen({
         El lugar donde vendedores y compradores de empresas se encuentran.
       </p>
       <p className="mb-8 text-center text-[15px] leading-relaxed text-muted-foreground">
-        Publica tu empresa o define qué estás buscando comprar. Nosotros te avisamos cuando hay match y te ponemos
-        en contacto directo con la otra parte. Acceso sin contraseña: solo tu correo y un código de un solo uso.
+        Publica tu empresa o define qué estás buscando comprar. Nosotros te avisamos cuando hay
+        match y te ponemos en contacto directo con la otra parte. Acceso sin contraseña: solo tu
+        correo y un código de un solo uso.
       </p>
 
       <div className="mb-5">
@@ -135,7 +142,9 @@ export function LoginScreen({
           value={email}
           maxLength={255}
           onChange={(ev) => setEmail(ev.target.value)}
-          onKeyDown={(ev) => { if (ev.key === "Enter") void submit(); }}
+          onKeyDown={(ev) => {
+            if (ev.key === "Enter") void submit();
+          }}
         />
         {errors.email && <p className="field-error">{errors.email}</p>}
       </div>
@@ -152,23 +161,28 @@ export function LoginScreen({
           value={phone}
           maxLength={18}
           onChange={(ev) => setPhone(ev.target.value)}
-          onKeyDown={(ev) => { if (ev.key === "Enter") void submit(); }}
+          onKeyDown={(ev) => {
+            if (ev.key === "Enter") void submit();
+          }}
         />
         {errors.phone && <p className="field-error">{errors.phone}</p>}
       </div>
 
-      <button className="btn-primary mt-2 w-full py-5 text-xl" onClick={() => void submit()} disabled={sending}>
+      <button
+        className="btn-primary mt-2 w-full py-5 text-xl"
+        onClick={() => void submit()}
+        disabled={sending}
+      >
         {sending ? "Enviando código…" : "Enviar código de verificación"}
       </button>
 
       <div className="mt-7 flex items-start gap-3 rounded-[10px] border border-border-soft bg-input px-4 py-4">
         <Lock className="mt-px shrink-0 text-primary" size={18} strokeWidth={2} />
         <p className="text-[12.5px] leading-relaxed text-muted-foreground">
-          No usamos contraseñas. Te enviamos a tu correo un enlace de acceso y un código de 8 dígitos, válidos
-          durante unos minutos. Puedes pulsar el enlace o escribir el código aquí.
+          No usamos contraseñas. Te enviamos a tu correo un enlace de acceso y un código de 8
+          dígitos, válidos durante unos minutos. Puedes hacer clic en el enlace o escribir el código aquí.
         </p>
       </div>
-
     </AuthCard>
   );
 }
@@ -243,7 +257,9 @@ export function VerifyScreen({
   const fill = (raw: string, from = 0) => {
     const nums = raw.replace(/[^0-9]/g, "").slice(0, OTP_LENGTH - from);
     if (!nums) return;
-    setDigits((d) => d.map((x, idx) => (idx >= from && idx < from + nums.length ? nums[idx - from]! : x)));
+    setDigits((d) =>
+      d.map((x, idx) => (idx >= from && idx < from + nums.length ? nums[idx - from]! : x)),
+    );
     const last = Math.min(from + nums.length, OTP_LENGTH - 1);
     refs.current[last]?.focus();
   };
@@ -260,8 +276,9 @@ export function VerifyScreen({
       <Eyebrow>Paso 2 de 2</Eyebrow>
       <h1 className="mb-2 text-[26px] font-bold text-primary">Confirma tu correo</h1>
       <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
-        Hemos enviado un correo a {maskEmail(email)} con un enlace de acceso y un código de 8 dígitos. Pulsa el
-        enlace del correo o escribe aquí el código (revisa también el correo no deseado).
+        Hemos enviado un correo a {maskEmail(email)} con un enlace de acceso y un código de 8
+        dígitos. Haz clic en el enlace del correo o escribe aquí el código (revisa también el correo no
+        deseado).
       </p>
 
       <div className="mb-4 grid grid-cols-8 gap-1.5 sm:gap-2">
@@ -313,8 +330,14 @@ export function VerifyScreen({
   );
 }
 
-
-export function RoleScreen({ onPick }: { onPick: (role: Role) => void }) {
+export function RoleScreen({
+  onPick,
+  suggested,
+}: {
+  onPick: (role: Role) => void;
+  /** Rol elegido en la portada: se resalta para confirmar con un clic. */
+  suggested?: Role;
+}) {
   const opts: Array<{ role: Role; icon: LucideIcon; title: string; sub: string }> = [
     {
       role: "seller",
@@ -340,7 +363,8 @@ export function RoleScreen({ onPick }: { onPick: (role: Role) => void }) {
       <Eyebrow>Último paso</Eyebrow>
       <h1 className="mb-2 text-[26px] font-bold text-primary">¿Qué te trae por aquí?</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
-        Así te mostramos primero lo que te interesa. Puedes hacer las dos cosas en cualquier momento.
+        Así te mostramos primero lo que te interesa. Puedes hacer las dos cosas en cualquier
+        momento.
       </p>
 
       <div className="flex flex-col gap-2.5">
@@ -348,11 +372,19 @@ export function RoleScreen({ onPick }: { onPick: (role: Role) => void }) {
           <button
             key={o.role}
             onClick={() => onPick(o.role)}
-            className="flex cursor-pointer items-center gap-3.5 rounded-xl border border-border bg-input p-4 text-left transition hover:border-primary-dim hover:bg-card-hover"
+            autoFocus={o.role === suggested}
+            className={`flex cursor-pointer items-center gap-3.5 rounded-xl border bg-input p-4 text-left transition hover:border-primary-dim hover:bg-card-hover ${
+              o.role === suggested ? "border-primary ring-[3px] ring-primary-soft" : "border-border"
+            }`}
           >
             <o.icon className="shrink-0 text-primary" size={26} strokeWidth={2} />
             <span>
-              <span className="mb-0.5 block text-sm font-bold">{o.title}</span>
+              <span className="mb-0.5 flex items-center gap-2 text-sm font-bold">
+                {o.title}
+                {o.role === suggested && (
+                  <span className="pill bg-primary-soft text-primary">Tu elección</span>
+                )}
+              </span>
               <span className="block text-xs text-muted-foreground">{o.sub}</span>
             </span>
           </button>
@@ -386,7 +418,7 @@ export function ProfileScreen({
 
   const submit = () => {
     const e: typeof errors = {};
-    if (!p.name.trim()) e.name = "Introduce tu nombre.";
+    if (!p.name.trim()) e.name = "Ingresa tu nombre.";
     if (needsBuyer && !p.sectors.trim())
       e.sectors = "Indícanos al menos un sector de interés para poder buscarte matches.";
 
@@ -400,9 +432,9 @@ export function ProfileScreen({
       <Eyebrow>Tu perfil</Eyebrow>
       <h1 className="mb-2 text-[26px] font-bold text-primary">Cuéntanos un poco más</h1>
       <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
-        Estos datos se usan para generar los matches y para que la otra parte sepa con quién está hablando.
+        Estos datos se usan para generar los matches y para que la otra parte sepa con quién está
+        hablando.
       </p>
-
 
       <div className="mb-4">
         <label className="field-label">Nombre completo</label>

@@ -1,20 +1,41 @@
+import { useState } from "react";
+import {
+  ArrowRight,
+  BadgeDollarSign,
+  EyeOff,
+  Factory,
+  Filter,
+  KeyRound,
+  Menu,
+  MessagesSquare,
+  Search,
+  UserX,
+  type LucideIcon,
+} from "lucide-react";
 import logoAsset from "@/assets/logo.jpg.asset.json";
-import { HazardBanner } from "@/components/hazard-stripe";
+import { HazardStripe } from "@/components/hazard-stripe";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { Role } from "@/lib/marketplace";
 
 const FAQS: { q: string; a: string }[] = [
   {
-    q: "¿En qué me puede ayudar la plataforma?",
-    a: "Además de conectar compradores y vendedores, podemos ayudarte a armar una carpeta de presentación de tu empresa para el comprador, analizar los números del negocio si estás del lado comprador, y ponerte en contacto con bancos internacionales y family desks que puedan acompañar la operación.",
+    q: "¿Tiene algún costo usar la plataforma?",
+    a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene costo, y el contacto entre las partes es directo: no cobramos comisión sobre la operación entre las partes.",
   },
   {
-    q: "¿Qué tipo de empresas se pueden publicar?",
-    a: "Se pueden publicar empresas de cualquier sector, incluidas las de tecnología y software que ya tengan una plataforma construida y estén monetizando. Si tu negocio factura, tiene usuarios o clientes de pago y un modelo de ingresos probado, encaja en la categoría Tecnología y software y puede aparecer en las búsquedas de compradores interesados en activos digitales.",
+    q: "¿Se muestran mis datos de contacto a cualquiera?",
+    a: "No. Mientras no haya match, tus datos de contacto no se muestran a ningún otro usuario. Cuando la coincidencia se produce, se comparten con esa contraparte concreta para que puedan hablar directamente, sin intermediarios ni comisiones de intermediación.",
+  },
+  {
+    q: "¿Publicar mi empresa es público?",
+    a: "Publicas los datos del negocio —sector, facturación, ubicación, precio solicitado— para que el sistema pueda cruzarlos con las búsquedas activas. Tu identidad y tus datos de contacto quedan reservados hasta que exista un match, así puedes explorar el mercado sin exponer que estás vendiendo.",
   },
   {
     q: "¿Qué es exactamente un match?",
@@ -29,12 +50,8 @@ const FAQS: { q: string; a: string }[] = [
     a: "Para que nadie pierda el tiempo. Si cualquiera pudiera escribir a cualquiera, los vendedores recibirían decenas de consultas de curiosos y los compradores mensajes de empresas que no tienen nada que ver con lo que buscan. Habilitando el contacto solo entre partes compatibles, toda conversación empieza con interés real por ambos lados.",
   },
   {
-    q: "¿Se muestran mis datos de contacto a cualquiera?",
-    a: "No. Mientras no haya match, tus datos de contacto no se muestran a ningún otro usuario. Cuando la coincidencia se produce, se comparten con esa contraparte concreta para que podáis hablar directamente, sin intermediarios ni comisiones de intermediación.",
-  },
-  {
-    q: "¿Publicar mi empresa es público?",
-    a: "Publicas los datos del negocio —sector, facturación, ubicación, precio solicitado— para que el sistema pueda cruzarlos con las búsquedas activas. Tu identidad y tus datos de contacto quedan reservados hasta que exista un match, así puedes explorar el mercado sin exponer que estás vendiendo.",
+    q: "¿Qué tipo de empresas se pueden publicar?",
+    a: "Se pueden publicar empresas de cualquier sector, incluidas las de tecnología y software que ya tengan una plataforma construida y estén monetizando. Si tu negocio factura, tiene usuarios o clientes de pago y un modelo de ingresos probado, encaja en la categoría Tecnología y software y puede aparecer en las búsquedas de compradores interesados en activos digitales.",
   },
   {
     q: "¿Puedo comprar y vender al mismo tiempo?",
@@ -45,16 +62,16 @@ const FAQS: { q: string; a: string }[] = [
     a: "Reúne los balances y la cuenta de resultados de los tres últimos ejercicios cerrados en PDF (o Excel), súbelos a una carpeta de Google Drive y pega en la publicación el enlace de esa carpeta. Configura el enlace como «Cualquier persona con el enlace puede ver» y no incluyas datos personales de empleados ni clientes. El enlace solo se comparte con la contraparte cuando existe un match.",
   },
   {
-    q: "Si soy un banco o family desk, ¿cómo obtengo el listado de empresas en venta?",
-    a: "Si sos un banco o family desk interesado en nuestra base de datos, podés escribirnos a contact@makebusinessesflow.com o suscribirte como comprador y buscar tu match dentro de la plataforma.",
+    q: "¿En qué me puede ayudar la plataforma?",
+    a: "Además de conectar compradores y vendedores, podemos ayudarte a armar una carpeta de presentación de tu empresa para el comprador, analizar los números del negocio si estás del lado comprador, y ponerte en contacto con bancos internacionales y family desks que puedan acompañar la operación.",
   },
   {
-    q: "¿Tiene coste usar la plataforma?",
-    a: "Publicar tu empresa, definir tu criterio de búsqueda y recibir matches no tiene coste, y el contacto entre las partes es directo: no cobramos comisión sobre la operación entre las partes.",
+    q: "Si soy un banco o family desk, ¿cómo obtengo el listado de empresas en venta?",
+    a: "Si eres un banco o family desk interesado en nuestra base de datos, puedes escribirnos a contact@makebusinessesflow.com o suscribirte como comprador y buscar tu match dentro de la plataforma.",
   },
   {
     q: "¿Cómo funciona el acceso con código?",
-    a: "No usas contraseña. Introduces tu correo en la pantalla de acceso y te enviamos un código numérico de un solo uso. Lo copias en la aplicación y entras. El código caduca a los 5 minutos y solo sirve una vez, así que nadie puede reutilizarlo. Si caduca, pides uno nuevo desde la misma pantalla.",
+    a: "No usas contraseña. Ingresas tu correo en la pantalla de acceso y te enviamos un código numérico de un solo uso. Lo copias en la aplicación y entras. El código vence a los 5 minutos y solo sirve una vez, así que nadie puede reutilizarlo. Si vence, pides uno nuevo desde la misma pantalla.",
   },
   {
     q: "¿Necesito crear una contraseña?",
@@ -62,236 +79,443 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "¿Qué pasa si no me llega el código?",
-    a: "Primero revisa las carpetas de spam y promociones, y comprueba que el correo esté bien escrito (sin espacios ni letras de más). Si tu correo es corporativo, puede haber un filtro interno retrasándolo un minuto. Puedes volver a solicitar el código desde la pantalla de acceso todas las veces que necesites: siempre vale el último que hayas recibido.",
+    a: "Primero revisa las carpetas de spam y promociones, y comprueba que el correo esté bien escrito (sin espacios ni letras de más). Si tu correo es corporativo, puede haber un filtro interno retrasándolo un minuto. Puedes volver a solicitar el código desde la pantalla de acceso todas las veces que necesites: siempre es válido el último que hayas recibido.",
   },
 ];
 
+/* ───────────────────────── Datos de las secciones ───────────────────────── */
 
+const NAV = [
+  { href: "#como-funciona", label: "Cómo funciona" },
+  { href: "#seguridad", label: "Privacidad" },
+  { href: "#preguntas", label: "Preguntas" },
+];
 
+const PROBLEMS: { icon: LucideIcon; title: string; text: string }[] = [
+  {
+    icon: MessagesSquare,
+    title: "Anuncios sueltos",
+    text: "Empresas ofrecidas en grupos de WhatsApp y redes sociales, sin datos comparables.",
+  },
+  {
+    icon: UserX,
+    title: "Intermediarios informales",
+    text: "Contactos personales y comisiones poco claras entre quien vende y quien compra.",
+  },
+  {
+    icon: Filter,
+    title: "Imposible filtrar",
+    text: "El comprador no puede buscar por sector, presupuesto ni ubicación.",
+  },
+];
 
+const SELLER_STEPS = [
+  {
+    title: "Entras con tu correo",
+    text: "Te enviamos un código de un solo uso. Sin contraseñas que crear ni recordar.",
+  },
+  {
+    title: "Publicas tu empresa",
+    text: "Sector, ubicación, antigüedad, facturación, precio y motivo de venta. Tu identidad y tu contacto quedan reservados.",
+  },
+  {
+    title: "Recibes compradores filtrados",
+    text: "Cuando un comprador encaja por sector y presupuesto, les avisamos a ambos y pueden hablar directamente.",
+  },
+];
 
+const BUYER_STEPS = [
+  {
+    title: "Entras con tu correo",
+    text: "Te enviamos un código de un solo uso. Sin contraseñas que crear ni recordar.",
+  },
+  {
+    title: "Defines qué buscas",
+    text: "Sectores de interés, presupuesto y ubicación preferida. Lo defines una sola vez.",
+  },
+  {
+    title: "Te avisamos cuando hay match",
+    text: "Solo recibes empresas que encajan con tu criterio, y contactas al vendedor con un clic.",
+  },
+];
 
-function LoginButton({ onLogin, className = "" }: { onLogin: () => void; className?: string }) {
+const TRUST: { icon: LucideIcon; title: string; text: string }[] = [
+  {
+    icon: EyeOff,
+    title: "Tus datos, reservados",
+    text: "Tu identidad y tu contacto solo se muestran a la contraparte cuando hay un match real.",
+  },
+  {
+    icon: BadgeDollarSign,
+    title: "Sin comisión sobre la operación",
+    text: "Publicar, buscar y recibir matches no tiene costo. El contacto entre las partes es directo.",
+  },
+  {
+    icon: KeyRound,
+    title: "Acceso sin contraseña",
+    text: "Código de un solo uso enviado a tu correo, válido durante 5 minutos.",
+  },
+];
+
+/* ───────────────────────── Piezas ───────────────────────── */
+
+function SiteHeader({ onLogin }: { onLogin: () => void }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className={`flex w-full justify-center ${className}`}>
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="mx-auto flex h-16 w-full max-w-[880px] items-center justify-between gap-4 px-5">
+        <a
+          href="#inicio"
+          className="flex items-center gap-2.5 rounded-md focus-visible:outline-2 focus-visible:outline-primary"
+        >
+          <img src={logoAsset.url} alt="" className="h-9 w-9 rounded-md object-contain" />
+          <span className="hero-stencil whitespace-nowrap text-[17px] uppercase text-primary max-[380px]:text-[14px]">
+            Vendo Mi Empresa
+          </span>
+        </a>
+
+        <nav aria-label="Secciones" className="hidden items-center gap-7 md:flex">
+          {NAV.map((n) => (
+            <a
+              key={n.href}
+              href={n.href}
+              className="text-[14px] font-medium text-muted-foreground transition hover:text-foreground"
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <button onClick={onLogin} className="btn-ghost text-foreground">
+            Ingresar
+          </button>
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <button className="btn-ghost px-2.5 md:hidden" aria-label="Abrir menú">
+                <Menu size={20} />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[260px] border-border bg-card">
+              <SheetTitle className="hero-stencil mb-6 uppercase text-primary">Menú</SheetTitle>
+              <nav className="flex flex-col gap-5" aria-label="Secciones">
+                {NAV.map((n) => (
+                  <a
+                    key={n.href}
+                    href={n.href}
+                    onClick={() => setOpen(false)}
+                    className="text-[16px] font-medium text-foreground"
+                  >
+                    {n.label}
+                  </a>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+      <HazardStripe />
+    </header>
+  );
+}
+
+/** Las dos "puertas" del hero: son el CTA principal y la firma visual de la portada. */
+function RoleDoors({
+  onStart,
+  compact = false,
+}: {
+  onStart: (role: Role) => void;
+  compact?: boolean;
+}) {
+  return (
+    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
       <button
-        className="btn-primary min-h-[72px] w-full max-w-[360px] px-10 py-5 text-[24px] uppercase tracking-[0.02em] max-[560px]:max-w-full max-[560px]:text-[22px]"
-        onClick={onLogin}
+        onClick={() => onStart("seller")}
+        className={`group relative flex flex-col items-start rounded-2xl bg-primary text-left text-primary-foreground transition hover:opacity-95 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-primary active:scale-[0.995] ${compact ? "p-5" : "p-6 sm:p-7"}`}
       >
-        Login →
+        <Factory size={compact ? 26 : 32} strokeWidth={2} aria-hidden />
+        <span
+          className={`hero-stencil mt-4 uppercase ${compact ? "text-[24px]" : "text-[30px] sm:text-[36px]"}`}
+        >
+          Vendo
+        </span>
+        <span className="mt-2 max-w-[34ch] text-[15px] leading-snug font-medium">
+          Publica tu empresa gratis. Tus datos quedan reservados hasta que haya match.
+        </span>
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[15px] font-bold">
+          Publicar mi empresa
+          <ArrowRight size={18} className="transition group-hover:translate-x-1" aria-hidden />
+        </span>
+      </button>
+
+      <button
+        onClick={() => onStart("buyer")}
+        className={`group relative flex flex-col items-start rounded-2xl border-2 border-primary bg-card text-left text-foreground transition hover:bg-card-hover focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-primary active:scale-[0.995] ${compact ? "p-5" : "p-6 sm:p-7"}`}
+      >
+        <Search size={compact ? 26 : 32} strokeWidth={2} className="text-primary" aria-hidden />
+        <span
+          className={`hero-stencil mt-4 uppercase text-primary ${compact ? "text-[24px]" : "text-[30px] sm:text-[36px]"}`}
+        >
+          Compro
+        </span>
+        <span className="mt-2 max-w-[34ch] text-[15px] leading-snug text-muted-foreground">
+          Define sector, presupuesto y ubicación. Te avisamos cuando aparece una empresa que encaja.
+        </span>
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[15px] font-bold text-primary">
+          Definir mi búsqueda
+          <ArrowRight size={18} className="transition group-hover:translate-x-1" aria-hidden />
+        </span>
       </button>
     </div>
   );
 }
 
-function Section({
-  title,
+function SectionTitle({
+  id,
   children,
+  intro,
 }: {
-  title: string;
+  id?: string;
   children: React.ReactNode;
+  intro?: string;
 }) {
   return (
-    <section className="mx-auto w-full max-w-[880px] px-6 py-10 max-[560px]:py-8">
-      <h2 className="mb-4 text-[26px] font-bold leading-tight text-primary max-[560px]:text-[22px]">{title}</h2>
-      <div className="flex flex-col gap-4 text-[16px] leading-[1.75] text-foreground max-[560px]:text-[15px]">
+    <div className="mb-8">
+      <h2
+        id={id}
+        className="text-[30px] font-bold leading-tight text-foreground max-[560px]:text-[24px]"
+      >
         {children}
-      </div>
-    </section>
+      </h2>
+      {intro && (
+        <p className="mt-3 max-w-[60ch] text-[16px] leading-[1.7] text-muted-foreground">{intro}</p>
+      )}
+    </div>
   );
 }
 
-export function LandingScreen({ onLogin }: { onLogin: () => void }) {
+function Steps({ steps }: { steps: { title: string; text: string }[] }) {
   return (
-    <main className="flex-1">
-      <HazardBanner text="VENDO" variant="solid" />
+    <ol className="grid gap-4 md:grid-cols-3">
+      {steps.map((s, i) => (
+        <li key={s.title} className="card-hairline px-5 pb-6 pt-5">
+          <span className="hero-stencil block text-[44px] text-primary" aria-hidden>
+            {i + 1}
+          </span>
+          <h3 className="mt-2 text-[17px] font-bold text-foreground">{s.title}</h3>
+          <p className="mt-2 text-[15px] leading-[1.65] text-muted-foreground">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
-      <section className="relative overflow-hidden px-6 pb-12 pt-14">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-36 -top-48 h-[600px] w-[600px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, color-mix(in oklch, var(--primary) 10%, transparent) 0%, transparent 65%)",
-          }}
-        />
-        <div className="relative z-[1] mx-auto flex w-full max-w-[880px] flex-col items-center text-center">
-          <img src={logoAsset.url} alt="Logo Vendo Mi Empresa" className="mb-5 h-20 w-20 rounded-xl object-contain" />
-          <h1 className="mb-4 text-[44px] font-bold uppercase leading-[1.05] tracking-[0.02em] text-primary max-[560px]:text-[32px]">
-            Vendo Mi Empresa
-          </h1>
-
-          <p className="mb-4 text-[20px] font-semibold leading-snug text-foreground max-[560px]:text-[18px]">
-            El lugar donde vendedores y compradores de empresas se encuentran.
+function BalancesGuide() {
+  return (
+    <Accordion type="single" collapsible className="mt-6">
+      <AccordionItem value="balances" className="surface-card border-none px-6">
+        <AccordionTrigger className="py-4 text-left text-[16px] font-semibold text-foreground hover:no-underline">
+          Antes de publicar: cómo preparar tus balances
+        </AccordionTrigger>
+        <AccordionContent className="pb-6 text-[15px] leading-[1.7] text-muted-foreground">
+          <p className="mb-4">
+            Un comprador serio pedirá números. Ten la documentación lista en una carpeta de Google
+            Drive: al publicar solo pegas el enlace en el campo «Enlace a balances».
           </p>
-          <p className="mb-7 max-w-[640px] text-[16px] leading-[1.75] text-foreground/90 max-[560px]:text-[15px]">
-            Publica tu empresa o define qué estás buscando comprar. Nosotros te avisamos cuando hay match y te
-            ponemos en contacto directo con la otra parte.
+          <div className="grid gap-5 md:grid-cols-3">
+            <div>
+              <h4 className="mb-2 font-bold text-foreground">1. Reúne la documentación</h4>
+              <ul className="flex list-disc flex-col gap-1.5 pl-5">
+                <li>Balances y cuenta de resultados de los 3 últimos ejercicios cerrados.</li>
+                <li>Facturación del ejercicio en curso, mes a mes.</li>
+                <li>Deuda actual, préstamos y avales vigentes.</li>
+                <li>Activos relevantes: maquinaria, vehículos, local, licencias.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-2 font-bold text-foreground">2. Súbela a Google Drive</h4>
+              <ul className="flex list-disc flex-col gap-1.5 pl-5">
+                <li>Carpeta con nombre neutro, por ejemplo «Documentación económica 2025».</li>
+                <li>Archivos en PDF o Excel, con nombres claros por año.</li>
+                <li>
+                  <strong className="text-foreground">
+                    Compartir → Cualquier persona con el enlace → Lector
+                  </strong>
+                  , y copia el enlace.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="mb-2 font-bold text-foreground">3. Pega el enlace</h4>
+              <p>
+                Solo se comparte con la contraparte cuando hay match. No incluyas datos personales
+                de empleados o clientes, y revoca el acceso al cerrar la operación.
+              </p>
+            </div>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+
+/* ───────────────────────── Página ───────────────────────── */
+
+export function LandingScreen({
+  onLogin,
+  onStart,
+}: {
+  onLogin: () => void;
+  onStart: (role: Role) => void;
+}) {
+  return (
+    <>
+      <SiteHeader onLogin={onLogin} />
+
+      <main id="inicio" className="flex-1 [&_section]:scroll-mt-24">
+        {/* HERO */}
+        <section className="relative overflow-hidden px-5 pb-16 pt-12 max-[560px]:pt-8">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-36 -top-48 h-[600px] w-[600px] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, color-mix(in oklch, var(--primary) 10%, transparent) 0%, transparent 65%)",
+            }}
+          />
+          <div className="relative z-[1] mx-auto w-full max-w-[880px]">
+            <h1 className="max-w-[22ch] text-[48px] font-bold leading-[1.04] text-foreground max-[560px]:text-[34px]">
+              Compra y venta de pymes en LATAM
+            </h1>
+            <p className="mt-5 max-w-[58ch] text-[18px] leading-[1.6] text-muted-foreground max-[560px]:text-[16px]">
+              Publica tu empresa o define qué buscas comprar. Cuando lo que se ofrece y lo que se
+              busca coinciden, les avisamos a ambos y los ponemos en contacto.
+            </p>
+
+            <div className="mt-9">
+              <RoleDoors onStart={onStart} />
+            </div>
+
+            <p className="mt-5 text-[14px] text-muted-foreground">
+              ¿Ya tienes cuenta?{" "}
+              <button
+                onClick={onLogin}
+                className="font-semibold text-primary underline-offset-4 hover:underline"
+              >
+                Ingresar
+              </button>
+            </p>
+          </div>
+        </section>
+
+        {/* PROBLEMA */}
+        <section aria-labelledby="problema" className="mx-auto w-full max-w-[880px] px-5 py-14">
+          <SectionTitle id="problema">Vender una pyme hoy es un proceso desordenado</SectionTitle>
+          <div className="grid gap-6 md:grid-cols-3">
+            {PROBLEMS.map((p) => (
+              <div key={p.title}>
+                <p.icon size={26} className="text-primary" aria-hidden />
+                <h3 className="mt-3 text-[17px] font-bold text-foreground">{p.title}</h3>
+                <p className="mt-1.5 text-[15px] leading-[1.65] text-muted-foreground">{p.text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-10 text-[20px] font-semibold text-primary">
+            Vendo Mi Empresa ordena ese proceso.
           </p>
+        </section>
 
-          <LoginButton onLogin={onLogin} />
-        </div>
-      </section>
+        {/* CÓMO FUNCIONA */}
+        <section
+          aria-labelledby="como-funciona"
+          className="mx-auto w-full max-w-[880px] px-5 py-14"
+        >
+          <SectionTitle id="como-funciona" intro="Elige tu caso. Son tres pasos en ambos lados.">
+            Cómo funciona
+          </SectionTitle>
 
-      <Section title="El problema">
-        <p>
-          Vender o comprar una pequeña o mediana empresa hoy es un proceso desordenado: contactos personales,
-          intermediarios informales, anuncios sueltos en grupos de WhatsApp o redes sociales. No hay un lugar
-          centralizado donde un vendedor pueda mostrar su negocio de forma ordenada, ni donde un comprador pueda
-          filtrar oportunidades según lo que realmente busca.
-        </p>
-        <p className="font-semibold text-primary">Vendo Mi Empresa ordena ese proceso.</p>
-      </Section>
+          <Tabs defaultValue="seller">
+            <TabsList className="mb-6 h-auto w-full max-w-[420px] rounded-xl bg-card p-1">
+              <TabsTrigger
+                value="seller"
+                className="flex-1 rounded-lg py-2.5 text-[15px] font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                Si vendes
+              </TabsTrigger>
+              <TabsTrigger
+                value="buyer"
+                className="flex-1 rounded-lg py-2.5 text-[15px] font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                Si compras
+              </TabsTrigger>
+            </TabsList>
 
-      <Section title="Cómo funciona">
-        <div className="surface-card rounded-[16px] px-6 py-5">
-          <h3 className="mb-2 text-[17px] font-bold text-foreground">1. Entras en segundos</h3>
-          <p>
-            Solo necesitas tu correo y tu teléfono. Te enviamos un código de un solo uso para confirmar que eres tú,
-            sin contraseñas que crear ni recordar.
-          </p>
-        </div>
-        <div className="surface-card rounded-[16px] px-6 py-5">
-          <h3 className="mb-2 text-[17px] font-bold text-foreground">2. Cuentas qué buscas</h3>
-          <ul className="flex flex-col gap-2 pl-5">
-            <li className="list-disc">
-              <strong className="text-foreground">Si vendes:</strong> publicas los datos de tu empresa — sector,
-              ubicación, antigüedad, facturación, precio y motivo de venta.
-            </li>
-            <li className="list-disc">
-              <strong className="text-foreground">Si compras:</strong> defines tu criterio de búsqueda — sectores de
-              interés, presupuesto y ubicación preferida.
-            </li>
-          </ul>
-        </div>
-        <div className="surface-card rounded-[16px] px-6 py-5">
-          <h3 className="mb-2 text-[17px] font-bold text-foreground">3. Te avisamos cuando hay match</h3>
-          <p>
-            Cuando una empresa publicada coincide con lo que un comprador está buscando, se genera un match
-            automático para ambas partes. Desde ahí, cualquiera de las dos puede escribir directamente a la otra con
-            un solo clic.
-          </p>
-        </div>
-      </Section>
+            <TabsContent value="seller">
+              <Steps steps={SELLER_STEPS} />
+              <BalancesGuide />
+              <button
+                onClick={() => onStart("seller")}
+                className="btn-primary mt-6 px-6 text-[15px]"
+              >
+                Publicar mi empresa
+              </button>
+            </TabsContent>
 
-      <Section title="Para quienes venden">
-        <p>
-          Deja de salir a buscar compradores uno por uno. Publica tu empresa una sola vez y deja que los compradores
-          interesados lleguen a ti, ya filtrados por sector y presupuesto.
-        </p>
-        <ul className="flex flex-col gap-2 pl-5">
-          <li className="list-disc">Publicación en minutos, sin intermediarios.</li>
-          <li className="list-disc">Ves quién está realmente interesado antes de responder.</li>
-          <li className="list-disc">Contacto directo, sin comisiones de intermediación.</li>
-        </ul>
-      </Section>
+            <TabsContent value="buyer">
+              <Steps steps={BUYER_STEPS} />
+              <button
+                onClick={() => onStart("buyer")}
+                className="btn-primary mt-6 px-6 text-[15px]"
+              >
+                Definir mi búsqueda
+              </button>
+            </TabsContent>
+          </Tabs>
+        </section>
 
-      <Section title="Prepara tus balances antes de publicar">
-        <p>
-          Un comprador serio pedirá números. Ten la documentación económica lista y alojada en un enlace de Google
-          Drive: en la publicación solo tendrás que pegar ese enlace en el campo «Enlace a balances».
-        </p>
-        <div className="surface-card rounded-[16px] px-6 py-5">
-          <h3 className="mb-2 text-[17px] font-bold text-foreground">1. Reúne la documentación</h3>
-          <ul className="flex flex-col gap-2 pl-5">
-            <li className="list-disc">Balances y cuenta de resultados de los 3 últimos ejercicios cerrados.</li>
-            <li className="list-disc">Facturación del ejercicio en curso (acumulado mes a mes).</li>
-            <li className="list-disc">Deuda actual, préstamos y avales vigentes, si los hay.</li>
-            <li className="list-disc">Inventario de activos relevantes: maquinaria, vehículos, local, licencias.</li>
-          </ul>
-        </div>
-        <div className="surface-card rounded-[16px] px-6 py-5">
-          <h3 className="mb-2 text-[17px] font-bold text-foreground">2. Súbelo a Google Drive</h3>
-          <ul className="flex flex-col gap-2 pl-5">
-            <li className="list-disc">
-              Crea una carpeta en Google Drive con un nombre neutro (por ejemplo, «Documentación económica 2024»).
-            </li>
-            <li className="list-disc">Sube los archivos en PDF o Excel, con nombres claros por año.</li>
-            <li className="list-disc">
-              Pulsa <strong className="text-foreground">Compartir → Cualquier persona con el enlace → Lector</strong> y
-              copia el enlace.
-            </li>
-          </ul>
-        </div>
-        <div className="surface-card rounded-[16px] px-6 py-5">
-          <h3 className="mb-2 text-[17px] font-bold text-foreground">3. Pega el enlace en tu publicación</h3>
-          <p>
-            Añade el enlace de la carpeta en el campo «Enlace a balances» al publicar tu empresa. Solo se comparte con
-            la contraparte cuando se produce un match, nunca con visitantes que exploran el listado.
-          </p>
-        </div>
-        <p className="text-muted-foreground">
-          Recomendación: no incluyas datos personales de empleados o clientes, y revoca el acceso al enlace cuando
-          cierres la operación.
-        </p>
-      </Section>
+        {/* SEGURIDAD */}
+        <section aria-labelledby="seguridad" className="mx-auto w-full max-w-[880px] px-5 py-14">
+          <SectionTitle id="seguridad">Explora el mercado sin exponer que vendes</SectionTitle>
+          <div className="grid gap-6 md:grid-cols-3">
+            {TRUST.map((t) => (
+              <div key={t.title} className="surface-card p-5">
+                <t.icon size={24} className="text-primary" aria-hidden />
+                <h3 className="mt-3 text-[16px] font-bold text-foreground">{t.title}</h3>
+                <p className="mt-1.5 text-[15px] leading-[1.65] text-muted-foreground">{t.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
+        {/* FAQ */}
+        <section aria-labelledby="preguntas" className="mx-auto w-full max-w-[880px] px-5 py-14">
+          <SectionTitle id="preguntas">Preguntas frecuentes</SectionTitle>
+          <Accordion type="single" collapsible className="flex flex-col gap-2.5">
+            {FAQS.map((faq, i) => (
+              <AccordionItem
+                key={faq.q}
+                value={`faq-${i}`}
+                className="surface-card border-none px-6"
+              >
+                <AccordionTrigger className="py-4 text-left text-[16px] font-semibold text-foreground hover:no-underline max-[560px]:text-[15px]">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="pb-5 text-[15px] leading-[1.75] text-muted-foreground">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
 
-      <Section title="Para quienes compran">
-        <p>
-          Deja de revisar anuncio por anuncio buscando algo que tenga sentido. Define tu criterio una vez y la
-          plataforma te muestra solo lo que encaja contigo.
-        </p>
-        <ul className="flex flex-col gap-2 pl-5">
-          <li className="list-disc">Filtras por sector, presupuesto y ubicación.</li>
-          <li className="list-disc">Recibes avisos de match, no ruido.</li>
-          <li className="list-disc">Contactas con el vendedor con un mensaje que ya incluye tus datos.</li>
-        </ul>
-      </Section>
-
-      <Section title="Seguridad y privacidad">
-        <p>
-          <strong className="text-foreground">Acceso sin contraseñas.</strong> Verificamos tu identidad con un código
-          de un solo uso enviado a tu correo, válido durante 5 minutos.
-        </p>
-        <p>
-          <strong className="text-foreground">Tú controlas qué compartes.</strong> Tus datos de contacto solo se
-          muestran cuando hay un match real.
-        </p>
-        <p>
-          <strong className="text-foreground">Sin intermediarios ocultos.</strong> El contacto entre las partes es
-          directo.
-        </p>
-      </Section>
-
-      <section className="mx-auto w-full max-w-[880px] px-6 pb-4 pt-4">
-        <h2 className="mb-2 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Preguntas frecuentes</h2>
-        <p className="mb-5 text-[15px] leading-[1.7] text-muted-foreground">
-          Pulsa cada pregunta para desplegar la respuesta.
-        </p>
-
-        <Accordion type="single" collapsible className="flex flex-col gap-3">
-          {FAQS.map((faq, i) => (
-            <AccordionItem
-              key={faq.q}
-              value={`faq-${i}`}
-              className="surface-card rounded-[16px] border-none px-6"
-            >
-              <AccordionTrigger className="py-4 text-left text-[16px] font-semibold text-foreground hover:no-underline max-[560px]:text-[15px]">
-                {faq.q}
-              </AccordionTrigger>
-              <AccordionContent className="pb-5 text-[15px] leading-[1.75] text-muted-foreground">
-                {faq.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-
-
-
-
-      <section className="mx-auto w-full max-w-[880px] px-6 pb-16 pt-4">
-        <div className="surface-card rounded-[20px] px-7 py-8 text-center">
-          <h2 className="mb-3 text-[26px] font-bold text-primary max-[560px]:text-[22px]">Comienza ahora</h2>
-          <p className="mx-auto mb-6 max-w-[640px] text-[16px] leading-[1.75] text-foreground max-[560px]:text-[15px]">
-            Tanto si buscas vender tu empresa como encontrar la próxima para comprar, el primer paso te lleva menos
-            de un minuto.
-          </p>
-
-          <LoginButton onLogin={onLogin} />
-        </div>
-      </section>
-    </main>
+        {/* CTA FINAL */}
+        <section className="mx-auto w-full max-w-[880px] px-5 pb-20 pt-6">
+          <h2 className="mb-6 text-[30px] font-bold text-foreground max-[560px]:text-[24px]">
+            ¿De qué lado estás?
+          </h2>
+          <RoleDoors onStart={onStart} compact />
+        </section>
+      </main>
+    </>
   );
 }
