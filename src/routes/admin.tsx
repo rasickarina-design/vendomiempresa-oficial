@@ -39,7 +39,8 @@ function putFirst(list: Array<Record<string, unknown>>, first: string[]) {
   return list.map((r) => {
     const out: Record<string, unknown> = {};
     for (const k of first) if (k in r) out[k] = r[k];
-    for (const k of Object.keys(r)) if (!(k in out)) out[k] = r[k];
+    for (const k of Object.keys(r)) if (!(k in out) && k !== "id") out[k] = r[k];
+    if ("id" in r) out.id = r.id;
     return out;
   });
 }
