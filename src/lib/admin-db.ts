@@ -33,11 +33,11 @@ export async function recordCompany(c: Company) {
     city: c.city,
     postal_code: c.postalCode,
     country: c.country,
-    linkedin: c.linkedin,
-    google_profile: c.googleProfile,
-    maps_url: c.mapsUrl,
-    financials_url: c.financialsUrl,
-    website_url: c.websiteUrl,
+    linkedin: c.linkedin?.trim() || null,
+    google_profile: c.googleProfile?.trim() || null,
+    maps_url: c.mapsUrl?.trim() || null,
+    financials_url: c.financialsUrl?.trim() || null,
+    website_url: c.websiteUrl?.trim() || null,
     owner_position: c.ownerPosition,
 
 
@@ -67,7 +67,7 @@ export async function recordBuyer(b: Buyer) {
     currency: b.currency,
     location_pref: b.locationPref,
     country: b.country,
-    linkedin: b.linkedin,
+    linkedin: b.linkedin?.trim() || null,
     thesis: b.thesis,
     role: b.role,
   });
