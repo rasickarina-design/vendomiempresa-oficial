@@ -358,7 +358,7 @@ function BalancesGuide() {
               <p>
                 Pega el enlace copiado en el campo «Cargar información financiera o one pager» del
                 formulario de venta. Solo se comparte con la contraparte cuando hay match. No incluyas datos personales
-                de empleados o clientes, y revoca el acceso al cerrar la operación.
+                de empleados o clientes, y revoca el acceso al cerrar la operación o si la operación no avanza, para proteger tus datos.
               </p>
             </div>
           </div>
