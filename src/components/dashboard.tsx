@@ -444,6 +444,21 @@ function Explore({
   );
 }
 
+function PrefilledContact({ email, phone }: { email: string; phone: string }) {
+  return (
+    <div className="mb-3.5 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+      <div>
+        <label className="field-label">Tu email (de tu cuenta)</label>
+        <input className="field-input opacity-80" value={email} readOnly />
+      </div>
+      <div>
+        <label className="field-label">Tu teléfono (de tu cuenta)</label>
+        <input className="field-input opacity-80" value={phone} readOnly />
+      </div>
+    </div>
+  );
+}
+
 function PublishForm({
   onPublish,
   email,
@@ -576,6 +591,7 @@ function PublishForm({
       <p className="mb-5 mt-1 text-[11.5px] text-subtle-foreground">
         Esta información será visible para los compradores de la plataforma, junto con tu nombre y tu correo.
       </p>
+      <PrefilledContact email={email} phone={phone} />
       <div className="mb-3.5">
         <label className="field-label">Tu nombre completo</label>
         <input
@@ -835,6 +851,7 @@ function BuyerForm({
         Con esto te avisamos qué anuncios hacen match contigo, y los vendedores pueden contactar contigo
         directamente.
       </p>
+      <PrefilledContact email={email} phone={phone} />
       <div className="mb-4">
         <label className="field-label">Tu nombre completo</label>
         <input
