@@ -288,6 +288,10 @@ function Index() {
       {screen === "dashboard" && (
         <Dashboard
           email={email}
+          onBack={() => {
+            setScreen("landing");
+            window.scrollTo(0, 0);
+          }}
           phone={phone}
           role={role}
           profile={profile}
