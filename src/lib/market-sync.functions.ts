@@ -44,6 +44,7 @@ export function toBuyer(r: any): Buyer {
     country: r.country ?? '',
     linkedin: r.linkedin ?? '',
     whatsapp: r.whatsapp ?? '',
+    position: r.buyer_position ?? '',
     thesis: r.thesis ?? '',
     role: (r.role as Role) ?? 'buyer',
     updatedAt: new Date(r.created_at).getTime(),

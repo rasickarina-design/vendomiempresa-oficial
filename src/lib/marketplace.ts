@@ -66,6 +66,7 @@ export interface Buyer {
   country: string;
   linkedin: string;
   whatsapp?: string;
+  position?: string;
   thesis: string;
   role: Role;
   updatedAt: number;

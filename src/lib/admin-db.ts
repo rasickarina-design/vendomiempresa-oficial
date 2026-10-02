@@ -77,6 +77,7 @@ export async function recordBuyer(b: Buyer) {
     country: b.country,
     linkedin: link(b.linkedin),
     whatsapp: link(b.whatsapp),
+    buyer_position: b.position || null,
     thesis: b.thesis,
     role: b.role,
   });
