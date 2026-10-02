@@ -163,13 +163,13 @@ function SiteHeader({ onLogin }: { onLogin: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="mx-auto flex h-16 w-full max-w-[880px] items-center justify-between gap-4 px-5">
+      <div className="mx-auto flex h-16 w-full max-w-[880px] items-center justify-between gap-2 px-4 sm:gap-4 sm:px-5">
         <a
           href="#inicio"
-          className="flex items-center gap-2.5 rounded-md focus-visible:outline-2 focus-visible:outline-primary"
+          className="flex min-w-0 items-center gap-2 rounded-md focus-visible:outline-2 focus-visible:outline-primary"
         >
-          <img src={logoAsset.url} alt="" className="h-9 w-9 rounded-md object-contain" />
-          <span className="hero-stencil whitespace-nowrap text-[17px] uppercase text-primary max-[380px]:text-[14px]">
+          <img src={logoAsset.url} alt="" className="h-9 w-9 shrink-0 rounded-md object-contain" />
+          <span className="hero-stencil whitespace-nowrap text-[17px] uppercase text-primary max-sm:text-[13px]">
             Vendo Mi Empresa
           </span>
         </a>
@@ -186,8 +186,8 @@ function SiteHeader({ onLogin }: { onLogin: () => void }) {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <button onClick={onLogin} className="btn-ghost text-foreground">
+        <div className="flex shrink-0 items-center gap-1.5">
+          <button onClick={onLogin} className="btn-ghost px-3 text-foreground">
             Ingresar
           </button>
           <Sheet open={open} onOpenChange={setOpen}>
