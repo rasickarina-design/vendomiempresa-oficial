@@ -7,6 +7,7 @@ export const RUBROS = [
   "Retail y comercio minorista",
   "Construcción y reformas",
   "Industria y manufactura",
+  "Equipamiento industrial",
   "Logística y transporte",
   "Educación y formación",
   "Belleza y bienestar",
