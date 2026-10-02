@@ -923,9 +923,13 @@ function MatchRow({
   sent,
   label,
   onClick,
+  contactEmail,
+  contactPhone,
 }: {
   title: string;
   sub: string;
+  contactEmail?: string;
+  contactPhone?: string;
   href: string;
   sent: boolean;
   label: string;
@@ -936,6 +940,20 @@ function MatchRow({
       <div className="min-w-[220px] flex-1">
         <p className="mb-0.5 text-sm font-bold">{title}</p>
         <p className="text-xs text-muted-foreground">{sub}</p>
+        {(contactEmail || contactPhone) && (
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[13px] font-semibold">
+            {contactEmail && (
+              <a href={`mailto:${contactEmail}`} className="inline-flex items-center gap-1.5 text-primary underline-offset-2 hover:underline">
+                <Mail size={14} strokeWidth={2} /> {contactEmail}
+              </a>
+            )}
+            {contactPhone && (
+              <a href={`tel:${contactPhone.replace(/[^0-9+]/g, "")}`} className="inline-flex items-center gap-1.5 text-primary underline-offset-2 hover:underline">
+                <Phone size={14} strokeWidth={2} /> {contactPhone}
+              </a>
+            )}
+          </div>
+        )}
       </div>
       <a
         href={href}
@@ -1020,6 +1038,8 @@ function Matches({
                       : "No especificado"
                   }`}
                   href={mailtoLink(b.email, subject, body)}
+                  contactEmail={b.email}
+                  contactPhone={b.phone}
                   sent={wasContacted(key)}
                   label="Contactar comprador"
                   onClick={() => onContact(key)}
@@ -1052,6 +1072,8 @@ function Matches({
                   title={c.name}
                   sub={`${c.sector} · ${fmtMoney(c.priceAmount, c.priceCurrency)} · ${c.location}`}
                   href={mailtoLink(c.owner, subject, body)}
+                  contactEmail={c.owner}
+                  contactPhone={c.ownerPhone}
                   sent={wasContacted(key)}
                   label="Contactar vendedor"
                   onClick={() => onContact(key)}
