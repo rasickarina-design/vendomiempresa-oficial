@@ -26,9 +26,6 @@ export function SiteFooter() {
             Normas de Privacidad
           </Link>
         </div>
-        <p className="text-[11px] uppercase tracking-[0.18em] text-subtle-foreground">
-          © {new Date().getFullYear()} Make Businesses Flow
-        </p>
       </div>
     </footer>
   );
