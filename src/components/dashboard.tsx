@@ -28,6 +28,22 @@ export const OWNER_POSITIONS = [
   "Contador",
   "Abogado",
   "CFO / Consultor Financiero",
+  "Socio",
+  "CEO / Director general",
+  "Banco",
+  "Family office",
+  "Otra persona de contacto",
+];
+
+export const BUYER_POSITIONS = [
+  "Dueño / Empresario",
+  "Inversor particular",
+  "CFO / Consultor Financiero",
+  "Broker / Consultor M&A",
+  "Fondo de inversión",
+  "Family office",
+  "Banco",
+  "Otra persona de contacto",
 ];
 
 export function digitsOnly(v: string) {
@@ -636,7 +652,7 @@ function PublishForm({
           </select>
         </div>
         <div>
-          <label className="field-label">Puesto en la empresa</label>
+          <label className="field-label">¿Quién vende? (puesto o rol)</label>
           <select
             className="field-input"
             value={f.ownerPosition}
@@ -888,6 +904,20 @@ function BuyerForm({
         directamente.
       </p>
       <PrefilledContact email={email} phone={phone} />
+      <div className="mb-4">
+        <label className="field-label">¿Quién compra?</label>
+        <select
+          className="field-input"
+          value={p.position || BUYER_POSITIONS[0]}
+          onChange={(e) => set("position", e.target.value)}
+        >
+          {BUYER_POSITIONS.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="mb-4">
         <label className="field-label">Tu nombre completo</label>
         <input autoComplete="name"

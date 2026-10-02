@@ -102,7 +102,7 @@ function AdminPage() {
         ]), ["owner_name", "owner_position", "owner_email", "owner_phone", "whatsapp"]),
         buyers: putFirst(
           groupAddress((b.data ?? []) as Array<Record<string, unknown>>, ["location_pref", "country"]),
-          ["name", "email", "phone", "whatsapp"],
+          ["name", "buyer_position", "email", "phone", "whatsapp"],
         ),
         contacts: (ct.data ?? []) as Array<Record<string, unknown>>,
       });

@@ -1,0 +1,1 @@
+ALTER TABLE public.buyers ADD COLUMN IF NOT EXISTS buyer_position text CHECK (buyer_position IS NULL OR length(buyer_position) <= 80);

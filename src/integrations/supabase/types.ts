@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           budget_max: number | null
           budget_min: number | null
+          buyer_position: string | null
           country: string | null
           created_at: string
           currency: string
@@ -36,6 +37,7 @@ export type Database = {
         Insert: {
           budget_max?: number | null
           budget_min?: number | null
+          buyer_position?: string | null
           country?: string | null
           created_at?: string
           currency?: string
@@ -54,6 +56,7 @@ export type Database = {
         Update: {
           budget_max?: number | null
           budget_min?: number | null
+          buyer_position?: string | null
           country?: string | null
           created_at?: string
           currency?: string
