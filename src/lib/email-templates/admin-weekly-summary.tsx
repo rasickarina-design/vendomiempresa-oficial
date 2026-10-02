@@ -53,7 +53,7 @@ export const template = {
   subject: 'Resumen semanal de matches — Vendo Mi Empresa',
   displayName: 'Resumen semanal (administración)',
   to: 'rasickarina@gmail.com',
-  previewData: { weekLabel: 'semana del 3 de octubre', companies: 3, buyers: 3, newCompanies: 1, newBuyers: 2, matches: ['PALFRAN LLC (vendedor a@x.com) ↔ Juan (b@y.com) · USD 1.000.000'] },
+  previewData: { weekLabel: 'semana del 3 de octubre', companies: 3, buyers: 3, newCompanies: 1, newBuyers: 2, matches: ['Mi Empresa (vendedor a@x.com) ↔ Juan (b@y.com) · USD 1.000.000'] },
 } satisfies TemplateEntry
 
 export default AdminWeeklySummaryEmail
