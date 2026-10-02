@@ -345,17 +345,19 @@ function BalancesGuide() {
                 <li>Carpeta con el nombre de la empresa y el año que corresponda, por ejemplo «Mi Empresa — Documentación económica 2025».</li>
                 <li>Archivos en PDF o Excel, con nombres claros por año.</li>
                 <li>
+                  Luego copia el enlace desde{" "}
                   <strong className="text-foreground">
-                    Compartir → Cualquier persona con el enlace → Lector
+                    Compartir → Cualquier persona con el enlace → Lector → Copiar enlace
                   </strong>
-                  , y copia el enlace.
+                  .
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-2 font-bold text-foreground">3. Pega el enlace</h4>
+              <h4 className="mb-2 font-bold text-foreground">3. Pega el enlace en el formulario</h4>
               <p>
-                Solo se comparte con la contraparte cuando hay match. No incluyas datos personales
+                Pega el enlace copiado en el campo «Cargar información financiera o one pager» del
+                formulario de venta. Solo se comparte con la contraparte cuando hay match. No incluyas datos personales
                 de empleados o clientes, y revoca el acceso al cerrar la operación.
               </p>
             </div>
