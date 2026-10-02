@@ -611,7 +611,7 @@ function PublishForm({
       <PrefilledContact email={email} phone={phone} />
       <div className="mb-3.5">
         <label className="field-label">Tu nombre completo</label>
-        <input
+        <input autoComplete="name"
           className="field-input"
           maxLength={100}
           value={f.ownerName}
@@ -622,7 +622,7 @@ function PublishForm({
 
         <div>
           <label className="field-label">Nombre de la empresa</label>
-          <input className="field-input" maxLength={100} value={f.name} onChange={(e) => set("name", e.target.value)} />
+          <input autoComplete="organization" className="field-input" maxLength={100} value={f.name} onChange={(e) => set("name", e.target.value)} />
         </div>
         <div>
           <label className="field-label">Sector</label>
@@ -652,7 +652,7 @@ function PublishForm({
 
         <div>
           <label className="field-label">Dirección</label>
-          <input
+          <input autoComplete="street-address"
             className="field-input"
             placeholder="Calle Mayor 12, 2ºB"
             maxLength={140}
@@ -662,7 +662,7 @@ function PublishForm({
         </div>
         <div>
           <label className="field-label">Ciudad (obligatorio)</label>
-          <input
+          <input autoComplete="address-level2"
             className="field-input"
             placeholder="Madrid"
             maxLength={80}
@@ -673,7 +673,7 @@ function PublishForm({
         </div>
         <div>
           <label className="field-label">Código postal (obligatorio)</label>
-          <input
+          <input autoComplete="postal-code"
             className="field-input"
             placeholder="28013"
             maxLength={12}
@@ -689,7 +689,7 @@ function PublishForm({
 
         <div>
           <label className="field-label">LinkedIn de la empresa (opcional)</label>
-          <input
+          <input autoComplete="url"
             className="field-input"
             placeholder="https://www.linkedin.com/company/…"
             maxLength={200}
@@ -699,7 +699,7 @@ function PublishForm({
         </div>
         <div>
           <label className="field-label">Enlace de WhatsApp (opcional)</label>
-          <input
+          <input autoComplete="url"
             className="field-input"
             placeholder="https://wa.me/34600000000"
             maxLength={200}
@@ -719,7 +719,7 @@ function PublishForm({
         </div>
         <div>
           <label className="field-label">Web de la empresa (opcional)</label>
-          <input
+          <input autoComplete="url"
             className="field-input"
             placeholder="https://www.tuempresa.com"
             maxLength={300}
@@ -890,7 +890,7 @@ function BuyerForm({
       <PrefilledContact email={email} phone={phone} />
       <div className="mb-4">
         <label className="field-label">Tu nombre completo</label>
-        <input
+        <input autoComplete="name"
           className="field-input"
           maxLength={100}
           value={p.name}
@@ -933,7 +933,7 @@ function BuyerForm({
       </div>
       <div className="mb-4">
         <label className="field-label">Ubicación preferida (opcional)</label>
-        <input
+        <input autoComplete="address-level2"
           className="field-input"
           maxLength={100}
           value={p.locationPref}
@@ -946,7 +946,7 @@ function BuyerForm({
       </div>
       <div className="mb-4">
         <label className="field-label">LinkedIn (opcional)</label>
-        <input
+        <input autoComplete="url"
           className="field-input"
           placeholder="https://www.linkedin.com/in/tu-perfil"
           maxLength={200}
@@ -956,7 +956,7 @@ function BuyerForm({
       </div>
       <div className="mb-4">
         <label className="field-label">Enlace de WhatsApp (opcional)</label>
-        <input
+        <input autoComplete="url"
           className="field-input"
           placeholder="https://wa.me/34600000000"
           maxLength={200}
