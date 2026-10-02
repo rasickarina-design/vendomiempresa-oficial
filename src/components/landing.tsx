@@ -51,7 +51,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "¿Qué tipo de empresas se pueden publicar?",
-    a: "Se pueden publicar empresas de cualquier sector, incluidas las de tecnología y software que ya tengan una plataforma construida y estén monetizando. Si tu negocio factura, tiene usuarios o clientes de pago y un modelo de ingresos probado, encaja en la categoría Tecnología y software y puede aparecer en las búsquedas de compradores interesados en activos digitales.",
+    a: "Se pueden publicar empresas de cualquier sector: por ejemplo gastronomía, comercio, servicios, industria, salud o cualquier otro rubro que esté en funcionamiento y facture.",
   },
   {
     q: "¿Puedo comprar y vender al mismo tiempo?",

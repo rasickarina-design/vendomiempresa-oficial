@@ -11,7 +11,6 @@ export const RUBROS = [
   "Logística y transporte",
   "Educación y formación",
   "Belleza y bienestar",
-  "Tecnología y software",
   "Marketing y agencias digitales",
   "Automoción",
   "Inmobiliario",
