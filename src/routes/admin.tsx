@@ -98,6 +98,7 @@ function AdminPage() {
           "postal_code",
           "country",
           "maps_url",
+          "website_url",
         ]), ["owner_name", "owner_email", "owner_phone", "whatsapp"]),
         buyers: putFirst(
           groupAddress((b.data ?? []) as Array<Record<string, unknown>>, ["location_pref", "country"]),
