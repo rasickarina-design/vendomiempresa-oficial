@@ -138,6 +138,16 @@ function Index() {
       if (session?.user.email) {
         setEmail(session.user.email);
         setScreen("dashboard");
+        void supabase
+          .from("profiles")
+          .select("phone, name")
+          .eq("id", session.user.id)
+          .maybeSingle()
+          .then(({ data: prof }) => {
+            if (!active || !prof) return;
+            if (prof.phone) setPhone(prof.phone);
+            if (prof.name) setProfile((prev) => (prev.name ? prev : { ...prev, name: prof.name ?? "" }));
+          });
       }
     });
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {

@@ -31,6 +31,7 @@ export type Database = {
           sectors: string
           thesis: string | null
           user_id: string | null
+          whatsapp: string | null
         }
         Insert: {
           budget_max?: number | null
@@ -48,6 +49,7 @@ export type Database = {
           sectors: string
           thesis?: string | null
           user_id?: string | null
+          whatsapp?: string | null
         }
         Update: {
           budget_max?: number | null
@@ -65,6 +67,7 @@ export type Database = {
           sectors?: string
           thesis?: string | null
           user_id?: string | null
+          whatsapp?: string | null
         }
         Relationships: []
       }
@@ -94,6 +97,7 @@ export type Database = {
           share_ref: string | null
           user_id: string | null
           website_url: string | null
+          whatsapp: string | null
         }
         Insert: {
           age?: string | null
@@ -120,6 +124,7 @@ export type Database = {
           share_ref?: string | null
           user_id?: string | null
           website_url?: string | null
+          whatsapp?: string | null
         }
         Update: {
           age?: string | null
@@ -146,6 +151,7 @@ export type Database = {
           share_ref?: string | null
           user_id?: string | null
           website_url?: string | null
+          whatsapp?: string | null
         }
         Relationships: []
       }

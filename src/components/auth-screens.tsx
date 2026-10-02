@@ -20,6 +20,7 @@ interface Profile {
   locationPref: string;
   country: string;
   linkedin: string;
+  whatsapp?: string;
   thesis: string;
 }
 

@@ -41,6 +41,7 @@ export async function recordCompany(c: Company) {
     postal_code: c.postalCode,
     country: c.country,
     linkedin: link(c.linkedin),
+    whatsapp: link(c.whatsapp),
     google_profile: link(c.googleProfile),
     maps_url: link(c.mapsUrl),
     financials_url: link(c.financialsUrl),
@@ -75,6 +76,7 @@ export async function recordBuyer(b: Buyer) {
     location_pref: b.locationPref,
     country: b.country,
     linkedin: link(b.linkedin),
+    whatsapp: link(b.whatsapp),
     thesis: b.thesis,
     role: b.role,
   });

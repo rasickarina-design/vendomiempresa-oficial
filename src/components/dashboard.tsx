@@ -12,6 +12,7 @@ import {
 } from "@/lib/marketplace";
 import type { Profile } from "./auth-screens";
 import { CountrySelect } from "./country-select";
+import { validCity, validPostalCode, validWhatsapp } from "@/lib/marketplace";
 import { SectorPicker } from "./sector-picker";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
@@ -484,6 +485,7 @@ function PublishForm({
     postalCode: "",
     country: "",
     linkedin: "",
+    whatsapp: "",
     googleProfile: "",
     mapsUrl: "",
     financialsUrl: "",
@@ -511,16 +513,20 @@ function PublishForm({
       setError("La descripción y el motivo de venta son obligatorios (mínimo 10 caracteres).");
       return;
     }
-    if (!f.city.trim()) {
-      setError("La ciudad es obligatoria.");
-      return;
-    }
-    if (!f.postalCode.trim()) {
-      setError("El código postal es obligatorio.");
-      return;
-    }
     if (!f.country.trim()) {
       setError("El país es obligatorio.");
+      return;
+    }
+    if (!validCity(f.city)) {
+      setError("Introduce una ciudad válida (solo letras, mínimo 2 caracteres).");
+      return;
+    }
+    if (!validPostalCode(f.postalCode)) {
+      setError("Introduce un código postal válido (3 a 10 letras o números).");
+      return;
+    }
+    if (f.whatsapp.trim() && !validWhatsapp(f.whatsapp)) {
+      setError("El enlace de WhatsApp debe ser del tipo https://wa.me/34600000000.");
       return;
     }
     if (!f.age.trim()) {
@@ -564,6 +570,7 @@ function PublishForm({
       postalCode: f.postalCode.trim(),
       country: f.country.trim() || "—",
       linkedin: f.linkedin.trim(),
+      whatsapp: f.whatsapp.trim(),
       googleProfile: f.googleProfile.trim(),
       mapsUrl: f.mapsUrl.trim(),
       financialsUrl: f.financialsUrl.trim(),
@@ -678,6 +685,16 @@ function PublishForm({
             maxLength={200}
             value={f.linkedin}
             onChange={(e) => set("linkedin", e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="field-label">Enlace de WhatsApp (opcional)</label>
+          <input
+            className="field-input"
+            placeholder="https://wa.me/34600000000"
+            maxLength={200}
+            value={f.whatsapp}
+            onChange={(e) => set("whatsapp", e.target.value)}
           />
         </div>
         <div>
@@ -822,6 +839,14 @@ function BuyerForm({
       setError("Indícanos al menos un sector de interés.");
       return;
     }
+    if (!p.country.trim()) {
+      setError("El país es obligatorio.");
+      return;
+    }
+    if (p.whatsapp?.trim() && !validWhatsapp(p.whatsapp)) {
+      setError("El enlace de WhatsApp debe ser del tipo https://wa.me/34600000000.");
+      return;
+    }
     setError("");
     const nextRole: Role = role === "seller" ? "both" : role || "buyer";
     onSave(
@@ -836,6 +861,7 @@ function BuyerForm({
         locationPref: p.locationPref.trim(),
         country: p.country.trim(),
         linkedin: p.linkedin.trim(),
+        whatsapp: (p.whatsapp ?? "").trim(),
         thesis: p.thesis.trim(),
         role: nextRole,
         updatedAt: Date.now(),
@@ -916,6 +942,16 @@ function BuyerForm({
           maxLength={200}
           value={p.linkedin}
           onChange={(e) => set("linkedin", e.target.value)}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="field-label">Enlace de WhatsApp (opcional)</label>
+        <input
+          className="field-input"
+          placeholder="https://wa.me/34600000000"
+          maxLength={200}
+          value={p.whatsapp ?? ""}
+          onChange={(e) => set("whatsapp", e.target.value)}
         />
       </div>
       <div className="mb-4">
