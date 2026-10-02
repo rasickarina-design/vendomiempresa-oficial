@@ -18,6 +18,7 @@ export const RUBROS = [
   "Agroindustria, empresas del agro y campos",
   "Productores de alimentos",
   "Pesca y empresas pesqueras",
+  "Frigoríficos",
   "Energía y sostenibilidad",
   "Entretenimiento y ocio",
   "Franquicias",
