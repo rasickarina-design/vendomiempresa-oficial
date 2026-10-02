@@ -3,7 +3,7 @@ import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware'
 import { fmtMoney, isMatch, type Buyer, type Company, type Role } from '@/lib/marketplace'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-function toCompany(r: any): Company {
+export function toCompany(r: any): Company {
   return {
     id: r.share_ref || r.id,
     name: r.name,
@@ -31,7 +31,7 @@ function toCompany(r: any): Company {
   }
 }
 
-function toBuyer(r: any): Buyer {
+export function toBuyer(r: any): Buyer {
   return {
     email: r.email,
     phone: r.phone ?? '',
