@@ -178,8 +178,8 @@ function SiteHeader({ onLogin }: { onLogin: () => void }) {
           href="#inicio"
           className="flex min-w-0 items-center gap-2 rounded-md focus-visible:outline-2 focus-visible:outline-primary"
         >
-          <img src={logoAsset.url} alt="" className="h-9 w-9 shrink-0 rounded-md object-contain" />
-          <span className="hero-stencil whitespace-nowrap text-[17px] uppercase text-primary max-sm:text-[13px]">
+          <img src={logoAsset.url} alt="" className="h-11 w-11 shrink-0 rounded-md object-contain" />
+          <span className="hero-stencil whitespace-nowrap text-[22px] uppercase text-primary max-sm:text-[15px]">
             Vendo Mi Empresa
           </span>
         </a>
