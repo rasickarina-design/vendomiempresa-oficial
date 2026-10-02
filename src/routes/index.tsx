@@ -211,7 +211,7 @@ function Index() {
 
   useEffect(() => {
     if (screen !== "dashboard" || !email) return;
-    void sync(false);
+    void sync(true);
     const t = window.setInterval(() => void sync(false), 20000);
     return () => window.clearInterval(t);
   }, [screen, email, sync]);
