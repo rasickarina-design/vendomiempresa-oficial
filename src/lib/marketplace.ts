@@ -3,7 +3,6 @@ export type Role = "seller" | "buyer" | "both";
 export const RUBROS = [
   "Gastronomía y restauración",
   "Farmacias y salud",
-  "E-commerce y negocios digitales",
   "Hostelería y turismo",
   "Retail y comercio minorista",
   "Construcción y reformas",
