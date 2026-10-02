@@ -92,6 +92,10 @@ function PrivacidadPage() {
               ("nosotros", "nuestro" o "la Empresa"). Estas normas explican cómo tratamos la
               información de quienes visitan el sitio o contratan nuestros servicios.
             </p>
+            <p>
+              Referencia legal: Make Businesses Flow opera a través de{" "}
+              <strong className="text-foreground">PALFRAN LLC</strong>, empresa constituida en Estados Unidos.
+            </p>
           </Section>
 
           <Section title="2. Información que recogemos">
