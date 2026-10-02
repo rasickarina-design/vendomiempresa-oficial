@@ -35,6 +35,7 @@ export interface Company {
   postalCode: string;
   country: string;
   linkedin: string;
+  whatsapp?: string;
   googleProfile: string;
   mapsUrl: string;
   financialsUrl: string;
@@ -65,6 +66,7 @@ export interface Buyer {
   locationPref: string;
   country: string;
   linkedin: string;
+  whatsapp?: string;
   thesis: string;
   role: Role;
   updatedAt: number;
@@ -104,6 +106,18 @@ export function validEmail(v: string) {
 
 export function validPhone(v: string) {
   return /^[0-9+\s()-]{8,18}$/.test(v);
+}
+
+export function validCity(v: string) {
+  return /^[\p{L}][\p{L}\s.'-]{1,79}$/u.test(v.trim());
+}
+
+export function validPostalCode(v: string) {
+  return /^[A-Za-z0-9][A-Za-z0-9\s-]{1,8}[A-Za-z0-9]$/.test(v.trim());
+}
+
+export function validWhatsapp(v: string) {
+  return /^https:\/\/(wa\.me|api\.whatsapp\.com|chat\.whatsapp\.com|(www\.)?whatsapp\.com)\/\S+$/i.test(v.trim());
 }
 
 export function maskEmail(e: string) {
