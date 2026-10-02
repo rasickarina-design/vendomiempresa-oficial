@@ -39,6 +39,13 @@ function PricingPage() {
           </p>
         </header>
 
+        <section className="space-y-2 rounded-lg bg-primary p-6 text-primary-foreground">
+          <h2 className="text-2xl font-bold uppercase">Gratis para dueños de empresa</h2>
+          <p>
+            Para los dueños de empresa que venden o compran, la plataforma es totalmente gratuita: publicar tu empresa, crear tu búsqueda de compra y recibir matches no tiene coste.
+          </p>
+        </section>
+
         <div className="grid gap-4 sm:grid-cols-3">
           {AUDIENCE.map(({ icon: Icon, title, text }) => (
             <div key={title} className="rounded-lg border border-border bg-card p-5">
