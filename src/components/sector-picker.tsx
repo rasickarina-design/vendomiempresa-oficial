@@ -48,7 +48,7 @@ export function SectorPicker({
     </div>
     {selected.includes("Servicios profesionales") && (
       <p className="mt-3 rounded-lg border border-primary/50 bg-primary/10 px-3 py-2 text-[13px] text-foreground">
-        Elegiste «Servicios profesionales»: en «Descripción de lo que buscas» detalla muy bien qué tipo de
+        Elegiste «Servicios profesionales»: en la descripción de lo que buscas detalla muy bien qué tipo de
         servicios profesionales te interesan (por ejemplo: asesoría contable, despacho de abogados, consultoría,
         arquitectura, clínica…) y descríbelo con detalle.
       </p>
