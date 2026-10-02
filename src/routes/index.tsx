@@ -23,11 +23,9 @@ import {
   type Role,
 } from "@/lib/marketplace";
 
-
-const TITLE = "Vendomiempresa — Marketplace de compra y venta de empresas";
+const TITLE = "Vendo Mi Empresa — Compra y venta de pymes en LATAM";
 const DESCRIPTION =
   "Publica tu empresa en venta o define qué quieres comprar. Acceso sin contraseña y matches automáticos entre vendedores y compradores.";
-
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): { empresa?: string } => ({
@@ -84,7 +82,6 @@ export const Route = createFileRoute("/")({
               acceptedAnswer: {
                 "@type": "Answer",
                 text: "Define tu perfil de comprador con sectores, presupuesto y ubicación preferida, y la plataforma te muestra automáticamente los matches disponibles.",
-
               },
             },
             {
@@ -123,6 +120,8 @@ function Index() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState<Role>("buyer");
+  /* Rol elegido en la portada (Vendo / Compro) antes de registrarse. */
+  const [intendedRole, setIntendedRole] = useState<Role | undefined>(undefined);
   const [profile, setProfile] = useState<Profile>(emptyProfile);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [buyers, setBuyers] = useState<Buyer[]>([]);
@@ -169,7 +168,9 @@ function Index() {
     if (!empresa) return;
     void fetchPublicCompany(empresa).then((p) => {
       if (!p) return;
-      setCompanies((prev) => (prev.some((c) => c.id === p.share_ref) ? prev : [toCompany(p), ...prev]));
+      setCompanies((prev) =>
+        prev.some((c) => c.id === p.share_ref) ? prev : [toCompany(p), ...prev],
+      );
     });
   }, [empresa]);
 
@@ -201,11 +202,20 @@ function Index() {
     setScreen("role");
   };
 
-
   return (
     <div className="flex min-h-screen flex-col">
-
-      {screen === "landing" && <LandingScreen onLogin={() => setScreen("login")} />}
+      {screen === "landing" && (
+        <LandingScreen
+          onLogin={() => {
+            setIntendedRole(undefined);
+            setScreen("login");
+          }}
+          onStart={(r) => {
+            setIntendedRole(r);
+            setScreen("login");
+          }}
+        />
+      )}
 
       {screen === "login" && (
         <LoginScreen
@@ -221,26 +231,21 @@ function Index() {
               : undefined
           }
         />
-
       )}
 
       {screen === "verify" && (
-        <VerifyScreen
-          email={email}
-          onVerified={handleVerified}
-          onBack={() => setScreen("login")}
-        />
+        <VerifyScreen email={email} onVerified={handleVerified} onBack={() => setScreen("login")} />
       )}
 
       {screen === "role" && (
         <RoleScreen
+          suggested={intendedRole}
           onPick={(r) => {
             setRole(r);
             setScreen("dashboard");
           }}
         />
       )}
-
 
       {screen === "dashboard" && (
         <Dashboard
@@ -293,8 +298,7 @@ function Index() {
                   audience: "buyer",
                   matchCount: matched.length,
                   items: matched.map(
-                    (c) =>
-                      `${c.name} · ${c.sector} · ${fmtMoney(c.priceAmount, c.priceCurrency)}`,
+                    (c) => `${c.name} · ${c.sector} · ${fmtMoney(c.priceAmount, c.priceCurrency)}`,
                   ),
                   eventRef: `buyer-${b.email}-${b.updatedAt}`,
                 },
@@ -337,6 +341,5 @@ function Index() {
 
       <SiteFooter />
     </div>
-
   );
 }
