@@ -398,7 +398,7 @@ export function LandingScreen({
           />
           <div className="relative z-[1] mx-auto w-full max-w-[880px]">
             <h1 className="max-w-[22ch] text-[48px] font-bold leading-[1.04] text-foreground max-[560px]:text-[34px]">
-              Compra y venta de pymes en LATAM y España
+              Compra y venta de pymes y equipamiento industrial en LATAM y España
             </h1>
             <p className="mt-5 max-w-[58ch] text-[18px] leading-[1.6] text-muted-foreground max-[560px]:text-[16px]">
               Publica tu empresa o define qué buscas comprar. Cuando lo que se ofrece y lo que se
