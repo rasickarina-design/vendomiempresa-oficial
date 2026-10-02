@@ -106,7 +106,11 @@ export const syncMarketplace = createServerFn({ method: 'POST' })
             templateData: {
               audience: 'seller',
               matchCount: 1,
-              items: [`${buyer.name || 'Comprador'} busca ${buyer.sectors} · presupuesto ${fmtMoney(buyer.budgetMin, buyer.currency)} – ${fmtMoney(buyer.budgetMax, buyer.currency)}`],
+              items: [
+                `${buyer.name || 'Comprador'}${buyer.position ? ` (${buyer.position})` : ''} busca ${buyer.sectors} · presupuesto ${fmtMoney(buyer.budgetMin, buyer.currency)} – ${fmtMoney(buyer.budgetMax, buyer.currency)}`,
+                `Contacto: ${buyer.email}${buyer.phone ? ` · Tel. ${buyer.phone}` : ''}${buyer.whatsapp ? ` · WhatsApp ${buyer.whatsapp}` : ''}`,
+                `Ubicación buscada: ${[buyer.locationPref, buyer.country].filter(Boolean).join(', ') || '—'}`,
+              ],
             },
             idempotencyKey: `match-seller-${key}`,
           }),
@@ -114,7 +118,12 @@ export const syncMarketplace = createServerFn({ method: 'POST' })
             templateData: {
               audience: 'buyer',
               matchCount: 1,
-              items: [`${company.name} · ${company.sector} · ${fmtMoney(company.priceAmount, company.priceCurrency)}`],
+              items: [
+                `${company.name} · ${company.sector} · ${fmtMoney(company.priceAmount, company.priceCurrency)}`,
+                `Contacto: ${company.ownerName || 'Vendedor'}${company.ownerPosition ? ` (${company.ownerPosition})` : ''} · ${company.owner}${company.ownerPhone ? ` · Tel. ${company.ownerPhone}` : ''}${company.whatsapp ? ` · WhatsApp ${company.whatsapp}` : ''}`,
+                `Ubicación: ${[company.location !== '—' ? company.location : '', company.city, company.postalCode, company.country].filter(Boolean).join(', ') || '—'}`,
+                ...(company.mapsUrl ? [`Google Maps: ${company.mapsUrl}`] : []),
+              ],
             },
             idempotencyKey: `match-buyer-${key}`,
           }),
