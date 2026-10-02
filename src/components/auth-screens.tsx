@@ -236,6 +236,12 @@ export function VerifyScreen({
     onVerified();
   };
 
+  const full = digits.join("");
+  useEffect(() => {
+    if (full.length === OTP_LENGTH) void verify();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [full]);
+
   const resend = async () => {
     if (cooldown > 0) return;
     setError("");
@@ -304,6 +310,19 @@ export function VerifyScreen({
           />
         ))}
       </div>
+      <button
+        type="button"
+        className="mb-3 w-full cursor-pointer rounded-[10px] border border-border py-2.5 text-[13px] font-semibold text-primary transition hover:border-primary"
+        onClick={async () => {
+          try {
+            fill(await navigator.clipboard.readText(), 0);
+          } catch {
+            setError("No se pudo leer el portapapeles. Mantén pulsado el primer casillero y elige «Pegar».");
+          }
+        }}
+      >
+        Pegar código del correo
+      </button>
       {error && <p className="field-error mb-2">{error}</p>}
       {resent && <p className="mb-2 text-[12.5px] font-semibold text-primary">{resent}</p>}
 
