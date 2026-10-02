@@ -89,6 +89,7 @@ const NAV = [
   { href: "#como-funciona", label: "Cómo funciona" },
   { href: "#seguridad", label: "Privacidad" },
   { href: "#preguntas", label: "Preguntas" },
+  { href: "/empresa-de-tecnologia", label: "Empresa de tecnología" },
 ];
 
 const PROBLEMS: { icon: LucideIcon; title: string; text: string }[] = [
