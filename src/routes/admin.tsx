@@ -21,6 +21,19 @@ export const Route = createFileRoute("/admin")({
 
 type TableName = "companies" | "buyers" | "contacts";
 
+/** Reordena columnas para que dirección, ciudad, CP y país queden juntas. */
+function groupAddress(list: Array<Record<string, unknown>>, group: string[]) {
+  return list.map((r) => {
+    const out: Record<string, unknown> = {};
+    for (const k of Object.keys(r)) {
+      if (group.includes(k)) {
+        if (k === group.find((g) => g in r)) for (const g of group) if (g in r) out[g] = r[g];
+      } else out[k] = r[k];
+    }
+    return out;
+  });
+}
+
 const TABLES: Array<{ name: TableName; label: string; file: string }> = [
   { name: "companies", label: "VENDEN · Empresas en venta", file: "empresas" },
   { name: "buyers", label: "COMPRAN · Compradores", file: "compradores" },
@@ -67,8 +80,14 @@ function AdminPage() {
         supabase.from("contacts").select("*").order("created_at", { ascending: false }),
       ]);
       setRows({
-        companies: (c.data ?? []) as Array<Record<string, unknown>>,
-        buyers: (b.data ?? []) as Array<Record<string, unknown>>,
+        companies: groupAddress((c.data ?? []) as Array<Record<string, unknown>>, [
+          "location",
+          "city",
+          "postal_code",
+          "country",
+          "maps_url",
+        ]),
+        buyers: groupAddress((b.data ?? []) as Array<Record<string, unknown>>, ["location_pref", "country"]),
         contacts: (ct.data ?? []) as Array<Record<string, unknown>>,
       });
     }
