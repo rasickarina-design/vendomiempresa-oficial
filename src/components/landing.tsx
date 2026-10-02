@@ -54,6 +54,10 @@ const FAQS: { q: string; a: string }[] = [
     a: "Se pueden publicar empresas de cualquier sector: por ejemplo gastronomía, comercio, servicios, industria, salud o cualquier otro rubro que esté en funcionamiento y facture.",
   },
   {
+    q: "¿Puedo comprar y vender equipamiento industrial?",
+    a: "Sí. Elige el sector «Equipamiento industrial» al publicar o al definir tu búsqueda. En la descripción detalla qué equipos ofreces o buscas (tipo de maquinaria, marca, estado, antigüedad y ubicación) para que el match sea más preciso.",
+  },
+  {
     q: "¿Puedo comprar y vender al mismo tiempo?",
     a: "Sí. Al crear tu cuenta puedes elegir el rol de vendedor, comprador o ambos. Si eliges ambos, publicas tu empresa y defines tu criterio de búsqueda en el mismo perfil, y recibes los matches de las dos partes por separado.",
   },
