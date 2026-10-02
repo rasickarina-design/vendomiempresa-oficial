@@ -40,9 +40,9 @@ function PricingPage() {
         </header>
 
         <section className="space-y-2 rounded-lg bg-primary p-6 text-primary-foreground">
-          <h2 className="text-2xl font-bold uppercase">Gratis para dueños de empresa</h2>
+          <h2 className="text-2xl font-bold uppercase">Gratis para vendedores y compradores</h2>
           <p>
-            Para los dueños de empresa que venden o compran, la plataforma es totalmente gratuita: publicar tu empresa, crear tu búsqueda de compra y recibir matches no tiene coste.
+            Para los dueños de empresa que venden o compran, la plataforma es totalmente gratuita: publicar tu empresa, crear tu búsqueda de compra y recibir matches no tiene costo.
           </p>
         </section>
 
