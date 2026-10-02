@@ -20,7 +20,6 @@ export const RUBROS = [
   "Energía y sostenibilidad",
   "Entretenimiento y ocio",
   "Franquicias",
-  "Otro",
 ] as const;
 
 export type Rubro = (typeof RUBROS)[number];
@@ -269,7 +268,6 @@ export const PAISES_RESTO = [
   "República Dominicana",
   "Uruguay",
   "Venezuela",
-  "Otro",
 ] as const;
 
 export const PAISES = [...PAISES_PRIORITARIOS, ...PAISES_RESTO] as const;
