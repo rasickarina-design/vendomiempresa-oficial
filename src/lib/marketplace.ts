@@ -17,6 +17,7 @@ export const RUBROS = [
   "Limpieza e higiene",
   "Agroindustria",
   "Alimentación",
+  "Pesca y empresas pesqueras",
   "Energía y sostenibilidad",
   "Entretenimiento y ocio",
   "Franquicias",
