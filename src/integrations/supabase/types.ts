@@ -229,6 +229,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_market_stats: {
+        Args: never
+        Returns: {
+          kind: string
+          sector: string
+          total: number
+        }[]
+      }
       get_public_company: {
         Args: { _ref: string }
         Returns: {
