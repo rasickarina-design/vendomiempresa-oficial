@@ -88,8 +88,7 @@ function PrivacidadPage() {
 
           <Section title="1. Identificación de la empresa">
             <p>
-              Esta plataforma {" "}
-              son operadas y son propiedad de <strong className="text-foreground">Make Businesses Flow</strong>{" "}
+              Esta plataforma es operada y es propiedad de <strong className="text-foreground">Make Businesses Flow</strong>{" "}
               ("nosotros", "nuestro" o "la Empresa"). Estas normas explican cómo tratamos la
               información de quienes visitan el sitio o contratan nuestros servicios.
             </p>
