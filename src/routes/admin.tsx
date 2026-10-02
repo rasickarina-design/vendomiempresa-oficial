@@ -22,8 +22,8 @@ export const Route = createFileRoute("/admin")({
 type TableName = "companies" | "buyers" | "contacts";
 
 const TABLES: Array<{ name: TableName; label: string; file: string }> = [
-  { name: "companies", label: "Empresas publicadas", file: "empresas" },
-  { name: "buyers", label: "Compradores registrados", file: "compradores" },
+  { name: "companies", label: "VENDEN · Empresas en venta", file: "empresas" },
+  { name: "buyers", label: "COMPRAN · Compradores", file: "compradores" },
   { name: "contacts", label: "Contactos realizados", file: "contactos" },
 ];
 
@@ -309,6 +309,22 @@ function AdminPage() {
         Los archivos Excel se abren directamente en Excel; los CSV también se pueden importar en Google Sheets con
         Archivo → Importar.
       </p>
+
+      <div
+        className={`mb-3 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-[15px] font-bold uppercase tracking-wide ${
+          tab === "companies"
+            ? "bg-primary text-primary-foreground"
+            : tab === "buyers"
+              ? "border-2 border-primary text-primary"
+              : "border border-border text-muted-foreground"
+        }`}
+      >
+        {tab === "companies"
+          ? "Vendedores: empresas que se venden"
+          : tab === "buyers"
+            ? "Compradores: quienes buscan comprar"
+            : "Contactos entre compradores y vendedores"}
+      </div>
 
       <div className="surface-card overflow-x-auto">
         {current.length === 0 ? (
