@@ -153,9 +153,19 @@ function budgetMatches(company: Company, buyer: Buyer) {
   return p >= Number(buyer.budgetMin) && p <= Number(buyer.budgetMax);
 }
 
+function countryMatches(company: Company, buyer: Buyer) {
+  const a = (company.country || "").trim().toLowerCase();
+  const b = (buyer.country || "").trim().toLowerCase();
+  return !a || !b || a === b;
+}
+
 export function isMatch(company: Company, buyer: Buyer) {
-  if (company.owner === buyer.email) return false;
-  return sectorMatches(company.sector, buyer.sectors) && budgetMatches(company, buyer);
+  if (company.owner.toLowerCase() === buyer.email.toLowerCase()) return false;
+  return (
+    sectorMatches(company.sector, buyer.sectors) &&
+    countryMatches(company, buyer) &&
+    budgetMatches(company, buyer)
+  );
 }
 
 export interface NearMatchResult {
