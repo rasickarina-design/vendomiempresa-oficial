@@ -16,6 +16,7 @@ import { SectorPicker } from "./sector-picker";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
 import { HazardCorner } from "./hazard-stripe";
+import { MarketStats } from "./market-stats";
 import { Check, Link2, Mail, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
@@ -156,7 +157,8 @@ export function Dashboard(props: Props) {
           ))}
         </div>
 
-        {tab === "explore" && (
+        {tab === "explore" && <MarketStats />}
+        {false && (
           <Explore
             list={list}
             sectors={sectors}
