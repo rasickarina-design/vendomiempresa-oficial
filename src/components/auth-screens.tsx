@@ -21,6 +21,7 @@ interface Profile {
   country: string;
   linkedin: string;
   whatsapp?: string;
+  position?: string;
   thesis: string;
 }
 
