@@ -47,9 +47,9 @@ function putFirst(list: Array<Record<string, unknown>>, first: string[]) {
 }
 
 const TABLES: Array<{ name: TableName; label: string; file: string }> = [
-  { name: "companies", label: "VENDEN · Empresas en venta", file: "empresas" },
-  { name: "buyers", label: "COMPRAN · Compradores", file: "compradores" },
-  { name: "contacts", label: "Contactos realizados", file: "contactos" },
+  { name: "companies", label: "Vende empresas", file: "vende-empresas" },
+  { name: "buyers", label: "Compra empresas", file: "compra-empresas" },
+  { name: "contacts", label: "Matches · Contactos realizados", file: "matches" },
 ];
 
 function AdminPage() {
@@ -336,7 +336,7 @@ function AdminPage() {
             }}
             disabled={rows[t.name].length === 0}
           >
-            ⬇ Descargar {t.label.toLowerCase()} ({format === "csv" ? "CSV" : "Excel"})
+            ⬇ Descargar «{t.label}» ({format === "csv" ? "CSV" : "Excel"})
           </button>
         ))}
       </div>
@@ -358,7 +358,7 @@ function AdminPage() {
           ? "Vendedores: empresas que se venden"
           : tab === "buyers"
             ? "Compradores: quienes buscan comprar"
-            : "Contactos entre compradores y vendedores"}
+            : "Matches: contactos entre compradores y vendedores"}
       </div>
 
       <div className="surface-card overflow-x-auto">
