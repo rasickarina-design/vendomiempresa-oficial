@@ -135,7 +135,8 @@ function Index() {
       const session = data.session;
       if (session?.user.email) {
         setEmail(session.user.email);
-        setScreen("dashboard");
+        /* Con sesión activa se muestra igual la portada; solo saltamos si llega un enlace de empresa. */
+        setScreen((cur) => (cur === "login" ? "dashboard" : cur));
         void supabase
           .from("profiles")
           .select("phone, name")
@@ -244,11 +245,12 @@ function Index() {
         <LandingScreen
           onLogin={() => {
             setIntendedRole(undefined);
-            setScreen("login");
+            setScreen(email ? "dashboard" : "login");
           }}
           onStart={(r) => {
             setIntendedRole(r);
-            setScreen("login");
+            if (email) setRole(r);
+            setScreen(email ? "dashboard" : "login");
           }}
         />
       )}
