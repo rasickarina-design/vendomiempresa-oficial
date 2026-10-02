@@ -18,7 +18,7 @@ import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
 import { HazardCorner } from "./hazard-stripe";
 import { MarketStats } from "./market-stats";
-import { Check, Link2, Mail, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
+import { ArrowLeft, Check, Link2, Mail, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
 export const OWNER_POSITIONS = [
@@ -58,6 +58,7 @@ interface Props {
   onSaveBuyer: (b: Buyer, profile: Profile) => void;
   onContact: (key: string) => void;
   onLogout: () => void;
+  onBack?: () => void;
   onProfileName?: (name: string) => void;
 }
 
@@ -158,6 +159,15 @@ export function Dashboard(props: Props) {
           ))}
         </div>
 
+        {(tab === "explore" || tab === "publish" || tab === "buyerprofile") && props.onBack && (
+          <button
+            type="button"
+            onClick={props.onBack}
+            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
+          >
+            <ArrowLeft className="h-5 w-5" strokeWidth={2} /> Volver al inicio
+          </button>
+        )}
         {tab === "explore" && <MarketStats />}
         {false && (
           <Explore
