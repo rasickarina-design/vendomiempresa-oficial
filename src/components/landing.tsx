@@ -63,7 +63,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "¿En qué me puede ayudar la plataforma?",
-    a: "Además de conectar compradores y vendedores, podemos ayudarte a armar una carpeta de presentación de tu empresa para el comprador, analizar los números del negocio si estás del lado comprador, y ponerte en contacto con bancos internacionales y family desks que puedan acompañar la operación.",
+    a: "Además de conectar compradores y vendedores, podemos ayudarte a armar una carpeta de presentación de tu empresa para el comprador, analizar los números del negocio si estás del lado comprador, y ponerte en contacto con bancos internacionales y family desks que puedan acompañar la operación. Si necesitas ayuda para armar tu carpeta, escríbenos a contact@makebusinessesflow.com.",
   },
   {
     q: "Si soy un banco o family desk, ¿cómo obtengo el listado de empresas en venta?",
