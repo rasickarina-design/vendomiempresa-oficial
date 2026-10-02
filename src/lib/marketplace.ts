@@ -16,7 +16,7 @@ export const RUBROS = [
   "Servicios profesionales",
   "Limpieza e higiene",
   "Agroindustria, empresas del agro y campos",
-  "Alimentación",
+  "Productores de alimentos",
   "Pesca y empresas pesqueras",
   "Energía y sostenibilidad",
   "Entretenimiento y ocio",
