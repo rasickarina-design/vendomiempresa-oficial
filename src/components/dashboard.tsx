@@ -16,7 +16,7 @@ import { SectorPicker } from "./sector-picker";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
 import { HazardCorner } from "./hazard-stripe";
-import { Check, Link2, Mail, MapPin, ShieldCheck, Star } from "lucide-react";
+import { Check, Link2, Mail, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
 export const OWNER_POSITIONS = [
