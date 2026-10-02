@@ -6,15 +6,13 @@ import { LandingScreen } from "@/components/landing";
 import { SiteFooter } from "@/components/site-footer";
 
 import { recordBuyer, recordCompany, recordContact, saveProfile } from "@/lib/admin-db";
-import { notifyMatch } from "@/lib/match-emails.functions";
+import { syncMarketplace } from "@/lib/market-sync.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchPublicCompany, toCompany } from "@/lib/public-company";
 import {
   KEY_BUYERS,
   KEY_COMPANIES,
   KEY_CONTACTS,
-  fmtMoney,
-  isMatch,
   loadList,
   saveList,
   type Buyer,
@@ -189,6 +187,34 @@ function Index() {
     window.setTimeout(() => setToast((t) => (t === msg ? null : t)), 3400);
   }, []);
 
+  /* Trae de la base los matches reales (de cualquier usuario) y, si se pide, envía los emails. */
+  const sync = useCallback(async (notify = false) => {
+    try {
+      const res = await syncMarketplace({ data: { notify } });
+      setCompanies((prev) => {
+        const map = new Map(prev.map((c) => [c.id, c]));
+        res.companies.forEach((c) => map.set(c.id, c));
+        return Array.from(map.values());
+      });
+      setBuyers((prev) => {
+        const map = new Map(prev.map((b) => [b.email, b]));
+        res.buyers.forEach((b) => map.set(b.email, b));
+        return Array.from(map.values());
+      });
+      return res;
+    } catch (e) {
+      console.error("sync", e);
+      return null;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (screen !== "dashboard" || !email) return;
+    void sync(false);
+    const t = window.setInterval(() => void sync(false), 20000);
+    return () => window.clearInterval(t);
+  }, [screen, email, sync]);
+
   const handleVerified = () => {
     void saveProfile({ email, phone });
     const existing = buyers.find((b) => b.email === email);
@@ -270,21 +296,7 @@ function Index() {
             const next = [c, ...companies];
             setCompanies(next);
             saveList(KEY_COMPANIES, next);
-            void recordCompany(c);
-            const matched = buyers.filter((b) => isMatch(c, b));
-            if (matched.length > 0) {
-              void notifyMatch({
-                data: {
-                  audience: "seller",
-                  matchCount: matched.length,
-                  items: matched.map(
-                    (b) =>
-                      `Comprador interesado en ${b.sectors || "tu sector"} · presupuesto ${fmtMoney(b.budgetMin, b.currency)} – ${fmtMoney(b.budgetMax, b.currency)}`,
-                  ),
-                  eventRef: `company-${c.id}`,
-                },
-              });
-            }
+            void recordCompany(c).then(() => sync(true));
             showToast("¡Empresa publicada con éxito!");
           }}
           onDelete={(id) => {
@@ -300,20 +312,7 @@ function Index() {
             const next = idx >= 0 ? buyers.map((x, i) => (i === idx ? b : x)) : [b, ...buyers];
             setBuyers(next);
             saveList(KEY_BUYERS, next);
-            void recordBuyer(b);
-            const matched = companies.filter((c) => isMatch(c, b));
-            if (matched.length > 0) {
-              void notifyMatch({
-                data: {
-                  audience: "buyer",
-                  matchCount: matched.length,
-                  items: matched.map(
-                    (c) => `${c.name} · ${c.sector} · ${fmtMoney(c.priceAmount, c.priceCurrency)}`,
-                  ),
-                  eventRef: `buyer-${b.email}-${b.updatedAt}`,
-                },
-              });
-            }
+            void recordBuyer(b).then(() => sync(true));
             showToast("¡Tu búsqueda se ha guardado! Ya puedes ver tus matches.");
           }}
 
