@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/site-footer";
 
-const TITLE = "Normas de Privacidad — PALFRAN LLC | Vendomiempresa";
+const TITLE = "Normas de Privacidad | Vendomiempresa";
 const DESCRIPTION =
-  "Normas de privacidad, política de cookies y disclaimer legal de PALFRAN LLC, propietaria de Make Businesses Flow y de Vendomiempresa.";
+  "Normas de privacidad, política de cookies y disclaimer legal de Make Businesses Flow y Vendomiempresa.";
 
 export const Route = createFileRoute("/privacidad")({
   head: () => ({
@@ -51,7 +51,7 @@ function PrivacidadPage() {
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Legal</p>
           <h1 className="mb-3 text-3xl font-bold tracking-tight md:text-4xl">Normas de Privacidad</h1>
           <p className="text-sm text-muted-foreground">
-            Empresa responsable: <strong className="text-foreground">PALFRAN LLC</strong> · Última
+            Empresa responsable: <strong className="text-foreground">Make Businesses Flow</strong> · Última
             actualización: {updated}
           </p>
         </header>
@@ -65,12 +65,12 @@ function PrivacidadPage() {
               <p>
                 El contenido publicado en esta plataforma (artículos, videos, guías, posts, recursos
                 descargables y cualquier material de carácter educativo o informativo) es propiedad de{" "}
-                <strong className="text-foreground">PALFRAN LLC</strong> y se ofrece con fines
+                <strong className="text-foreground">Make Businesses Flow</strong> y se ofrece con fines
                 exclusivamente informativos y educativos.
               </p>
               <p className="text-foreground">
                 <strong>
-                  PALFRAN LLC no se responsabiliza por decisiones financieras, contables, fiscales,
+                  Make Businesses Flow no se responsabiliza por decisiones financieras, contables, fiscales,
                   operativas o estratégicas tomadas por usuarios, lectores o empresas con base en el
                   contenido publicado en este sitio sin haber realizado previamente una consulta
                   personalizada con nuestro equipo.
@@ -80,7 +80,7 @@ function PrivacidadPage() {
                 Cada negocio tiene un contexto, estructura y realidad financiera única. La información
                 general publicada en el sitio no constituye asesoramiento financiero, legal, contable ni
                 de inversión, y no reemplaza el análisis individualizado que se brinda dentro de una
-                consultoría, mentoría o sesión de diagnóstico contratada con PALFRAN LLC. Si vas a tomar
+                consultoría, mentoría o sesión de diagnóstico contratada con Make Businesses Flow. Si vas a tomar
                 decisiones que impactan tu empresa, agendá una consulta con nosotros antes de actuar.
               </p>
             </div>
@@ -89,14 +89,14 @@ function PrivacidadPage() {
           <Section title="1. Identificación de la empresa">
             <p>
               Esta plataforma y la marca <strong className="text-foreground">Make Businesses Flow</strong>{" "}
-              son operadas y son propiedad de <strong className="text-foreground">PALFRAN LLC</strong>{" "}
-              ("PALFRAN", "nosotros", "nuestro" o "la Empresa"). Estas normas explican cómo tratamos la
+              son operadas y son propiedad de <strong className="text-foreground">Make Businesses Flow</strong>{" "}
+              ("nosotros", "nuestro" o "la Empresa"). Estas normas explican cómo tratamos la
               información de quienes visitan el sitio o contratan nuestros servicios.
             </p>
           </Section>
 
           <Section title="2. Información que recogemos">
-            <p>PALFRAN LLC puede recoger los siguientes datos:</p>
+            <p>Make Businesses Flow puede recoger los siguientes datos:</p>
             <ul className="list-disc space-y-2 pl-6">
               <li>
                 <strong className="text-foreground">Datos de contacto:</strong> nombre, correo
@@ -133,7 +133,7 @@ function PrivacidadPage() {
 
           <Section title="4. Compartir información con terceros">
             <p>
-              PALFRAN LLC no vende ni alquila datos personales. Podemos compartir información con
+              Make Businesses Flow no vende ni alquila datos personales. Podemos compartir información con
               proveedores que nos ayudan a operar (hosting, analítica, email marketing, agenda y
               procesamiento de pagos). Estos proveedores solo acceden a los datos necesarios para prestar
               su servicio y están obligados a tratarlos de forma confidencial.
@@ -253,7 +253,7 @@ function PrivacidadPage() {
 
           <Section title="7. Seguridad">
             <p>
-              PALFRAN LLC aplica medidas técnicas y organizativas razonables para proteger tus datos
+              Make Businesses Flow aplica medidas técnicas y organizativas razonables para proteger tus datos
               contra accesos no autorizados, pérdida o alteración. Sin embargo, ningún sistema en internet
               es 100% seguro.
             </p>
@@ -279,12 +279,12 @@ function PrivacidadPage() {
 
           <Section title="9. Limitación de responsabilidad">
             <p>
-              PALFRAN LLC pone su mejor esfuerzo en mantener la información del sitio actualizada y
+              Make Businesses Flow pone su mejor esfuerzo en mantener la información del sitio actualizada y
               precisa, pero no garantiza la exactitud, integridad ni vigencia del contenido en todo
               momento. El uso de la información publicada es bajo exclusiva responsabilidad del usuario.
             </p>
             <p>
-              PALFRAN LLC no será responsable por daños directos, indirectos, incidentales o consecuentes
+              Make Businesses Flow no será responsable por daños directos, indirectos, incidentales o consecuentes
               derivados del uso o imposibilidad de uso del sitio, ni por decisiones tomadas con base en su
               contenido sin una consulta personalizada previa con nuestro equipo.
             </p>
@@ -293,7 +293,7 @@ function PrivacidadPage() {
           <Section title="10. Enlaces a terceros">
             <p>
               Este sitio puede incluir enlaces a sitios externos (LinkedIn, Calendly, Linktree, entre
-              otros). PALFRAN LLC no es responsable de las prácticas de privacidad ni del contenido de
+              otros). Make Businesses Flow no es responsable de las prácticas de privacidad ni del contenido de
               esos sitios. Te recomendamos revisar sus políticas antes de proporcionar información
               personal.
             </p>
@@ -301,7 +301,7 @@ function PrivacidadPage() {
 
           <Section title="11. Cambios en estas normas">
             <p>
-              PALFRAN LLC puede actualizar estas normas ocasionalmente. La versión vigente estará siempre
+              Make Businesses Flow puede actualizar estas normas ocasionalmente. La versión vigente estará siempre
               disponible en esta página, con la fecha de última actualización.
             </p>
           </Section>

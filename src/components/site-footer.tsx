@@ -27,7 +27,7 @@ export function SiteFooter() {
           </Link>
         </div>
         <p className="text-[11px] uppercase tracking-[0.18em] text-subtle-foreground">
-          © {new Date().getFullYear()} PALFRAN LLC · Make Businesses Flow
+          © {new Date().getFullYear()} Make Businesses Flow
         </p>
       </div>
     </footer>

@@ -164,7 +164,7 @@ function SiteHeader({ onLogin }: { onLogin: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="mx-auto flex h-16 w-full max-w-[880px] items-center justify-between gap-2 px-4 sm:gap-4 sm:px-5">
+      <div className="flex h-16 w-full items-center justify-between gap-2 px-4 sm:gap-4 sm:px-5">
         <a
           href="#inicio"
           className="flex min-w-0 items-center gap-2 rounded-md focus-visible:outline-2 focus-visible:outline-primary"
