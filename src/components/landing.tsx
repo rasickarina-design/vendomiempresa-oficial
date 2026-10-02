@@ -89,6 +89,7 @@ const NAV = [
   { href: "#como-funciona", label: "Cómo funciona" },
   { href: "#seguridad", label: "Privacidad" },
   { href: "#preguntas", label: "Preguntas" },
+  { href: "/precios", label: "Precios" },
   { href: "/empresa-de-tecnologia", label: "Empresa de tecnología" },
 ];
 
