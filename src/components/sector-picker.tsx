@@ -26,7 +26,7 @@ export function SectorPicker({
   return (
     <div>
     <div className="flex flex-wrap gap-2">
-      {RUBROS.filter((r) => r !== "Otro").map((r) => {
+      {RUBROS.map((r) => {
         const active = selected.includes(r);
         return (
           <button
