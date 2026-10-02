@@ -13,8 +13,6 @@ import {
   KEY_BUYERS,
   KEY_COMPANIES,
   KEY_CONTACTS,
-  fmtMoney,
-  isMatch,
   loadList,
   saveList,
   type Buyer,
