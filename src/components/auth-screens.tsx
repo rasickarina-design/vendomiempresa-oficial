@@ -135,7 +135,7 @@ export function LoginScreen({
         <label className="field-label" htmlFor="in-email">
           Correo electrónico
         </label>
-        <input
+        <input autoComplete="email"
           id="in-email"
           className="field-input py-4 text-[15px]"
           aria-invalid={!!errors.email}
@@ -154,7 +154,7 @@ export function LoginScreen({
         <label className="field-label" htmlFor="in-phone">
           Teléfono
         </label>
-        <input
+        <input autoComplete="tel"
           id="in-phone"
           className="field-input py-4 text-[15px]"
           aria-invalid={!!errors.phone}
@@ -458,7 +458,7 @@ export function ProfileScreen({
 
       <div className="mb-4">
         <label className="field-label">Nombre completo</label>
-        <input
+        <input autoComplete="name"
           className="field-input"
           aria-invalid={!!errors.name}
           maxLength={100}
@@ -475,7 +475,7 @@ export function ProfileScreen({
 
       <div className="mb-4">
         <label className="field-label">LinkedIn (opcional)</label>
-        <input
+        <input autoComplete="url"
           className="field-input"
           placeholder="https://www.linkedin.com/in/tu-perfil"
           maxLength={200}
@@ -526,7 +526,7 @@ export function ProfileScreen({
           </div>
           <div className="mb-4">
             <label className="field-label">Ubicación preferida (opcional)</label>
-            <input
+            <input autoComplete="address-level2"
               className="field-input"
               maxLength={100}
               value={p.locationPref}
