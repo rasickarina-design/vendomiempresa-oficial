@@ -21,7 +21,7 @@ import {
   type Role,
 } from "@/lib/marketplace";
 
-const TITLE = "Vendo Mi Empresa — Compra y venta de pymes en LATAM";
+const TITLE = "Vendo Mi Empresa — Compra y venta de pymes en LATAM y España";
 const DESCRIPTION =
   "Publica tu empresa en venta o define qué quieres comprar. Acceso sin contraseña y matches automáticos entre vendedores y compradores.";
 
