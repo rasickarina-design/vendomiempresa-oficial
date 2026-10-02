@@ -829,7 +829,7 @@ function BuyerForm({
   return (
     <div className="surface-card max-w-[660px] p-7">
       <h3 className="text-[15px] text-primary">¿Qué empresa estás buscando?</h3>
-      <p className="mb-5 mt-1 text-[11.5px] text-subtle-foreground">
+      <p className="mb-5 mt-1 text-[14px] text-muted-foreground">
         Con esto te avisamos qué anuncios hacen match contigo, y los vendedores pueden contactar contigo
         directamente.
       </p>
