@@ -51,7 +51,16 @@ const MatchNotificationEmail = ({
             <Section style={card}>
               {items.map((item) => (
                 <Text key={item} style={itemText}>
-                  • {item}
+                  •{' '}
+                  {item.split(/(https:\/\/\S+)/).map((part, i) =>
+                    part.startsWith('https://') ? (
+                      <Link key={i} href={part} style={{ color: '#b8860b', textDecoration: 'underline' }}>
+                        {part}
+                      </Link>
+                    ) : (
+                      <React.Fragment key={i}>{part}</React.Fragment>
+                    ),
+                  )}
                 </Text>
               ))}
             </Section>

@@ -231,6 +231,7 @@ function Index() {
         country: existing.country ?? "",
         linkedin: existing.linkedin ?? "",
         thesis: existing.thesis,
+        position: existing.position ?? "",
       });
       setScreen("dashboard");
       showToast("¡Bienvenido/a de nuevo!");

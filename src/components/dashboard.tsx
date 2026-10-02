@@ -888,6 +888,7 @@ function BuyerForm({
         country: p.country.trim(),
         linkedin: p.linkedin.trim(),
         whatsapp: (p.whatsapp ?? "").trim(),
+        position: p.position || "Dueño / Empresario",
         thesis: p.thesis.trim(),
         role: nextRole,
         updatedAt: Date.now(),
