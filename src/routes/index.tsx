@@ -43,6 +43,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://vendomiempresa.com/" },
+      { property: "og:image", content: "https://vendomiempresa.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://vendomiempresa.app/og-image.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
