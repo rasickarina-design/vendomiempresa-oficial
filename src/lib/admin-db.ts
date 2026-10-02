@@ -1,6 +1,13 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Buyer, Company } from "./marketplace";
 
+/** Empty links become null; links without protocol get https://. */
+function link(v?: string | null) {
+  const t = (v ?? "").trim();
+  if (!t) return null;
+  return /^https:\/\//i.test(t) ? t : "https://" + t.replace(/^http:\/\//i, "");
+}
+
 /** Mirror app activity into the internal (admin-only) database. */
 
 async function currentUserId() {
@@ -33,11 +40,11 @@ export async function recordCompany(c: Company) {
     city: c.city,
     postal_code: c.postalCode,
     country: c.country,
-    linkedin: c.linkedin?.trim() || null,
-    google_profile: c.googleProfile?.trim() || null,
-    maps_url: c.mapsUrl?.trim() || null,
-    financials_url: c.financialsUrl?.trim() || null,
-    website_url: c.websiteUrl?.trim() || null,
+    linkedin: link(c.linkedin),
+    google_profile: link(c.googleProfile),
+    maps_url: link(c.mapsUrl),
+    financials_url: link(c.financialsUrl),
+    website_url: link(c.websiteUrl),
     owner_position: c.ownerPosition,
 
 
@@ -67,7 +74,7 @@ export async function recordBuyer(b: Buyer) {
     currency: b.currency,
     location_pref: b.locationPref,
     country: b.country,
-    linkedin: b.linkedin?.trim() || null,
+    linkedin: link(b.linkedin),
     thesis: b.thesis,
     role: b.role,
   });
