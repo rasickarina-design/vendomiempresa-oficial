@@ -342,7 +342,7 @@ function BalancesGuide() {
             <div>
               <h4 className="mb-2 font-bold text-foreground">2. Súbela a Google Drive</h4>
               <ul className="flex list-disc flex-col gap-1.5 pl-5">
-                <li>Carpeta con nombre neutro, por ejemplo «Documentación económica 2025».</li>
+                <li>Carpeta con el nombre de la empresa y el año que corresponda, por ejemplo «Mi Empresa — Documentación económica 2025».</li>
                 <li>Archivos en PDF o Excel, con nombres claros por año.</li>
                 <li>
                   <strong className="text-foreground">
