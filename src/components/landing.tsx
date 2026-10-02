@@ -333,7 +333,7 @@ function BalancesGuide() {
               <h4 className="mb-2 font-bold text-foreground">1. Reúne la documentación</h4>
               <ul className="flex list-disc flex-col gap-1.5 pl-5">
                 <li>Balances y cuenta de resultados de los 3 últimos ejercicios cerrados.</li>
-                <li>O, en su lugar, un «one pager» (en español o en inglés) con la facturación y los datos básicos.</li>
+                <li>O, en su lugar, un «one pager» (en español o en inglés) con la facturación de los últimos tres años y los datos básicos.</li>
                 <li>Facturación del ejercicio en curso, mes a mes.</li>
                 <li>Deuda actual, préstamos y avales vigentes.</li>
                 <li>Activos relevantes: maquinaria, vehículos, local, licencias.</li>
