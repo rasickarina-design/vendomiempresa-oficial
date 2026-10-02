@@ -431,7 +431,7 @@ function Explore({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Ver balances y estados de resultados →
+                    Ver información financiera o one pager →
                   </a>
                 )}
                 {c.websiteUrl && (
@@ -561,7 +561,7 @@ function PublishForm({
       return;
     }
     if (f.financialsUrl.trim() && !/^https?:\/\/\S+$/i.test(f.financialsUrl.trim())) {
-      setError("El enlace de balances debe ser una URL válida de Google Drive (https://).");
+      setError("El enlace de información financiera debe ser una URL válida de Google Drive (https://).");
       return;
     }
     if (f.websiteUrl.trim() && !/^https?:\/\/\S+$/i.test(f.websiteUrl.trim())) {
@@ -747,7 +747,7 @@ function PublishForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label className="field-label">Últimos balances y estados de resultados (enlace de Google Drive)</label>
+          <label className="field-label">Cargar información financiera o «one pager» (enlace de Google Drive)</label>
           <input
             className="field-input"
             placeholder="https://drive.google.com/drive/folders/…"

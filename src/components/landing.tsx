@@ -58,8 +58,12 @@ const FAQS: { q: string; a: string }[] = [
     a: "Sí. Al crear tu cuenta puedes elegir el rol de vendedor, comprador o ambos. Si eliges ambos, publicas tu empresa y defines tu criterio de búsqueda en el mismo perfil, y recibes los matches de las dos partes por separado.",
   },
   {
-    q: "¿Cómo preparo y comparto los balances de mi empresa?",
-    a: "Reúne los balances y la cuenta de resultados de los tres últimos ejercicios cerrados en PDF (o Excel), súbelos a una carpeta de Google Drive y pega en la publicación el enlace de esa carpeta. Configura el enlace como «Cualquier persona con el enlace puede ver» y no incluyas datos personales de empleados ni clientes. El enlace solo se comparte con la contraparte cuando existe un match.",
+    q: "¿Cómo preparo y comparto los balances o el «one pager» de mi empresa?",
+    a: "Puedes compartir balances o un «one pager». Reúne los balances y la cuenta de resultados de los tres últimos ejercicios cerrados en PDF (o Excel), súbelos a una carpeta de Google Drive y pega en la publicación el enlace de esa carpeta. Configura el enlace como «Cualquier persona con el enlace puede ver» y no incluyas datos personales de empleados ni clientes. El enlace solo se comparte con la contraparte cuando existe un match.",
+  },
+  {
+    q: "¿Qué es un «one pager»?",
+    a: "Es un resumen de tu empresa en una sola página, en español o en inglés. Debe incluir como mínimo: la facturación anual de los últimos años, el resultado o beneficio aproximado, el sector y la actividad, la ubicación, los años de operación, el número de empleados, el precio pedido y el motivo de la venta. Súbelo en PDF a Google Drive y pega el enlace al publicar.",
   },
   {
     q: "¿En qué me puede ayudar la plataforma?",
@@ -317,18 +321,19 @@ function BalancesGuide() {
     <Accordion type="single" collapsible className="mt-6">
       <AccordionItem value="balances" className="surface-card border-none px-6">
         <AccordionTrigger className="py-4 text-left text-[16px] font-semibold text-foreground hover:no-underline">
-          Antes de publicar: cómo preparar tus balances
+          Antes de publicar: cómo preparar tus balances o «one pager»
         </AccordionTrigger>
         <AccordionContent className="pb-6 text-[15px] leading-[1.7] text-muted-foreground">
           <p className="mb-4">
             Un comprador serio pedirá números. Ten la documentación lista en una carpeta de Google
-            Drive: al publicar solo pegas el enlace en el campo «Enlace a balances».
+            Drive: al publicar solo pegas el enlace en el campo «Información financiera o one pager».
           </p>
           <div className="grid gap-5 md:grid-cols-3">
             <div>
               <h4 className="mb-2 font-bold text-foreground">1. Reúne la documentación</h4>
               <ul className="flex list-disc flex-col gap-1.5 pl-5">
                 <li>Balances y cuenta de resultados de los 3 últimos ejercicios cerrados.</li>
+                <li>O, en su lugar, un «one pager» (en español o en inglés) con la facturación y los datos básicos.</li>
                 <li>Facturación del ejercicio en curso, mes a mes.</li>
                 <li>Deuda actual, préstamos y avales vigentes.</li>
                 <li>Activos relevantes: maquinaria, vehículos, local, licencias.</li>
