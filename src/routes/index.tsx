@@ -23,7 +23,7 @@ import {
 
 const TITLE = "Vendo Mi Empresa — Compra y venta de pymes y equipamiento industrial en LATAM y España";
 const DESCRIPTION =
-  "Publica tu empresa en venta o define qué quieres comprar. Acceso sin contraseña y matches automáticos entre vendedores y compradores.";
+  "Compra y vende empresas, pymes y equipamiento industrial en España, México, Argentina, Colombia, Chile, Perú, Uruguay y toda Latinoamérica. Publicación gratuita y matches automáticos entre vendedores y compradores.";
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): { empresa?: string } => ({
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/")({
       {
         name: "keywords",
         content:
-          "empresas en venta, comprar empresa, vender empresa, traspaso de negocios, marketplace de empresas, compraventa de pymes",
+          "empresas en venta, vender mi empresa, comprar empresa, traspaso de negocios, compraventa de pymes, negocios en venta España, empresas en venta México, empresas en venta Argentina, empresas en venta Colombia, empresas en venta Chile, empresas en venta Perú, venta de empresas Latinoamérica, equipamiento industrial en venta, maquinaria industrial usada",
       },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
@@ -51,7 +51,13 @@ export const Route = createFileRoute("/")({
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
     ],
-    links: [{ rel: "canonical", href: "https://vendomiempresa.com/" }],
+    links: [
+      { rel: "canonical", href: "https://vendomiempresa.app/" },
+      { rel: "alternate", hrefLang: "es", href: "https://vendomiempresa.app/" },
+      { rel: "alternate", hrefLang: "es-ES", href: "https://vendomiempresa.app/" },
+      { rel: "alternate", hrefLang: "es-419", href: "https://vendomiempresa.app/" },
+      { rel: "alternate", hrefLang: "x-default", href: "https://vendomiempresa.app/" },
+    ],
     scripts: [
       {
         type: "application/ld+json",
@@ -61,7 +67,20 @@ export const Route = createFileRoute("/")({
           name: "Vendomiempresa",
           description: DESCRIPTION,
           inLanguage: "es",
-          url: "/",
+          url: "https://vendomiempresa.app/",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Vendo Mi Empresa",
+          url: "https://vendomiempresa.app/",
+          logo: "https://vendomiempresa.app/og-image.jpg",
+          email: "contact@makebusinessesflow.com",
+          areaServed: ["ES", "MX", "AR", "CO", "CL", "PE", "UY", "PY", "BO", "EC", "VE", "CR", "PA", "DO", "GT", "SV", "HN", "NI", "PR"],
+          knowsLanguage: "es",
         }),
       },
       {
