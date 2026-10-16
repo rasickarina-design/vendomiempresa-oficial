@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadCsv, downloadXlsx } from "@/lib/admin-db";
+import { getEmailStatuses, type EmailStatusByRecipient } from "@/lib/email-logs.functions";
 import { fmtMoney, isMatch, type Buyer, type Company } from "@/lib/marketplace";
 
 const TITLE = "Panel interno — Vendomiempresa";
@@ -129,6 +130,7 @@ function buildMatchRows(params: {
   companies: Array<Record<string, unknown>>;
   buyers: Array<Record<string, unknown>>;
   contacts: Array<Record<string, unknown>>;
+  notifications: Array<Record<string, unknown>>;
 }) {
   const companies = params.companies.map((row) => ({ row, company: dbCompany(row) }));
   const seenBuyers = new Set<string>();
@@ -141,15 +143,33 @@ function buildMatchRows(params: {
     })
     .map((row) => ({ row, buyer: dbBuyer(row) }));
   const contacted = latestContactsByMatch(params.contacts);
+  const notificationsByKey = new Map<string, Array<Record<string, unknown>>>();
+  for (const notification of params.notifications) {
+    const key = stringValue(notification.match_key);
+    if (!key) continue;
+    const list = notificationsByKey.get(key) ?? [];
+    list.push(notification);
+    notificationsByKey.set(key, list);
+  }
 
   const rows: Array<Record<string, unknown>> = [];
   for (const { row: companyRow, company } of companies) {
     for (const { row: buyerRow, buyer } of buyers) {
       if (!isMatch(company, buyer)) continue;
       const contact = contacted.get(`${buyer.email.toLowerCase()}::${company.id}`);
+      const notificationKey = `${company.id}-${buyer.email.toLowerCase()}`;
+      const notifications = notificationsByKey.get(notificationKey) ?? [];
+      const sellerNotification = notifications.find((n) => stringValue(n.recipient_side) === "seller");
+      const buyerNotification = notifications.find((n) => stringValue(n.recipient_side) === "buyer");
       rows.push({
         match: `${company.name} ↔ ${buyer.name || buyer.email}`,
         motivo_match: "Sector + país + monto",
+        email_match_vendedor_enviado: sellerNotification?.sent ? "Sí" : "No",
+        fecha_email_match_vendedor: sellerNotification?.created_at ?? "",
+        estado_email_match_vendedor: sellerNotification ? stringValue(sellerNotification.reason) || "Enviado" : "",
+        email_match_comprador_enviado: buyerNotification?.sent ? "Sí" : "No",
+        fecha_email_match_comprador: buyerNotification?.created_at ?? "",
+        estado_email_match_comprador: buyerNotification ? stringValue(buyerNotification.reason) || "Enviado" : "",
         contacto_realizado: contact ? "Sí" : "No",
         fecha_contacto: contact?.created_at ?? "",
         direccion_contacto: contact?.direction ?? "",
@@ -234,16 +254,29 @@ function AdminPage() {
     const admin = !!roles && roles.length > 0;
     setIsAdmin(admin);
     if (admin) {
-      const [c, b, ct] = await Promise.all([
+      const [c, b, ct, nt, emailStatuses] = await Promise.all([
         supabase.from("companies").select("*").order("created_at", { ascending: false }),
         supabase.from("buyers").select("*").order("created_at", { ascending: false }),
         supabase.from("contacts").select("*").order("created_at", { ascending: false }),
+        supabase.from("match_email_notifications").select("*").order("created_at", { ascending: false }),
+        getEmailStatuses(),
       ]);
       const companies = (c.data ?? []) as Array<Record<string, unknown>>;
       const buyers = (b.data ?? []) as Array<Record<string, unknown>>;
       const contacts = (ct.data ?? []) as Array<Record<string, unknown>>;
+      const notifications = (nt.data ?? []) as Array<Record<string, unknown>>;
+      const statuses = emailStatuses as EmailStatusByRecipient;
+      const emailColumns = (row: Record<string, unknown>, emailField: string) => {
+        const status = statuses[stringValue(row[emailField]).toLowerCase()];
+        return {
+          ...row,
+          email_enviado_al_registrarse: status?.sent ? "Sí" : "No",
+          ultimo_email_registro: status?.lastSentAt ?? "",
+          estado_email_registro: status?.lastStatus ?? "",
+        };
+      };
       setRows({
-        companies: putFirst(groupAddress(companies, [
+        companies: putFirst(groupAddress(companies.map((row) => emailColumns(row, "owner_email")), [
           "location",
           "city",
           "postal_code",
@@ -252,10 +285,10 @@ function AdminPage() {
           "website_url",
         ]), ["owner_name", "owner_position", "owner_email", "owner_phone", "whatsapp"]),
         buyers: putFirst(
-          groupAddress(buyers, ["location_pref", "country"]),
+          groupAddress(buyers.map((row) => emailColumns(row, "email")), ["location_pref", "country"]),
           ["name", "buyer_position", "email", "phone", "whatsapp"],
         ),
-        contacts: buildMatchRows({ companies, buyers, contacts }),
+        contacts: buildMatchRows({ companies, buyers, contacts, notifications }),
       });
     }
     setChecking(false);
@@ -515,7 +548,7 @@ function AdminPage() {
       {tab === "contacts" && (
         <p className="mb-3 text-[12.5px] text-muted-foreground">
           Cada fila muestra un match completo: empresa, vendedor, comprador, datos de contacto, ubicación, precio y
-          presupuesto.
+          presupuesto, más si se envió el email automático de match a cada parte.
         </p>
       )}
 

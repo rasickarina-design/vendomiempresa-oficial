@@ -101,6 +101,8 @@ export const syncMarketplace = createServerFn({ method: 'POST' })
       const { sendTemplateEmail } = await import('@/lib/email-templates/send-email')
       for (const { company, buyer } of pairs.slice(0, 30)) {
         const key = `${company.id}-${buyer.email.toLowerCase()}`
+        const sellerIdempotencyKey = `match-seller-${key}`
+        const buyerIdempotencyKey = `match-buyer-${key}`
         const jobs = [
           sendTemplateEmail('match-notification', company.owner, {
             templateData: {
@@ -112,7 +114,7 @@ export const syncMarketplace = createServerFn({ method: 'POST' })
                 `Ubicación buscada: ${[buyer.locationPref, buyer.country].filter(Boolean).join(', ') || '—'}`,
               ],
             },
-            idempotencyKey: `match-seller-${key}`,
+            idempotencyKey: sellerIdempotencyKey,
           }),
           sendTemplateEmail('match-notification', buyer.email, {
             templateData: {
@@ -125,14 +127,53 @@ export const syncMarketplace = createServerFn({ method: 'POST' })
                 ...(company.mapsUrl ? [`Google Maps: ${company.mapsUrl}`] : []),
               ],
             },
-            idempotencyKey: `match-buyer-${key}`,
+            idempotencyKey: buyerIdempotencyKey,
           }),
         ]
         const results = await Promise.allSettled(jobs)
-        results.forEach((r) => {
+        const notifications = [
+          {
+            recipient: company.owner,
+            side: 'seller',
+            idempotencyKey: sellerIdempotencyKey,
+          },
+          {
+            recipient: buyer.email,
+            side: 'buyer',
+            idempotencyKey: buyerIdempotencyKey,
+          },
+        ] as const
+        const logs = []
+        results.forEach((r, index) => {
+          const notification = notifications[index]
           if (r.status === 'fulfilled' && r.value.sent) sent++
           if (r.status === 'rejected') console.error('syncMarketplace email', r.reason)
+          logs.push({
+            match_key: key,
+            company_ref: company.id,
+            company_name: company.name,
+            buyer_email: buyer.email,
+            seller_email: company.owner,
+            recipient_email: notification.recipient,
+            recipient_side: notification.side,
+            template_name: 'match-notification',
+            idempotency_key: notification.idempotencyKey,
+            sent: r.status === 'fulfilled' && r.value.sent,
+            reason:
+              r.status === 'fulfilled'
+                ? r.value.sent
+                  ? null
+                  : r.value.reason
+                : String(r.reason instanceof Error ? r.reason.message : r.reason).slice(0, 500),
+          })
         })
+        if (logs.length > 0) {
+          const { error } = await supabaseAdmin.from('match_email_notifications').upsert(logs, {
+            onConflict: 'idempotency_key',
+            ignoreDuplicates: true,
+          })
+          if (error) console.error('syncMarketplace email log', error.message)
+        }
       }
     }
 
