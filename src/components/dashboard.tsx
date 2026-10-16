@@ -896,7 +896,14 @@ function BuyerForm({
         email,
         phone,
         name: p.name.trim(),
-        sectors: p.sectors.trim(),
+        sectors: Array.from(
+          new Set(
+            p.sectors
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean),
+          ),
+        ).join(", "),
         budgetMin: p.budgetMin,
         budgetMax: p.budgetMax,
         currency: p.currency,
