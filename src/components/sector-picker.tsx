@@ -20,15 +20,21 @@ export function SectorPicker({
 }) {
   const selected = parse(value);
 
+  const MAX = 3;
   const toggle = (rubro: string) => {
-    const next = selected.includes(rubro)
-      ? selected.filter((s) => s !== rubro)
-      : [...selected, rubro];
-    onChange(next.join(", "));
+    if (selected.includes(rubro)) {
+      onChange(selected.filter((s) => s !== rubro).join(", "));
+      return;
+    }
+    if (selected.length >= MAX) return;
+    onChange([...selected, rubro].join(", "));
   };
 
   return (
     <div>
+    <p className="mb-2 text-[12px] text-muted-foreground">
+      Puedes elegir hasta {MAX} sectores ({selected.length}/{MAX}).
+    </p>
     <div className="flex flex-wrap gap-2">
       {RUBROS.map((r) => {
         const active = selected.includes(r);
