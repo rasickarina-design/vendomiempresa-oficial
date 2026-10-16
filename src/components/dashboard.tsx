@@ -43,7 +43,7 @@ export const BUYER_POSITIONS = [
   "Broker / Consultor M&A",
   "Fondo de inversión",
   "Family office",
-  "Banco",
+  "Banco de inversión",
   "Otra persona de contacto",
 ];
 
@@ -219,7 +219,7 @@ export function Dashboard(props: Props) {
               props.onSaveBuyer(b, p);
               if (isInstitutionalBuyer(b.position)) {
                 window.alert(
-                  "Quedaste registrado. Los family offices, fondos y bancos de inversión no participan en los matches: te llevamos a la página de precios para acceder a los datos de forma privada.",
+                  "Quedaste registrado. Solo empresarios e inversores particulares participan en los matches: te llevamos a la página de precios para acceder a los datos de forma privada.",
                 );
                 window.location.assign("/precios");
                 return;
