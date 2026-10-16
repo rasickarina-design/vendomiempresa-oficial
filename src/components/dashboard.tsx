@@ -7,6 +7,7 @@ import {
   findNearMatches,
   fmtMoney,
   isMatch,
+  isInstitutionalBuyer,
   mailtoLink,
   maskEmail,
 } from "@/lib/marketplace";
@@ -30,7 +31,7 @@ export const OWNER_POSITIONS = [
   "CFO / Consultor Financiero",
   "Socio",
   "CEO / Director general",
-  "Banco",
+  "Banco de inversión",
   "Family office",
   "Otra persona de contacto",
 ];
@@ -216,6 +217,13 @@ export function Dashboard(props: Props) {
             profile={profile}
             onSave={(b, p) => {
               props.onSaveBuyer(b, p);
+              if (isInstitutionalBuyer(b.position)) {
+                window.alert(
+                  "Quedaste registrado. Los family offices, fondos y bancos de inversión no participan en los matches: te llevamos a la página de precios para acceder a los datos de forma privada.",
+                );
+                window.location.assign("/precios");
+                return;
+              }
               setTab("matches");
             }}
             email={email}

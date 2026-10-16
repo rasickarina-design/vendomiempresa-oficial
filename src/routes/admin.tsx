@@ -305,6 +305,16 @@ function AdminPage() {
     setChecking(false);
   }, []);
 
+  const removeRow = async (r: Record<string, unknown>) => {
+    if (tab !== "companies" && tab !== "buyers") return;
+    const id = stringValue(r.id);
+    const label = stringValue(tab === "companies" ? r.name : r.email);
+    if (!id || !window.confirm(`¿Sacar a ${label}? Se borra su registro y deja de recibir matches.`)) return;
+    const { error: err } = await supabase.from(tab).delete().eq("id", id);
+    setNotice(err ? `No se pudo sacar: ${err.message}` : `${label} fue eliminado.`);
+    if (!err) void refresh();
+  };
+
   useEffect(() => {
     void refresh();
   }, [refresh]);
@@ -590,6 +600,7 @@ function AdminPage() {
           <table className="w-full min-w-[720px] text-left text-[12.5px]">
             <thead>
               <tr className="border-b border-border-soft">
+                {tab !== "contacts" && <th className="px-3 py-2.5" />}
                 {tab === "contacts" && (
                   <th className="whitespace-nowrap px-3 py-2.5 text-[10.5px] uppercase tracking-[0.06em] text-subtle-foreground">
                     recordatorio
@@ -608,6 +619,16 @@ function AdminPage() {
             <tbody>
               {current.map((r, i) => (
                 <tr key={i} className="border-b border-border-soft last:border-0">
+                  {tab !== "contacts" && (
+                    <td className="px-3 py-2.5">
+                      <button
+                        className="rounded-lg border border-border px-2.5 py-1.5 text-[11px] font-semibold text-destructive transition hover:border-destructive"
+                        onClick={() => void removeRow(r)}
+                      >
+                        Sacar
+                      </button>
+                    </td>
+                  )}
                   {tab === "contacts" && (
                     <td className="min-w-[250px] px-3 py-2.5">
                       <div className="flex flex-wrap gap-1.5">

@@ -161,7 +161,14 @@ function countryMatches(company: Company, buyer: Buyer) {
   return !a || !b || a === b;
 }
 
+/** Family offices, fondos y bancos de inversión se registran pero no hacen match. */
+export function isInstitutionalBuyer(position?: string | null) {
+  const v = (position ?? "").toLowerCase();
+  return v.includes("family office") || v.includes("fondo") || v.startsWith("banco");
+}
+
 export function isMatch(company: Company, buyer: Buyer) {
+  if (isInstitutionalBuyer(buyer.position)) return false;
   if (company.owner.toLowerCase() === buyer.email.toLowerCase()) return false;
   return (
     sectorMatches(company.sector, buyer.sectors) &&
