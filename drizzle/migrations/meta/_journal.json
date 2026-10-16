@@ -8,6 +8,13 @@
       "when": 1792148592062,
       "tag": "0000_create_match_email_notifications",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792150334748,
+      "tag": "0001_unique_buyers_companies",
+      "breakpoints": true
     }
   ]
 }

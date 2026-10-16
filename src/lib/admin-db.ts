@@ -31,7 +31,7 @@ export async function saveProfile(params: { email: string; phone: string; name?:
 
 export async function recordCompany(c: Company) {
   const userId = await currentUserId();
-  const { error } = await supabase.from("companies").insert({
+  const row = {
     user_id: userId,
     share_ref: c.id,
     name: c.name,
@@ -58,13 +58,25 @@ export async function recordCompany(c: Company) {
     owner_name: c.ownerName,
     owner_email: c.owner,
     owner_phone: c.ownerPhone,
-  } as never);
+  };
+  // Si ya existe (misma ficha o mismo nombre del mismo dueño) se actualiza: nunca duplicar.
+  let existingId: string | null = null;
+  if (userId) {
+    const { data } = await supabase.from("companies").select("id, share_ref, name").eq("user_id", userId);
+    const hit = (data ?? []).find(
+      (r) => r.share_ref === c.id || r.name.trim().toLowerCase() === c.name.trim().toLowerCase(),
+    );
+    existingId = hit?.id ?? null;
+  }
+  const { error } = existingId
+    ? await supabase.from("companies").update(row as never).eq("id", existingId)
+    : await supabase.from("companies").insert(row as never);
   if (error) console.error("recordCompany", error.message);
 }
 
 export async function recordBuyer(b: Buyer) {
   const userId = await currentUserId();
-  const { error } = await supabase.from("buyers").insert({
+  const row = {
     user_id: userId,
     name: b.name,
     email: b.email,
@@ -80,7 +92,16 @@ export async function recordBuyer(b: Buyer) {
     buyer_position: b.position || "Dueño / Empresario",
     thesis: b.thesis,
     role: b.role,
-  });
+  };
+  // Un solo perfil de comprador por persona: si ya existe, se actualiza.
+  let existingId: string | null = null;
+  if (userId) {
+    const { data } = await supabase.from("buyers").select("id").eq("user_id", userId).limit(1);
+    existingId = data?.[0]?.id ?? null;
+  }
+  const { error } = existingId
+    ? await supabase.from("buyers").update(row).eq("id", existingId)
+    : await supabase.from("buyers").insert(row);
   if (error) console.error("recordBuyer", error.message);
 }
 
