@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import { template as matchNotificationTemplate } from './match-notification'
 import { template as adminWeeklySummaryTemplate } from './admin-weekly-summary'
+import { template as matchReminderTemplate } from './match-reminder'
 
 
 export interface TemplateEntry {
@@ -23,4 +24,5 @@ export interface TemplateEntry {
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'match-notification': matchNotificationTemplate,
   'admin-weekly-summary': adminWeeklySummaryTemplate,
+  'match-reminder': matchReminderTemplate,
 }

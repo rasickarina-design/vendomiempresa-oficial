@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { sendMatchReminder } from "@/lib/admin-reminders.functions";
 import { downloadCsv, downloadXlsx } from "@/lib/admin-db";
 import { getEmailStatuses, type EmailStatusByRecipient } from "@/lib/email-logs.functions";
 import { fmtMoney, isMatch, type Buyer, type Company } from "@/lib/marketplace";
@@ -159,8 +160,10 @@ function buildMatchRows(params: {
       const contact = contacted.get(`${buyer.email.toLowerCase()}::${company.id}`);
       const notificationKey = `${company.id}-${buyer.email.toLowerCase()}`;
       const notifications = notificationsByKey.get(notificationKey) ?? [];
-      const sellerNotification = notifications.find((n) => stringValue(n.recipient_side) === "seller");
-      const buyerNotification = notifications.find((n) => stringValue(n.recipient_side) === "buyer");
+      const sellerNotification = notifications.find((n) => stringValue(n.recipient_side) === "seller" && stringValue(n.template_name) === "match-notification");
+      const buyerNotification = notifications.find((n) => stringValue(n.recipient_side) === "buyer" && stringValue(n.template_name) === "match-notification");
+      const sellerReminder = notifications.find((n) => stringValue(n.recipient_side) === "seller" && stringValue(n.template_name) === "match-reminder");
+      const buyerReminder = notifications.find((n) => stringValue(n.recipient_side) === "buyer" && stringValue(n.template_name) === "match-reminder");
       rows.push({
         match: `${company.name} ↔ ${buyer.name || buyer.email}`,
         motivo_match: "Sector + país + monto",
@@ -170,6 +173,12 @@ function buildMatchRows(params: {
         email_match_comprador_enviado: buyerNotification?.sent ? "Sí" : "No",
         fecha_email_match_comprador: buyerNotification?.created_at ?? "",
         estado_email_match_comprador: buyerNotification ? stringValue(buyerNotification.reason) || "Enviado" : "",
+        recordatorio_vendedor_enviado: sellerReminder?.sent ? "Sí" : "No",
+        fecha_recordatorio_vendedor: sellerReminder?.created_at ?? "",
+        estado_recordatorio_vendedor: sellerReminder ? stringValue(sellerReminder.reason) || "Enviado" : "",
+        recordatorio_comprador_enviado: buyerReminder?.sent ? "Sí" : "No",
+        fecha_recordatorio_comprador: buyerReminder?.created_at ?? "",
+        estado_recordatorio_comprador: buyerReminder ? stringValue(buyerReminder.reason) || "Enviado" : "",
         contacto_realizado: contact ? "Sí" : "No",
         fecha_contacto: contact?.created_at ?? "",
         direccion_contacto: contact?.direction ?? "",
@@ -228,6 +237,8 @@ function AdminPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [reminderBusy, setReminderBusy] = useState("");
+  const [notice, setNotice] = useState("");
   const [rows, setRows] = useState<Record<TableName, Array<Record<string, unknown>>>>({
     companies: [],
     buyers: [],
@@ -374,6 +385,23 @@ function AdminPage() {
     setRows({ companies: [], buyers: [], contacts: [] });
   };
 
+  const sendReminder = async (row: Record<string, unknown>, side: "buyer" | "seller") => {
+    const companyRef = stringValue(row.empresa_ref);
+    const buyerEmail = stringValue(row.comprador_email);
+    const key = `${side}-${companyRef}-${buyerEmail}`;
+    setNotice("");
+    setReminderBusy(key);
+    try {
+      const result = await sendMatchReminder({ data: { companyRef, buyerEmail, recipientSide: side } });
+      setNotice(result.sent ? "Recordatorio enviado." : "Ese email no se pudo enviar porque el destinatario está bloqueado.");
+      await refresh();
+    } catch (err) {
+      setNotice(err instanceof Error ? err.message : "No se pudo enviar el recordatorio.");
+    } finally {
+      setReminderBusy("");
+    }
+  };
+
   if (checking) {
     return <Shell><p className="text-sm text-muted-foreground">Cargando…</p></Shell>;
   }
@@ -480,6 +508,8 @@ function AdminPage() {
         </div>
       </div>
 
+      {notice && <p className="mb-4 rounded-lg border border-border bg-card px-4 py-2 text-[13px] text-foreground">{notice}</p>}
+
       <div className="mb-5 flex w-fit flex-wrap gap-1.5 rounded-[11px] border border-border bg-card p-1">
         {TABLES.map((t) => (
           <button
@@ -548,7 +578,8 @@ function AdminPage() {
       {tab === "contacts" && (
         <p className="mb-3 text-[12.5px] text-muted-foreground">
           Cada fila muestra un match completo: empresa, vendedor, comprador, datos de contacto, ubicación, precio y
-          presupuesto, más si se envió el email automático de match a cada parte.
+          presupuesto, más si se envió el email automático de match a cada parte. Desde acá también podés enviar un
+          recordatorio individual.
         </p>
       )}
 
@@ -559,6 +590,11 @@ function AdminPage() {
           <table className="w-full min-w-[720px] text-left text-[12.5px]">
             <thead>
               <tr className="border-b border-border-soft">
+                {tab === "contacts" && (
+                  <th className="whitespace-nowrap px-3 py-2.5 text-[10.5px] uppercase tracking-[0.06em] text-subtle-foreground">
+                    recordatorio
+                  </th>
+                )}
                 {headers.map((h) => (
                   <th
                     key={h}
@@ -572,6 +608,31 @@ function AdminPage() {
             <tbody>
               {current.map((r, i) => (
                 <tr key={i} className="border-b border-border-soft last:border-0">
+                  {tab === "contacts" && (
+                    <td className="min-w-[250px] px-3 py-2.5">
+                      <div className="flex flex-wrap gap-1.5">
+                        {(["seller", "buyer"] as const).map((side) => {
+                          const companyRef = stringValue(r.empresa_ref);
+                          const buyerEmail = stringValue(r.comprador_email);
+                          const key = `${side}-${companyRef}-${buyerEmail}`;
+                          return (
+                            <button
+                              key={side}
+                              className="rounded-lg border border-border px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:border-primary hover:text-primary disabled:opacity-60"
+                              onClick={() => void sendReminder(r, side)}
+                              disabled={!!reminderBusy}
+                            >
+                              {reminderBusy === key
+                                ? "Enviando…"
+                                : side === "seller"
+                                  ? "Recordar vendedor"
+                                  : "Recordar comprador"}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </td>
+                  )}
                   {headers.map((h) => (
                     <td key={h} className="max-w-[260px] truncate px-3 py-2.5">
                       {String(r[h] ?? "")}
