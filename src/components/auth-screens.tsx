@@ -430,6 +430,7 @@ export function ProfileScreen({
     budgetMax: "",
     currency: "USD",
     locationPref: "",
+    personalCountry: "",
     country: "",
     linkedin: "",
     thesis: "",
@@ -446,7 +447,12 @@ export function ProfileScreen({
 
     setErrors(e);
     if (Object.keys(e).length) return;
-    onSave({ ...p, name: p.name.trim() });
+    onSave({
+      ...p,
+      name: p.name.trim(),
+      personalCountry: p.personalCountry.trim(),
+      country: (p.country || p.personalCountry).trim(),
+    });
   };
 
   return (
@@ -470,9 +476,24 @@ export function ProfileScreen({
         {errors.name && <p className="field-error">{errors.name}</p>}
       </div>
 
-      <div className="mb-4">
-        <label className="field-label">País</label>
-        <CountrySelect value={p.country} onChange={(v) => set("country", v)} />
+      <div className="mb-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+        <div>
+          <label className="field-label">País donde estás registrado</label>
+          <CountrySelect
+            value={p.personalCountry}
+            onChange={(v) =>
+              setP((prev) => ({
+                ...prev,
+                personalCountry: v,
+                country: prev.country || v,
+              }))
+            }
+          />
+        </div>
+        <div>
+          <label className="field-label">País donde buscas la empresa</label>
+          <CountrySelect value={p.country || p.personalCountry} onChange={(v) => set("country", v)} />
+        </div>
       </div>
 
       <div className="mb-4">
