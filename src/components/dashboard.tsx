@@ -941,7 +941,7 @@ function BuyerForm({
         </select>
       </div>
       <div className="mb-4">
-        <label className="field-label">Tu nombre completo</label>
+        <label className="field-label">Tu nombre completo (obligatorio)</label>
         <input autoComplete="name"
           className="field-input"
           maxLength={100}
@@ -994,7 +994,7 @@ function BuyerForm({
       </div>
       <div className="mb-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div>
-          <label className="field-label">País donde estás registrado</label>
+          <label className="field-label">País de residencia (obligatorio)</label>
           <CountrySelect
             value={p.personalCountry ?? ""}
             onChange={(v) =>
