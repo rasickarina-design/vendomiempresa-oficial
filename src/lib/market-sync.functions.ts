@@ -143,7 +143,19 @@ export const syncMarketplace = createServerFn({ method: 'POST' })
             idempotencyKey: buyerIdempotencyKey,
           },
         ] as const
-        const logs = []
+        const logs: Array<{
+          match_key: string
+          company_ref: string
+          company_name: string
+          buyer_email: string
+          seller_email: string
+          recipient_email: string
+          recipient_side: 'buyer' | 'seller'
+          template_name: string
+          idempotency_key: string
+          sent: boolean
+          reason: string | null
+        }> = []
         results.forEach((r, index) => {
           const notification = notifications[index]
           if (r.status === 'fulfilled' && r.value.sent) sent++
