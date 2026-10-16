@@ -185,6 +185,54 @@ export type Database = {
         }
         Relationships: []
       }
+      match_email_notifications: {
+        Row: {
+          buyer_email: string
+          company_name: string | null
+          company_ref: string | null
+          created_at: string
+          id: string
+          idempotency_key: string
+          match_key: string
+          reason: string | null
+          recipient_email: string
+          recipient_side: string
+          seller_email: string
+          sent: boolean
+          template_name: string
+        }
+        Insert: {
+          buyer_email: string
+          company_name?: string | null
+          company_ref?: string | null
+          created_at?: string
+          id?: string
+          idempotency_key: string
+          match_key: string
+          reason?: string | null
+          recipient_email: string
+          recipient_side: string
+          seller_email: string
+          sent?: boolean
+          template_name?: string
+        }
+        Update: {
+          buyer_email?: string
+          company_name?: string | null
+          company_ref?: string | null
+          created_at?: string
+          id?: string
+          idempotency_key?: string
+          match_key?: string
+          reason?: string | null
+          recipient_email?: string
+          recipient_side?: string
+          seller_email?: string
+          sent?: boolean
+          template_name?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
