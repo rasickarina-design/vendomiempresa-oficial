@@ -245,20 +245,26 @@ function Index() {
     return () => window.clearInterval(t);
   }, [screen, email, sync]);
 
-  const handleVerified = () => {
-    void saveProfile({ email, phone });
+  const handleVerified = async () => {
+    await saveProfile({ email, phone });
+    const { data: userData } = await supabase.auth.getUser();
+    const userId = userData.user?.id;
+    const savedProfile = userId
+      ? await supabase.from("profiles").select("name, country").eq("id", userId).maybeSingle()
+      : { data: null };
+    const registeredCountry = savedProfile.data?.country || profile.personalCountry || "";
     const existing = buyers.find((b) => b.email === email);
     if (existing) {
       setRole(existing.role || "buyer");
       setProfile({
-        name: existing.name,
+        name: existing.name || savedProfile.data?.name || "",
         sectors: existing.sectors,
         budgetMin: existing.budgetMin,
         budgetMax: existing.budgetMax,
         currency: existing.currency,
         locationPref: existing.locationPref,
-        personalCountry: profile.personalCountry || existing.country || "",
-        country: existing.country ?? profile.personalCountry ?? "",
+        personalCountry: registeredCountry,
+        country: existing.country || registeredCountry,
         linkedin: existing.linkedin ?? "",
         thesis: existing.thesis,
         position: existing.position ?? "",
@@ -266,6 +272,9 @@ function Index() {
       setScreen("dashboard");
       showToast("¡Bienvenido/a de nuevo!");
       return;
+    }
+    if (registeredCountry) {
+      setProfile((prev) => ({ ...prev, personalCountry: registeredCountry, country: prev.country || registeredCountry }));
     }
     setScreen("role");
   };

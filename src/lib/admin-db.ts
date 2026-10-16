@@ -20,13 +20,14 @@ export async function saveProfile(params: { email: string; phone: string; name?:
   const { data } = await supabase.auth.getUser();
   const user = data.user;
   if (!user) return;
-  const { error } = await supabase.from("profiles").upsert({
+  const row = {
     id: user.id,
     email: user.email ?? params.email,
     phone: params.phone || null,
-    name: params.name || null,
-    country: params.country || null,
-  });
+    ...(params.name !== undefined ? { name: params.name || null } : {}),
+    ...(params.country !== undefined ? { country: params.country || null } : {}),
+  };
+  const { error } = await supabase.from("profiles").upsert(row);
   if (error) console.error("saveProfile", error.message);
 }
 
