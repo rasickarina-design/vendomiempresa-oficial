@@ -160,8 +160,10 @@ function buildMatchRows(params: {
       const contact = contacted.get(`${buyer.email.toLowerCase()}::${company.id}`);
       const notificationKey = `${company.id}-${buyer.email.toLowerCase()}`;
       const notifications = notificationsByKey.get(notificationKey) ?? [];
-      const sellerNotification = notifications.find((n) => stringValue(n.recipient_side) === "seller");
-      const buyerNotification = notifications.find((n) => stringValue(n.recipient_side) === "buyer");
+      const sellerNotification = notifications.find((n) => stringValue(n.recipient_side) === "seller" && stringValue(n.template_name) === "match-notification");
+      const buyerNotification = notifications.find((n) => stringValue(n.recipient_side) === "buyer" && stringValue(n.template_name) === "match-notification");
+      const sellerReminder = notifications.find((n) => stringValue(n.recipient_side) === "seller" && stringValue(n.template_name) === "match-reminder");
+      const buyerReminder = notifications.find((n) => stringValue(n.recipient_side) === "buyer" && stringValue(n.template_name) === "match-reminder");
       rows.push({
         match: `${company.name} ↔ ${buyer.name || buyer.email}`,
         motivo_match: "Sector + país + monto",
@@ -171,6 +173,12 @@ function buildMatchRows(params: {
         email_match_comprador_enviado: buyerNotification?.sent ? "Sí" : "No",
         fecha_email_match_comprador: buyerNotification?.created_at ?? "",
         estado_email_match_comprador: buyerNotification ? stringValue(buyerNotification.reason) || "Enviado" : "",
+        recordatorio_vendedor_enviado: sellerReminder?.sent ? "Sí" : "No",
+        fecha_recordatorio_vendedor: sellerReminder?.created_at ?? "",
+        estado_recordatorio_vendedor: sellerReminder ? stringValue(sellerReminder.reason) || "Enviado" : "",
+        recordatorio_comprador_enviado: buyerReminder?.sent ? "Sí" : "No",
+        fecha_recordatorio_comprador: buyerReminder?.created_at ?? "",
+        estado_recordatorio_comprador: buyerReminder ? stringValue(buyerReminder.reason) || "Enviado" : "",
         contacto_realizado: contact ? "Sí" : "No",
         fecha_contacto: contact?.created_at ?? "",
         direccion_contacto: contact?.direction ?? "",

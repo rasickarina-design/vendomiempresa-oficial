@@ -21,12 +21,14 @@ export const sendMatchReminder = createServerFn({ method: 'POST' })
     if (!data.companyRef || !data.buyerEmail) throw new Error('Faltan datos del match')
 
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const companyQuery = supabaseAdmin.from('companies').select('*')
+    const companyPromise = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      data.companyRef,
+    )
+      ? companyQuery.eq('id', data.companyRef).limit(1)
+      : companyQuery.eq('share_ref', data.companyRef).limit(1)
     const [{ data: companyRows, error: companyError }, { data: buyerRows, error: buyerError }] = await Promise.all([
-      supabaseAdmin
-        .from('companies')
-        .select('*')
-        .or(`share_ref.eq.${data.companyRef},id.eq.${data.companyRef}`)
-        .limit(1),
+      companyPromise,
       supabaseAdmin
         .from('buyers')
         .select('*')
