@@ -435,7 +435,7 @@ export function ProfileScreen({
     linkedin: "",
     thesis: "",
   });
-  const [errors, setErrors] = useState<{ name?: string; sectors?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; sectors?: string; personalCountry?: string }>({});
   const needsBuyer = role === "buyer" || role === "both";
   const set = (k: keyof Profile, v: string) => setP((prev) => ({ ...prev, [k]: v }));
 
@@ -444,6 +444,8 @@ export function ProfileScreen({
     if (!p.name.trim()) e.name = "Ingresa tu nombre.";
     if (needsBuyer && !p.sectors.trim())
       e.sectors = "Indícanos al menos un sector de interés para poder buscarte matches.";
+    if (needsBuyer && !p.personalCountry.trim())
+      e.personalCountry = "Indica tu país de residencia.";
 
     setErrors(e);
     if (Object.keys(e).length) return;
