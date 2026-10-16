@@ -16,16 +16,18 @@ async function currentUserId() {
 }
 
 /** Link the verified email + phone to the real auth user (auth.uid()). */
-export async function saveProfile(params: { email: string; phone: string; name?: string }) {
+export async function saveProfile(params: { email: string; phone: string; name?: string; country?: string }) {
   const { data } = await supabase.auth.getUser();
   const user = data.user;
   if (!user) return;
-  const { error } = await supabase.from("profiles").upsert({
+  const row = {
     id: user.id,
     email: user.email ?? params.email,
     phone: params.phone || null,
-    name: params.name || null,
-  });
+    ...(params.name !== undefined ? { name: params.name || null } : {}),
+    ...(params.country !== undefined ? { country: params.country || null } : {}),
+  };
+  const { error } = await supabase.from("profiles").upsert(row);
   if (error) console.error("saveProfile", error.message);
 }
 

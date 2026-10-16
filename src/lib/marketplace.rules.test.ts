@@ -60,3 +60,7 @@ assert.equal(isMatch(company, buyer("Fondo de inversión")), false);
 assert.equal(isMatch(company, buyer("Banco de inversión")), false);
 assert.equal(isMatch(company, buyer("Broker / Consultor M&A")), false);
 assert.equal(isMatch(company, buyer("CFO / Consultor Financiero")), false);
+
+
+assert.equal(isMatch(company, { ...buyer("Dueño / Empresario"), country: "México" }), false);
+assert.equal(isMatch(company, { ...buyer("Dueño / Empresario"), country: "España" }), true);

@@ -128,6 +128,7 @@ const emptyProfile: Profile = {
   budgetMax: "",
   currency: "USD",
   locationPref: "",
+  personalCountry: "",
   country: "",
   linkedin: "",
   thesis: "",
@@ -162,13 +163,18 @@ function Index() {
         setScreen((cur) => (cur === "login" ? "dashboard" : cur));
         void supabase
           .from("profiles")
-          .select("phone, name")
+          .select("phone, name, country")
           .eq("id", session.user.id)
           .maybeSingle()
           .then(({ data: prof }) => {
             if (!active || !prof) return;
             if (prof.phone) setPhone(prof.phone);
-            if (prof.name) setProfile((prev) => (prev.name ? prev : { ...prev, name: prof.name ?? "" }));
+            setProfile((prev) => ({
+              ...prev,
+              name: prev.name || prof.name || "",
+              personalCountry: prev.personalCountry || prof.country || "",
+              country: prev.country || prof.country || "",
+            }));
           });
       }
     });
@@ -239,19 +245,26 @@ function Index() {
     return () => window.clearInterval(t);
   }, [screen, email, sync]);
 
-  const handleVerified = () => {
-    void saveProfile({ email, phone });
+  const handleVerified = async () => {
+    await saveProfile({ email, phone });
+    const { data: userData } = await supabase.auth.getUser();
+    const userId = userData.user?.id;
+    const savedProfile = userId
+      ? await supabase.from("profiles").select("name, country").eq("id", userId).maybeSingle()
+      : { data: null };
+    const registeredCountry = savedProfile.data?.country || profile.personalCountry || "";
     const existing = buyers.find((b) => b.email === email);
     if (existing) {
       setRole(existing.role || "buyer");
       setProfile({
-        name: existing.name,
+        name: existing.name || savedProfile.data?.name || "",
         sectors: existing.sectors,
         budgetMin: existing.budgetMin,
         budgetMax: existing.budgetMax,
         currency: existing.currency,
         locationPref: existing.locationPref,
-        country: existing.country ?? "",
+        personalCountry: registeredCountry,
+        country: existing.country || registeredCountry,
         linkedin: existing.linkedin ?? "",
         thesis: existing.thesis,
         position: existing.position ?? "",
@@ -259,6 +272,9 @@ function Index() {
       setScreen("dashboard");
       showToast("¡Bienvenido/a de nuevo!");
       return;
+    }
+    if (registeredCountry) {
+      setProfile((prev) => ({ ...prev, personalCountry: registeredCountry, country: prev.country || registeredCountry }));
     }
     setScreen("role");
   };
@@ -342,6 +358,7 @@ function Index() {
             const next = idx >= 0 ? buyers.map((x, i) => (i === idx ? b : x)) : [b, ...buyers];
             setBuyers(next);
             saveList(KEY_BUYERS, next);
+            void saveProfile({ email, phone, name: p.name, country: p.personalCountry });
             void recordBuyer(b).then(() => sync(true));
             showToast("¡Tu búsqueda se ha guardado! Ya puedes ver tus matches.");
           }}
