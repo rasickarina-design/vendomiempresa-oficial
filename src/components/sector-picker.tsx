@@ -1,10 +1,14 @@
 import { RUBROS } from "@/lib/marketplace";
 
 function parse(value: string) {
-  return value
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
+  return Array.from(
+    new Set(
+      value
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    ),
+  );
 }
 
 export function SectorPicker({
