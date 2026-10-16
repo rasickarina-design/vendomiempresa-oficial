@@ -161,14 +161,18 @@ function countryMatches(company: Company, buyer: Buyer) {
   return !a || !b || a === b;
 }
 
-/** Family offices, fondos y bancos de inversión se registran pero no hacen match. */
+/** Solo empresarios e inversores particulares hacen match; el resto queda registrado para precios privados. */
+export function canBuyerMatch(position?: string | null) {
+  const v = (position ?? "Dueño / Empresario").trim().toLowerCase();
+  return v === "dueño / empresario" || v === "inversor particular";
+}
+
 export function isInstitutionalBuyer(position?: string | null) {
-  const v = (position ?? "").toLowerCase();
-  return v.includes("family office") || v.includes("fondo") || v.startsWith("banco");
+  return !canBuyerMatch(position);
 }
 
 export function isMatch(company: Company, buyer: Buyer) {
-  if (isInstitutionalBuyer(buyer.position)) return false;
+  if (!canBuyerMatch(buyer.position)) return false;
   if (company.owner.toLowerCase() === buyer.email.toLowerCase()) return false;
   return (
     sectorMatches(company.sector, buyer.sectors) &&
