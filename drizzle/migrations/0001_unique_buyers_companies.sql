@@ -1,0 +1,2 @@
+CREATE UNIQUE INDEX IF NOT EXISTS buyers_email_unique ON public.buyers (lower(email));
+CREATE UNIQUE INDEX IF NOT EXISTS companies_owner_name_unique ON public.companies (lower(owner_email), lower(trim(name)));
