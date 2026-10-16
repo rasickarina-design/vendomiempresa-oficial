@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadCsv, downloadXlsx } from "@/lib/admin-db";
+import { fmtMoney, isMatch, type Buyer, type Company } from "@/lib/marketplace";
 
 const TITLE = "Panel interno — Vendomiempresa";
 const DESCRIPTION = "Acceso restringido al administrador: base de datos interna y exportación a CSV.";
@@ -14,6 +15,8 @@ export const Route = createFileRoute("/admin")({
       { name: "robots", content: "noindex" },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AdminPage,
@@ -49,8 +52,153 @@ function putFirst(list: Array<Record<string, unknown>>, first: string[]) {
 const TABLES: Array<{ name: TableName; label: string; file: string }> = [
   { name: "companies", label: "Vende empresas", file: "vende-empresas" },
   { name: "buyers", label: "Compra empresas", file: "compra-empresas" },
-  { name: "contacts", label: "Matches · Contactos realizados", file: "matches" },
+  { name: "contacts", label: "Matches completos", file: "matches" },
 ];
+
+function stringValue(value: unknown) {
+  return value === null || value === undefined ? "" : String(value);
+}
+
+function numberValue(value: unknown) {
+  return value === null || value === undefined || value === "" ? null : Number(value);
+}
+
+function dbCompany(r: Record<string, unknown>): Company {
+  return {
+    id: stringValue(r.share_ref || r.id),
+    name: stringValue(r.name),
+    sector: stringValue(r.sector),
+    location: stringValue(r.location),
+    city: stringValue(r.city),
+    postalCode: stringValue(r.postal_code),
+    country: stringValue(r.country),
+    linkedin: stringValue(r.linkedin),
+    whatsapp: stringValue(r.whatsapp),
+    googleProfile: stringValue(r.google_profile),
+    mapsUrl: stringValue(r.maps_url),
+    financialsUrl: stringValue(r.financials_url),
+    websiteUrl: stringValue(r.website_url),
+    age: stringValue(r.age),
+    revenue: stringValue(r.revenue),
+    priceAmount: numberValue(r.price_amount),
+    priceCurrency: stringValue(r.price_currency || "USD"),
+    desc: stringValue(r.description),
+    owner: stringValue(r.owner_email),
+    ownerName: stringValue(r.owner_name),
+    ownerPosition: stringValue(r.owner_position),
+    ownerPhone: stringValue(r.owner_phone),
+    createdAt: new Date(stringValue(r.created_at)).getTime(),
+  };
+}
+
+function dbBuyer(r: Record<string, unknown>): Buyer {
+  const role = stringValue(r.role);
+  return {
+    email: stringValue(r.email),
+    phone: stringValue(r.phone),
+    name: stringValue(r.name),
+    sectors: stringValue(r.sectors),
+    budgetMin: r.budget_min === null || r.budget_min === undefined ? "" : String(Number(r.budget_min)),
+    budgetMax: r.budget_max === null || r.budget_max === undefined ? "" : String(Number(r.budget_max)),
+    currency: stringValue(r.currency || "USD"),
+    locationPref: stringValue(r.location_pref),
+    country: stringValue(r.country),
+    linkedin: stringValue(r.linkedin),
+    whatsapp: stringValue(r.whatsapp),
+    position: stringValue(r.buyer_position),
+    thesis: stringValue(r.thesis),
+    role: role === "seller" || role === "both" ? role : "buyer",
+    updatedAt: new Date(stringValue(r.created_at)).getTime(),
+  };
+}
+
+function latestContactsByMatch(contacts: Array<Record<string, unknown>>) {
+  const map = new Map<string, Record<string, unknown>>();
+  for (const contact of contacts) {
+    const buyerEmail = stringValue(contact.buyer_email).toLowerCase();
+    const companyRef = stringValue(contact.company_ref);
+    if (!buyerEmail || !companyRef) continue;
+    const key = `${buyerEmail}::${companyRef}`;
+    const current = map.get(key);
+    if (!current || stringValue(contact.created_at) > stringValue(current.created_at)) map.set(key, contact);
+  }
+  return map;
+}
+
+function buildMatchRows(params: {
+  companies: Array<Record<string, unknown>>;
+  buyers: Array<Record<string, unknown>>;
+  contacts: Array<Record<string, unknown>>;
+}) {
+  const companies = params.companies.map((row) => ({ row, company: dbCompany(row) }));
+  const seenBuyers = new Set<string>();
+  const buyers = params.buyers
+    .filter((row) => {
+      const email = stringValue(row.email).toLowerCase();
+      if (!email || seenBuyers.has(email)) return false;
+      seenBuyers.add(email);
+      return true;
+    })
+    .map((row) => ({ row, buyer: dbBuyer(row) }));
+  const contacted = latestContactsByMatch(params.contacts);
+
+  const rows: Array<Record<string, unknown>> = [];
+  for (const { row: companyRow, company } of companies) {
+    for (const { row: buyerRow, buyer } of buyers) {
+      if (!isMatch(company, buyer)) continue;
+      const contact = contacted.get(`${buyer.email.toLowerCase()}::${company.id}`);
+      rows.push({
+        match: `${company.name} ↔ ${buyer.name || buyer.email}`,
+        motivo_match: "Sector + país + monto",
+        contacto_realizado: contact ? "Sí" : "No",
+        fecha_contacto: contact?.created_at ?? "",
+        direccion_contacto: contact?.direction ?? "",
+        empresa_nombre: company.name,
+        empresa_sector: company.sector,
+        empresa_precio: fmtMoney(company.priceAmount, company.priceCurrency),
+        empresa_monto: company.priceAmount ?? "",
+        empresa_moneda: company.priceCurrency,
+        empresa_facturacion: company.revenue,
+        empresa_anios_operando: company.age,
+        empresa_descripcion: company.desc,
+        empresa_direccion: company.location,
+        empresa_ciudad: company.city,
+        empresa_codigo_postal: company.postalCode,
+        empresa_pais: company.country,
+        empresa_google_maps: company.mapsUrl,
+        empresa_perfil_google: company.googleProfile,
+        empresa_web: company.websiteUrl,
+        empresa_financieros_o_one_pager: company.financialsUrl,
+        vendedor_nombre: company.ownerName,
+        vendedor_puesto: company.ownerPosition,
+        vendedor_email: company.owner,
+        vendedor_telefono: company.ownerPhone,
+        vendedor_whatsapp: company.whatsapp ?? "",
+        vendedor_linkedin: company.linkedin,
+        comprador_nombre: buyer.name,
+        comprador_rol: buyer.position ?? "",
+        comprador_email: buyer.email,
+        comprador_telefono: buyer.phone,
+        comprador_whatsapp: buyer.whatsapp ?? "",
+        comprador_linkedin: buyer.linkedin,
+        comprador_sectores: buyer.sectors,
+        comprador_presupuesto: `${fmtMoney(buyer.budgetMin, buyer.currency)} – ${fmtMoney(buyer.budgetMax, buyer.currency)}`,
+        comprador_presupuesto_min: buyer.budgetMin,
+        comprador_presupuesto_max: buyer.budgetMax,
+        comprador_moneda: buyer.currency,
+        comprador_ubicacion_buscada: buyer.locationPref,
+        comprador_pais: buyer.country,
+        comprador_descripcion_busqueda: buyer.thesis,
+        empresa_id: companyRow.id ?? "",
+        empresa_ref: company.id,
+        comprador_id: buyerRow.id ?? "",
+        contacto_id: contact?.id ?? "",
+      });
+    }
+  }
+
+  return rows.sort((a, b) => String(b.contacto_realizado).localeCompare(String(a.contacto_realizado)));
+}
 
 function AdminPage() {
   const [checking, setChecking] = useState(true);
@@ -91,8 +239,11 @@ function AdminPage() {
         supabase.from("buyers").select("*").order("created_at", { ascending: false }),
         supabase.from("contacts").select("*").order("created_at", { ascending: false }),
       ]);
+      const companies = (c.data ?? []) as Array<Record<string, unknown>>;
+      const buyers = (b.data ?? []) as Array<Record<string, unknown>>;
+      const contacts = (ct.data ?? []) as Array<Record<string, unknown>>;
       setRows({
-        companies: putFirst(groupAddress((c.data ?? []) as Array<Record<string, unknown>>, [
+        companies: putFirst(groupAddress(companies, [
           "location",
           "city",
           "postal_code",
@@ -101,10 +252,10 @@ function AdminPage() {
           "website_url",
         ]), ["owner_name", "owner_position", "owner_email", "owner_phone", "whatsapp"]),
         buyers: putFirst(
-          groupAddress((b.data ?? []) as Array<Record<string, unknown>>, ["location_pref", "country"]),
+          groupAddress(buyers, ["location_pref", "country"]),
           ["name", "buyer_position", "email", "phone", "whatsapp"],
         ),
-        contacts: (ct.data ?? []) as Array<Record<string, unknown>>,
+        contacts: buildMatchRows({ companies, buyers, contacts }),
       });
     }
     setChecking(false);
@@ -358,8 +509,15 @@ function AdminPage() {
           ? "Vendedores: empresas que se venden"
           : tab === "buyers"
             ? "Compradores: quienes buscan comprar"
-            : "Matches: contactos entre compradores y vendedores"}
+            : "Matches: cruce completo entre comprador y vendedor"}
       </div>
+
+      {tab === "contacts" && (
+        <p className="mb-3 text-[12.5px] text-muted-foreground">
+          Cada fila muestra un match completo: empresa, vendedor, comprador, datos de contacto, ubicación, precio y
+          presupuesto.
+        </p>
+      )}
 
       <div className="surface-card overflow-x-auto">
         {current.length === 0 ? (
