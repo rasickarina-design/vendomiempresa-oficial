@@ -18,6 +18,7 @@ interface Profile {
   budgetMax: string;
   currency: string;
   locationPref: string;
+  personalCountry: string;
   country: string;
   linkedin: string;
   whatsapp?: string;

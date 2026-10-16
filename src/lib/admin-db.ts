@@ -16,7 +16,7 @@ async function currentUserId() {
 }
 
 /** Link the verified email + phone to the real auth user (auth.uid()). */
-export async function saveProfile(params: { email: string; phone: string; name?: string }) {
+export async function saveProfile(params: { email: string; phone: string; name?: string; country?: string }) {
   const { data } = await supabase.auth.getUser();
   const user = data.user;
   if (!user) return;
@@ -25,6 +25,7 @@ export async function saveProfile(params: { email: string; phone: string; name?:
     email: user.email ?? params.email,
     phone: params.phone || null,
     name: params.name || null,
+    country: params.country || null,
   });
   if (error) console.error("saveProfile", error.message);
 }

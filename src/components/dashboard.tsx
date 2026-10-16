@@ -860,7 +860,11 @@ function BuyerForm({
   phone: string;
   role: Role;
 }) {
-  const [p, setP] = useState<Profile>(profile);
+  const [p, setP] = useState<Profile>(() => ({
+    ...profile,
+    personalCountry: profile.personalCountry || "",
+    country: profile.country || profile.personalCountry || "",
+  }));
   const [error, setError] = useState("");
   const set = (k: keyof Profile, v: string) => setP((prev) => ({ ...prev, [k]: v }));
 
@@ -873,8 +877,12 @@ function BuyerForm({
       setError("Indícanos al menos un sector de interés.");
       return;
     }
+    if (!p.personalCountry?.trim()) {
+      setError("Indica en qué país estás registrado.");
+      return;
+    }
     if (!p.country.trim()) {
-      setError("El país es obligatorio.");
+      setError("Indica en qué país buscas la empresa.");
       return;
     }
     if (p.whatsapp?.trim() && !validWhatsapp(p.whatsapp)) {
@@ -901,7 +909,12 @@ function BuyerForm({
         role: nextRole,
         updatedAt: Date.now(),
       },
-      { ...p, name: p.name.trim() },
+      {
+        ...p,
+        name: p.name.trim(),
+        personalCountry: (p.personalCountry ?? "").trim(),
+        country: p.country.trim(),
+      },
     );
   };
 
@@ -979,9 +992,24 @@ function BuyerForm({
           onChange={(e) => set("locationPref", e.target.value)}
         />
       </div>
-      <div className="mb-4">
-        <label className="field-label">País</label>
-        <CountrySelect value={p.country} onChange={(v) => set("country", v)} />
+      <div className="mb-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+        <div>
+          <label className="field-label">País donde estás registrado</label>
+          <CountrySelect
+            value={p.personalCountry ?? ""}
+            onChange={(v) =>
+              setP((prev) => ({
+                ...prev,
+                personalCountry: v,
+                country: prev.country || v,
+              }))
+            }
+          />
+        </div>
+        <div>
+          <label className="field-label">País donde buscas la empresa</label>
+          <CountrySelect value={p.country || p.personalCountry || ""} onChange={(v) => set("country", v)} />
+        </div>
       </div>
       <div className="mb-4">
         <label className="field-label">LinkedIn (opcional)</label>
