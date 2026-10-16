@@ -435,7 +435,7 @@ export function ProfileScreen({
     linkedin: "",
     thesis: "",
   });
-  const [errors, setErrors] = useState<{ name?: string; sectors?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; sectors?: string; personalCountry?: string }>({});
   const needsBuyer = role === "buyer" || role === "both";
   const set = (k: keyof Profile, v: string) => setP((prev) => ({ ...prev, [k]: v }));
 
@@ -444,6 +444,8 @@ export function ProfileScreen({
     if (!p.name.trim()) e.name = "Ingresa tu nombre.";
     if (needsBuyer && !p.sectors.trim())
       e.sectors = "Indícanos al menos un sector de interés para poder buscarte matches.";
+    if (needsBuyer && !p.personalCountry.trim())
+      e.personalCountry = "Indica tu país de residencia.";
 
     setErrors(e);
     if (Object.keys(e).length) return;
@@ -465,7 +467,7 @@ export function ProfileScreen({
       </p>
 
       <div className="mb-4">
-        <label className="field-label">Nombre completo</label>
+        <label className="field-label">Nombre completo (obligatorio)</label>
         <input autoComplete="name"
           className="field-input"
           aria-invalid={!!errors.name}
@@ -478,7 +480,7 @@ export function ProfileScreen({
 
       <div className="mb-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div>
-          <label className="field-label">País donde estás registrado</label>
+          <label className="field-label">País de residencia (obligatorio)</label>
           <CountrySelect
             value={p.personalCountry}
             onChange={(v) =>
@@ -489,6 +491,7 @@ export function ProfileScreen({
               }))
             }
           />
+          {errors.personalCountry && <p className="field-error">{errors.personalCountry}</p>}
         </div>
         <div>
           <label className="field-label">País donde buscas la empresa</label>
