@@ -43,12 +43,13 @@ export function SectorPicker({
             key={r}
             type="button"
             aria-pressed={active}
+            disabled={!active && selected.length >= MAX}
             onClick={() => toggle(r)}
             className={
               "rounded-full border px-3 py-1.5 text-[11.5px] transition " +
               (active
                 ? "border-primary bg-primary/15 text-primary"
-                : "border-border bg-card text-muted-foreground hover:border-primary-dim hover:text-foreground")
+                : "border-border bg-card text-muted-foreground hover:border-primary-dim hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border disabled:hover:text-muted-foreground")
             }
           >
             {r}
