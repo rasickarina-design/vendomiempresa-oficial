@@ -9,4 +9,4 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- Track automatic match-email sends in `public.match_email_notifications` so admin exports can show whether each match email was sent; this keeps email status auditable beyond the email provider's short visible log window.
+- Track automatic and admin-triggered match emails in `public.match_email_notifications` so admin exports can show whether each match email was sent; this keeps email status auditable beyond the email provider's short visible log window.
