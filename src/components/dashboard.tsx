@@ -903,7 +903,9 @@ function BuyerForm({
               .map((s) => s.trim())
               .filter(Boolean),
           ),
-        ).join(", "),
+        )
+          .slice(0, 3)
+          .join(", "),
         budgetMin: p.budgetMin,
         budgetMax: p.budgetMax,
         currency: p.currency,

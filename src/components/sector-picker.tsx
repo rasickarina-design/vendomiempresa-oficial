@@ -20,15 +20,21 @@ export function SectorPicker({
 }) {
   const selected = parse(value);
 
+  const MAX = 3;
   const toggle = (rubro: string) => {
-    const next = selected.includes(rubro)
-      ? selected.filter((s) => s !== rubro)
-      : [...selected, rubro];
-    onChange(next.join(", "));
+    if (selected.includes(rubro)) {
+      onChange(selected.filter((s) => s !== rubro).join(", "));
+      return;
+    }
+    if (selected.length >= MAX) return;
+    onChange([...selected, rubro].join(", "));
   };
 
   return (
     <div>
+    <p className="mb-2 text-[12px] text-muted-foreground">
+      Puedes elegir hasta {MAX} sectores ({selected.length}/{MAX}).
+    </p>
     <div className="flex flex-wrap gap-2">
       {RUBROS.map((r) => {
         const active = selected.includes(r);
@@ -37,12 +43,13 @@ export function SectorPicker({
             key={r}
             type="button"
             aria-pressed={active}
+            disabled={!active && selected.length >= MAX}
             onClick={() => toggle(r)}
             className={
               "rounded-full border px-3 py-1.5 text-[11.5px] transition " +
               (active
                 ? "border-primary bg-primary/15 text-primary"
-                : "border-border bg-card text-muted-foreground hover:border-primary-dim hover:text-foreground")
+                : "border-border bg-card text-muted-foreground hover:border-primary-dim hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border disabled:hover:text-muted-foreground")
             }
           >
             {r}
