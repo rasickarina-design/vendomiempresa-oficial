@@ -413,6 +413,7 @@ export function LandingScreen({
             <video
               className="mt-6 w-full rounded-2xl border-2 border-primary bg-card"
               src={introVideo.url}
+              poster="/og-image.jpg"
               controls
               playsInline
               preload="metadata"
