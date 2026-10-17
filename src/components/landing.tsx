@@ -1,4 +1,5 @@
 import { useState } from "react";
+import introVideo from "@/assets/vendo-mi-empresa-video.mp4.asset.json";
 import {
   ArrowRight,
   BadgeDollarSign,
@@ -408,6 +409,15 @@ export function LandingScreen({
             <div className="mt-9">
               <RoleDoors onStart={onStart} />
             </div>
+
+            <video
+              className="mt-6 w-full rounded-2xl border-2 border-primary bg-card"
+              src={introVideo.url}
+              controls
+              playsInline
+              preload="metadata"
+              aria-label="Vendo Mi Empresa: del caos al match"
+            />
 
             <p className="mt-5 text-[14px] text-muted-foreground">
               ¿Ya tienes cuenta?{" "}
