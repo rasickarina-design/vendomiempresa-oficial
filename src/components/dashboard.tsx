@@ -910,6 +910,7 @@ function BuyerForm({
     country: profile.country || profile.personalCountry || "",
   }));
   const [error, setError] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
   const set = (k: keyof Profile, v: string) => setP((prev) => ({ ...prev, [k]: v }));
 
   const submit = () => {
