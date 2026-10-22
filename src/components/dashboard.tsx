@@ -15,6 +15,7 @@ import type { Profile } from "./auth-screens";
 import { CountrySelect } from "./country-select";
 import { validCity, validPostalCode, validWhatsapp } from "@/lib/marketplace";
 import { SectorPicker } from "./sector-picker";
+import { FieldHint } from "./field-hint";
 import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
 import { HazardCorner } from "./hazard-stripe";
@@ -685,7 +686,15 @@ function PublishForm({
           />
         </div>
         <div>
-          <label className="field-label">Ciudad (obligatorio)</label>
+          <div className="flex items-center">
+            <label className="field-label">Ciudad (obligatorio)</label>
+            <FieldHint
+              lines={[
+                "Si la cargas: solo aparecerás en las búsquedas de quienes busquen en esa ciudad.",
+                "Si un comprador no indica ciudad, te encontrará dentro de todo el país.",
+              ]}
+            />
+          </div>
           <input autoComplete="address-level2"
             className="field-input"
             placeholder="Madrid"
@@ -993,7 +1002,15 @@ function BuyerForm({
         </div>
       </div>
       <div className="mb-4">
-        <label className="field-label">Ubicación preferida (opcional)</label>
+        <div className="flex items-center">
+          <label className="field-label">Ubicación preferida (opcional)</label>
+          <FieldHint
+            lines={[
+              "Si la cargas: solo harás match con empresas de esa ciudad.",
+              "Si no la cargas: harás match con empresas de todo el país donde buscas.",
+            ]}
+          />
+        </div>
         <input autoComplete="address-level2"
           className="field-input"
           maxLength={100}
