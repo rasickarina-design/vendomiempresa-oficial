@@ -606,7 +606,7 @@ function AdminPage() {
                 {tab !== "contacts" && <th className="px-3 py-2.5" />}
                 {tab === "contacts" && (
                   <th className="whitespace-nowrap px-3 py-2.5 text-[10.5px] uppercase tracking-[0.06em] text-subtle-foreground">
-                    recordatorio
+                    acciones
                   </th>
                 )}
                 {headers.map((h) => (
