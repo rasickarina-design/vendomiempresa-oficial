@@ -76,3 +76,71 @@ export const generateCompanyDescription = createServerFn({ method: "POST" })
       return { ok: false as const, error: msg };
     }
   });
+
+export type BuyerSearchInput = {
+  position: string;
+  sectors: string;
+  country: string;
+  city: string;
+  budget: string;
+  notes: string;
+};
+
+export const generateBuyerSearch = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: BuyerSearchInput): BuyerSearchInput => ({
+    position: clip(i.position, 60),
+    sectors: clip(i.sectors, 200),
+    country: clip(i.country, 80),
+    city: clip(i.city, 80),
+    budget: clip(i.budget, 80),
+    notes: clip(i.notes, 1000),
+  }))
+  .handler(async ({ data }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { ok: false as const, error: "La redacción con IA no está configurada." };
+    const { createOpenAI } = await import("@ai-sdk/openai");
+    const { streamText } = await import("ai");
+    const provider = createOpenAI({
+      baseURL: "https://ai.gateway.lovable.dev/v1",
+      apiKey,
+      headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
+    });
+    const facts = [
+      `Tipo de comprador: ${data.position || "(no indicado)"}`,
+      `Sectores de interés: ${data.sectors || "(no indicados)"}`,
+      `Dónde busca: ${[data.city, data.country].filter(Boolean).join(", ") || "(no indicado)"}`,
+      `Presupuesto: ${data.budget || "(no indicado)"}`,
+      `Notas del comprador: ${data.notes || "(ninguna)"}`,
+    ].join("\n");
+    try {
+      const result = streamText({
+        model: provider.responses("openai/gpt-6-astra"),
+        instructions:
+          "Eres redactor de avisos de búsqueda de pymes en LATAM y España. Escribe en español neutro la descripción de lo que busca un comprador de empresas (máximo 900 caracteres, 2-3 párrafos cortos, sin títulos, sin emojis, sin markdown). Usa un tono profesional y directo en primera persona («Buscamos…», «Estamos interesados en…»). Describe los tipos de empresas que le interesan, el tamaño o presupuesto si se indica y lo que valora. No inventes cifras, plazos ni datos que no estén en la información. No incluyas el nombre del comprador, emails ni teléfonos.",
+        messages: [{ role: "user", content: facts }],
+        maxRetries: 0,
+        providerOptions: {
+          openai: {
+            forceReasoning: true,
+            reasoningEffort: "low",
+            reasoningSummary: "auto",
+            store: false,
+            include: ["reasoning.encrypted_content"],
+          },
+        },
+      });
+      const text = (await result.text).trim().slice(0, 1000);
+      if (!text) return { ok: false as const, error: "La IA no devolvió texto. Escribe la descripción manualmente." };
+      return { ok: true as const, text };
+    } catch (e) {
+      const status = (e as { statusCode?: number })?.statusCode;
+      const msg =
+        status === 429
+          ? "Demasiadas solicitudes, prueba en un minuto."
+          : status === 402 || status === 403
+            ? "La redacción con IA no está disponible ahora mismo."
+            : "No se pudo generar la descripción. Inténtalo de nuevo.";
+      return { ok: false as const, error: msg };
+    }
+  });

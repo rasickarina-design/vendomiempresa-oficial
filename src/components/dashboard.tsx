@@ -20,7 +20,7 @@ import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
 import { HazardCorner } from "./hazard-stripe";
 import { MarketStats } from "./market-stats";
-import { generateCompanyDescription } from "@/lib/ai-description.functions";
+import { generateBuyerSearch, generateCompanyDescription } from "@/lib/ai-description.functions";
 import { ArrowLeft, Check, Link2, Mail, MapPin, Phone, ShieldCheck, Sparkles, Star } from "lucide-react";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
@@ -910,6 +910,7 @@ function BuyerForm({
     country: profile.country || profile.personalCountry || "",
   }));
   const [error, setError] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
   const set = (k: keyof Profile, v: string) => setP((prev) => ({ ...prev, [k]: v }));
 
   const submit = () => {
@@ -1098,8 +1099,42 @@ function BuyerForm({
           className="field-input min-h-20 resize-y"
           maxLength={1000}
           value={p.thesis}
+          placeholder="Escribe unas notas (qué buscás, qué valorás) y usa «Redactar con IA»."
           onChange={(e) => set("thesis", e.target.value)}
         />
+        <button
+          type="button"
+          className="btn-ghost mt-2 inline-flex items-center gap-2 text-sm"
+          disabled={aiBusy}
+          onClick={async () => {
+            setAiBusy(true);
+            setError("");
+            try {
+              const r = await generateBuyerSearch({
+                data: {
+                  position: p.position || BUYER_POSITIONS[0],
+                  sectors: p.sectors,
+                  city: p.locationPref.trim(),
+                  country: p.country || p.personalCountry || "",
+                  budget:
+                    [formatAmountInput(p.budgetMin, p.currency), formatAmountInput(p.budgetMax, p.currency)]
+                      .filter(Boolean)
+                      .join(" – ") || "",
+                  notes: p.thesis,
+                },
+              });
+              if (r.ok) set("thesis", r.text);
+              else setError(r.error);
+            } catch {
+              setError("No se pudo generar la descripción. Inténtalo de nuevo.");
+            } finally {
+              setAiBusy(false);
+            }
+          }}
+        >
+          <Sparkles size={16} />
+          {aiBusy ? "Redactando…" : "Redactar con IA"}
+        </button>
       </div>
       {error && <p className="field-error">{error}</p>}
       <button className="btn-primary mt-2 w-full" onClick={submit}>
