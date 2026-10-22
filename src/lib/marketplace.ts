@@ -203,7 +203,11 @@ export interface NearMatchResult {
 /** Aproximaciones por encima y por debajo del presupuesto, dentro del mismo sector. */
 export function findNearMatches(companies: Company[], buyer: Buyer): NearMatchResult {
   const sameSector = companies.filter(
-    (c) => c.owner !== buyer.email && sectorMatches(c.sector, buyer.sectors),
+    (c) =>
+      c.owner !== buyer.email &&
+      countryMatches(c, buyer) &&
+      cityMatches(c, buyer) &&
+      sectorMatches(c.sector, buyer.sectors),
   );
   const min = Number(buyer.budgetMin);
   const max = Number(buyer.budgetMax);
