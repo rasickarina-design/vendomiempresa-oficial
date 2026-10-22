@@ -20,7 +20,8 @@ import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
 import { HazardCorner } from "./hazard-stripe";
 import { MarketStats } from "./market-stats";
-import { ArrowLeft, Check, Link2, Mail, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
+import { generateCompanyDescription } from "@/lib/ai-description.functions";
+import { ArrowLeft, Check, Link2, Mail, MapPin, Phone, ShieldCheck, Sparkles, Star } from "lucide-react";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
 export const OWNER_POSITIONS = [
@@ -533,6 +534,7 @@ function PublishForm({
     desc: "",
   });
   const [error, setError] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
   const set = (k: keyof typeof f, v: string) => setF((p) => ({ ...p, [k]: v }));
 
   const submit = () => {
@@ -843,8 +845,41 @@ function PublishForm({
             maxLength={1000}
             required
             value={f.desc}
+            placeholder="Escribe unas notas (qué hace, fortalezas, motivo de venta) y usa «Redactar con IA»."
             onChange={(e) => set("desc", e.target.value)}
           />
+          <button
+            type="button"
+            className="btn-ghost mt-2 inline-flex items-center gap-2 text-sm"
+            disabled={aiBusy}
+            onClick={async () => {
+              setAiBusy(true);
+              setError("");
+              try {
+                const r = await generateCompanyDescription({
+                  data: {
+                    name: f.name,
+                    sector: f.sector,
+                    city: f.city,
+                    country: f.country,
+                    age: f.age,
+                    revenue: formatAmountInput(f.revenue, f.currency),
+                    price: formatAmountInput(f.price, f.currency),
+                    notes: f.desc,
+                  },
+                });
+                if (r.ok) set("desc", r.text);
+                else setError(r.error);
+              } catch {
+                setError("No se pudo generar la descripción. Inténtalo de nuevo.");
+              } finally {
+                setAiBusy(false);
+              }
+            }}
+          >
+            <Sparkles size={16} />
+            {aiBusy ? "Redactando…" : "Redactar con IA"}
+          </button>
         </div>
       </div>
       {error && <p className="field-error">{error}</p>}
