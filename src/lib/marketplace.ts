@@ -161,6 +161,13 @@ function countryMatches(company: Company, buyer: Buyer) {
   return !a || !b || a === b;
 }
 
+/** Ciudad: si ambos la indicaron tienen que coincidir; si falta en cualquiera, no bloquea. */
+function cityMatches(company: Company, buyer: Buyer) {
+  const a = (company.city || "").trim().toLowerCase();
+  const b = (buyer.locationPref || "").trim().toLowerCase();
+  return !a || !b || a.includes(b) || b.includes(a);
+}
+
 /** Solo empresarios e inversores particulares hacen match; el resto queda registrado para precios privados. */
 export function canBuyerMatch(position?: string | null) {
   const v = (position ?? "Dueño / Empresario").trim().toLowerCase();
@@ -177,6 +184,7 @@ export function isMatch(company: Company, buyer: Buyer) {
   return (
     sectorMatches(company.sector, buyer.sectors) &&
     countryMatches(company, buyer) &&
+    cityMatches(company, buyer) &&
     budgetMatches(company, buyer)
   );
 }
@@ -195,7 +203,11 @@ export interface NearMatchResult {
 /** Aproximaciones por encima y por debajo del presupuesto, dentro del mismo sector. */
 export function findNearMatches(companies: Company[], buyer: Buyer): NearMatchResult {
   const sameSector = companies.filter(
-    (c) => c.owner !== buyer.email && sectorMatches(c.sector, buyer.sectors),
+    (c) =>
+      c.owner !== buyer.email &&
+      countryMatches(c, buyer) &&
+      cityMatches(c, buyer) &&
+      sectorMatches(c.sector, buyer.sectors),
   );
   const min = Number(buyer.budgetMin);
   const max = Number(buyer.budgetMax);
