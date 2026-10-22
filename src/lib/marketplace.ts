@@ -161,6 +161,13 @@ function countryMatches(company: Company, buyer: Buyer) {
   return !a || !b || a === b;
 }
 
+/** Ciudad: si ambos la indicaron tienen que coincidir; si falta en cualquiera, no bloquea. */
+function cityMatches(company: Company, buyer: Buyer) {
+  const a = (company.city || "").trim().toLowerCase();
+  const b = (buyer.locationPref || "").trim().toLowerCase();
+  return !a || !b || a.includes(b) || b.includes(a);
+}
+
 /** Solo empresarios e inversores particulares hacen match; el resto queda registrado para precios privados. */
 export function canBuyerMatch(position?: string | null) {
   const v = (position ?? "Dueño / Empresario").trim().toLowerCase();
