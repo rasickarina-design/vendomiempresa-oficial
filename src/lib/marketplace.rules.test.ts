@@ -64,3 +64,13 @@ assert.equal(isMatch(company, buyer("CFO / Consultor Financiero")), false);
 
 assert.equal(isMatch(company, { ...buyer("Dueño / Empresario"), country: "México" }), false);
 assert.equal(isMatch(company, { ...buyer("Dueño / Empresario"), country: "España" }), true);
+
+// Ciudad: tiene que coincidir cuando ambos la indicaron.
+assert.equal(isMatch(company, { ...buyer("Dueño / Empresario"), locationPref: "Barcelona" }), false);
+assert.equal(isMatch(company, { ...buyer("Dueño / Empresario"), locationPref: "Madrid, Chamberí" }), true);
+assert.equal(isMatch(company, { ...buyer("Dueño / Empresario"), locationPref: "" }), true);
+assert.equal(isMatch(company, { ...buyer("Dueño / Empresario") }), true);
+const companySinCiudad = { ...company, city: "" };
+assert.equal(isMatch(companySinCiudad, buyer("Dueño / Empresario")), true);
+// País correcto pero ciudad de otro país: el país bloquea primero.
+assert.equal(isMatch(company, { ...buyer("Dueño / Empresario"), country: "México", locationPref: "Madrid" }), false);
