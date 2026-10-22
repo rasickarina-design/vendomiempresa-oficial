@@ -79,6 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Vendomiempresa" },
+      { name: "google-site-verification", content: "Uc8sv6VHBD9ABHzU47gP_GKzmNjJdYZASfuNcI2biq4" },
       { property: "og:site_name", content: "Vendomiempresa" },
       { property: "og:locale", content: "es_ES" },
       { property: "og:locale:alternate", content: "es_LA" },
