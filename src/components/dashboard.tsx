@@ -20,7 +20,8 @@ import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
 import { HazardCorner } from "./hazard-stripe";
 import { MarketStats } from "./market-stats";
-import { ArrowLeft, Check, Link2, Mail, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
+import { generateCompanyDescription } from "@/lib/ai-description.functions";
+import { ArrowLeft, Check, Link2, Mail, MapPin, Phone, ShieldCheck, Sparkles, Star } from "lucide-react";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
 export const OWNER_POSITIONS = [
@@ -533,6 +534,7 @@ function PublishForm({
     desc: "",
   });
   const [error, setError] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
   const set = (k: keyof typeof f, v: string) => setF((p) => ({ ...p, [k]: v }));
 
   const submit = () => {
@@ -848,7 +850,7 @@ function PublishForm({
           />
           <button
             type="button"
-            className="btn-secondary mt-2 inline-flex items-center gap-2 text-sm"
+            className="btn-ghost mt-2 inline-flex items-center gap-2 text-sm"
             disabled={aiBusy}
             onClick={async () => {
               setAiBusy(true);
