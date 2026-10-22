@@ -184,6 +184,7 @@ export function isMatch(company: Company, buyer: Buyer) {
   return (
     sectorMatches(company.sector, buyer.sectors) &&
     countryMatches(company, buyer) &&
+    cityMatches(company, buyer) &&
     budgetMatches(company, buyer)
   );
 }
