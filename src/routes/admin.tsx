@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
+import { MatchPreview } from "@/components/match-preview";
 import { supabase } from "@/integrations/supabase/client";
 import { sendMatchReminder } from "@/lib/admin-reminders.functions";
 import { downloadCsv, downloadXlsx } from "@/lib/admin-db";
@@ -239,6 +240,7 @@ function AdminPage() {
   const [busy, setBusy] = useState(false);
   const [reminderBusy, setReminderBusy] = useState("");
   const [notice, setNotice] = useState("");
+  const [preview, setPreview] = useState<Record<string, unknown> | null>(null);
   const [rows, setRows] = useState<Record<TableName, Array<Record<string, unknown>>>>({
     companies: [],
     buyers: [],
@@ -585,6 +587,7 @@ function AdminPage() {
             : "Matches: cruce completo entre comprador y vendedor"}
       </div>
 
+      {preview && <MatchPreview row={preview} onClose={() => setPreview(null)} />}
       {tab === "contacts" && (
         <p className="mb-3 text-[12.5px] text-muted-foreground">
           Cada fila muestra un match completo: empresa, vendedor, comprador, datos de contacto, ubicación, precio y
@@ -603,7 +606,7 @@ function AdminPage() {
                 {tab !== "contacts" && <th className="px-3 py-2.5" />}
                 {tab === "contacts" && (
                   <th className="whitespace-nowrap px-3 py-2.5 text-[10.5px] uppercase tracking-[0.06em] text-subtle-foreground">
-                    recordatorio
+                    acciones
                   </th>
                 )}
                 {headers.map((h) => (
@@ -632,6 +635,12 @@ function AdminPage() {
                   {tab === "contacts" && (
                     <td className="min-w-[250px] px-3 py-2.5">
                       <div className="flex flex-wrap gap-1.5">
+                        <button
+                          className="rounded-lg bg-primary px-2.5 py-1.5 text-[11px] font-semibold text-primary-foreground"
+                          onClick={() => setPreview(r)}
+                        >
+                          Ver
+                        </button>
                         {(["seller", "buyer"] as const).map((side) => {
                           const companyRef = stringValue(r.empresa_ref);
                           const buyerEmail = stringValue(r.comprador_email);
