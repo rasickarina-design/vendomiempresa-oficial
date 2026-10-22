@@ -20,7 +20,7 @@ import logoAsset from "@/assets/logo.jpg.asset.json";
 import { shareUrl } from "@/lib/public-company";
 import { HazardCorner } from "./hazard-stripe";
 import { MarketStats } from "./market-stats";
-import { generateCompanyDescription } from "@/lib/ai-description.functions";
+import { generateBuyerSearch, generateCompanyDescription } from "@/lib/ai-description.functions";
 import { ArrowLeft, Check, Link2, Mail, MapPin, Phone, ShieldCheck, Sparkles, Star } from "lucide-react";
 
 /** Deja solo dígitos (el valor "crudo" que guardamos en el estado). */
