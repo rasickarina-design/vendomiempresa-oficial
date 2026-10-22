@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { render } from "@react-email/components";
 import MatchNotificationEmail from "@/lib/email-templates/match-notification";
 
 type Row = Record<string, unknown>;
@@ -91,18 +92,28 @@ export function MatchPreview({ row, onClose }: { row: Row; onClose: () => void }
             </div>
           </div>
         ) : (
-          <div className="rounded-xl bg-[var(--email-preview-bg,#ffffff)] p-2">
+          <div className="rounded-xl border border-border p-2">
             <p className="px-2 pb-2 text-[12px] text-muted-foreground">
               Para: {s(view === "seller" ? row.vendedor_email : row.comprador_email)} · Asunto: Tienes un nuevo match
             </p>
-            <MatchNotificationEmail
-              audience={view}
-              matchCount={1}
-              items={view === "seller" ? sellerItems(row) : buyerItems(row)}
-            />
+            <EmailFrame audience={view} items={view === "seller" ? sellerItems(row) : buyerItems(row)} />
           </div>
         )}
       </div>
     </div>
   );
+}
+
+function EmailFrame({ audience, items }: { audience: "buyer" | "seller"; items: string[] }) {
+  const [html, setHtml] = useState("");
+  useEffect(() => {
+    let alive = true;
+    void render(<MatchNotificationEmail audience={audience} matchCount={1} items={items} />).then((h) => {
+      if (alive) setHtml(h);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [audience, items.join("|")]);
+  return <iframe title="Vista previa del email" srcDoc={html} className="h-[560px] w-full rounded-lg" />;
 }
